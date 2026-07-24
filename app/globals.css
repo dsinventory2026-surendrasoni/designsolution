@@ -1,0 +1,502 @@
+@import "tailwindcss";
+
+/* =====================================================
+   DS GROUP PREMIUM DESIGN SYSTEM
+   Deep midnight navy + Champagne gold + Off-white
+   ===================================================== */
+
+@layer base {
+  :root {
+    --navy-deepest:   #030810;
+    --navy-deep:      #060D1F;
+    --navy-mid:       #0B1629;
+    --navy-light:     #0F1E3D;
+    --navy-border:    #1A2E50;
+    --champagne:      #C9A96E;
+    --champagne-light:#E8C98A;
+    --champagne-dim:  #A8845A;
+    --offwhite:       #F5F3EE;
+    --offwhite-mid:   #EDE9E1;
+    --slate-text:     #94A3B8;
+    --white-soft:     #F0EEE9;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--offwhite);
+    color: #0f172a;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+/* =====================================================
+   TYPOGRAPHY UTILITIES
+   ===================================================== */
+.font-display {
+  font-family: var(--font-outfit), var(--font-plus-jakarta), system-ui, sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-plus-jakarta), var(--font-inter), system-ui, sans-serif;
+}
+
+/* =====================================================
+   PREMIUM COLOR UTILITIES
+   ===================================================== */
+.champagne-text {
+  color: var(--champagne);
+}
+
+.champagne-gradient-text {
+  background: linear-gradient(135deg, #E8C98A 0%, #C9A96E 50%, #A8845A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.navy-bg {
+  background-color: var(--navy-deep);
+}
+
+.navy-deepest-bg {
+  background-color: var(--navy-deepest);
+}
+
+.offwhite-bg {
+  background-color: var(--offwhite);
+}
+
+/* =====================================================
+   GLASSMORPHISM UTILITIES
+   ===================================================== */
+.glass-nav {
+  background: rgba(6, 13, 31, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201, 169, 110, 0.12);
+}
+
+.glass-dark {
+  background: rgba(11, 22, 41, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 169, 110, 0.15);
+}
+
+.glass-hero-panel {
+  background: rgba(6, 13, 31, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(201, 169, 110, 0.18);
+}
+
+/* =====================================================
+   GRAIN TEXTURE OVERLAY
+   ===================================================== */
+.grain-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* =====================================================
+   CHAMPAGNE DIVIDER LINE
+   ===================================================== */
+.champagne-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--champagne), transparent);
+  opacity: 0.4;
+}
+
+.champagne-line-left {
+  height: 1px;
+  background: linear-gradient(90deg, var(--champagne), transparent);
+  opacity: 0.5;
+}
+
+/* =====================================================
+   PREMIUM BUTTON STYLES
+   ===================================================== */
+.btn-champagne {
+  background: linear-gradient(135deg, var(--champagne-light) 0%, var(--champagne) 60%, var(--champagne-dim) 100%);
+  color: #030810;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 24px rgba(201, 169, 110, 0.25);
+}
+
+.btn-champagne:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(201, 169, 110, 0.4);
+}
+
+.btn-champagne:active {
+  transform: translateY(0);
+}
+
+.btn-ghost-champagne {
+  background: transparent;
+  color: var(--champagne);
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-ghost-champagne:hover {
+  background: rgba(201, 169, 110, 0.08);
+  border-color: var(--champagne);
+}
+
+.btn-navy {
+  background: var(--navy-mid);
+  color: #F5F3EE;
+  border: 1px solid var(--navy-border);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-navy:hover {
+  background: var(--navy-light);
+  border-color: rgba(201, 169, 110, 0.3);
+  transform: translateY(-1px);
+}
+
+/* =====================================================
+   CARD STYLES
+   ===================================================== */
+.card-property {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.card-property:hover {
+  border-color: rgba(201, 169, 110, 0.25);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(201, 169, 110, 0.15);
+  transform: translateY(-4px);
+}
+
+.card-service {
+  background: var(--navy-mid);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-service:hover {
+  background: var(--navy-light);
+  border-color: rgba(201, 169, 110, 0.25);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.3);
+}
+
+/* =====================================================
+   SCROLL REVEAL ANIMATIONS
+   ===================================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmerSlide {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes champagnePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(201, 169, 110, 0); }
+}
+
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility animation classes */
+.animate-fade-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-fade-left {
+  animation: fadeInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-fade-right {
+  animation: fadeInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-float {
+  animation: floatUp 3s ease-in-out infinite;
+}
+
+.animate-champagne-pulse {
+  animation: champagnePulse 2s ease-in-out infinite;
+}
+
+/* Stagger delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+
+.animate-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(201,169,110,0.15) 50%, rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  animation: shimmerSlide 2.5s infinite;
+}
+
+/* =====================================================
+   CUSTOM SCROLLBAR
+   ===================================================== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--navy-deepest);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--champagne-dim);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--champagne);
+}
+
+/* =====================================================
+   SELECTION
+   ===================================================== */
+::selection {
+  background: rgba(201, 169, 110, 0.25);
+  color: #030810;
+}
+
+/* =====================================================
+   SECTION EYEBROW LABEL
+   ===================================================== */
+.eyebrow-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  background: rgba(201, 169, 110, 0.1);
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  color: var(--champagne);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.eyebrow-label-dark {
+  background: rgba(201, 169, 110, 0.08);
+  border-color: rgba(201, 169, 110, 0.2);
+  color: var(--champagne);
+}
+
+.eyebrow-label-light {
+  background: rgba(6, 13, 31, 0.06);
+  border-color: rgba(6, 13, 31, 0.12);
+  color: var(--navy-mid);
+}
+
+/* =====================================================
+   INPUT STYLES
+   ===================================================== */
+.input-dark {
+  background: rgba(11, 22, 41, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #F5F3EE;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.input-dark:focus {
+  outline: none;
+  border-color: rgba(201, 169, 110, 0.5);
+  box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.08);
+}
+
+.input-dark::placeholder {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+/* =====================================================
+   COUNTER ANIMATION
+   ===================================================== */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.counter-animate {
+  animation: countUp 0.5s ease-out forwards;
+}
+
+/* =====================================================
+   PROPERTY STATUS BADGES
+   ===================================================== */
+.badge-available {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.badge-new-launch {
+  background: rgba(201, 169, 110, 0.15);
+  color: var(--champagne);
+  border: 1px solid rgba(201, 169, 110, 0.3);
+}
+
+.badge-under-construction {
+  background: rgba(59, 130, 246, 0.12);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+/* =====================================================
+   MOBILE MENU OVERLAY
+   ===================================================== */
+.mobile-menu-overlay {
+  background: rgba(3, 8, 16, 0.98);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* =====================================================
+   LINE CLAMP UTILITIES
+   ===================================================== */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* =====================================================
+   SCROLLBAR HIDE
+   ===================================================== */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
