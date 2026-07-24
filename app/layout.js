@@ -24,7 +24,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 export const metadata = {
   title: "DS Group of Companies | Premium Real Estate & Construction — Sector 85, Gurugram",
   description:
-    "DS Group of Companies — Premier residential apartments, Grade-A commercial suites, freehold plots, and turnkey construction in Sector 85, Gurugram. 18+ years of engineering excellence. WhatsApp: +91 74430 00070.",
+    "DS Group of Companies — Premier residential apartments, Grade-A commercial suites, freehold plots, and turnkey construction in Sector 85, Gurugram. 18+ years of engineering excellence. WhatsApp: +91 77430 00070.",
   keywords: [
     "DS Group of Companies",
     "DS Group Real Estate",

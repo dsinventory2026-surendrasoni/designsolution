@@ -10,7 +10,7 @@ const STATUS_STYLES = {
 };
 
 export default function PropertyCard({ property, onViewDetails }) {
-  const whatsappUrl = `https://wa.me/917443000070?text=${encodeURIComponent(
+  const whatsappUrl = `https://wa.me/917743000070?text=${encodeURIComponent(
     `Hello DS Group of Companies, I am interested in: "${property.title}" (${property.size}, ${property.price}, ${property.location}). Please share more details.`
   )}`;
 

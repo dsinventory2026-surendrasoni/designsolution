@@ -13,10 +13,10 @@ export const siteConfig = {
     logoUrl: "/images/logo.png",
   },
   contact: {
-    whatsappNumber: "7443000070",
-    whatsappFormatted: "+91 74430 00070",
-    whatsappLink: "https://wa.me/917443000070?text=Hello%20DS%20Group%20of%20Companies,%20I%20would%20like%20to%20inquire%20about%20your%20properties%20and%20services.",
-    phonePrimary: "+91 74430 00070",
+    whatsappNumber: "7743000070",
+    whatsappFormatted: "+91 77430 00070",
+    whatsappLink: "https://wa.me/917743000070?text=Hello%20DS%20Group%20of%20Companies,%20I%20would%20like%20to%20inquire%20about%20your%20properties%20and%20services.",
+    phonePrimary: "+91 77430 00070",
     phoneSecondary: "+91 98123 45678",
     emailPrimary: "info@dsgroupofcompanies.com",
     emailSales: "sales@dsgroupofcompanies.com",
@@ -48,7 +48,7 @@ export const siteConfig = {
   socialLinks: {
     instagram: "https://instagram.com/dsgroup_official",
     facebook: "https://facebook.com/dsgroupofcompanies",
-    whatsapp: "https://wa.me/917443000070",
+    whatsapp: "https://wa.me/917743000070",
     twitter: "https://x.com/dsgroup_realty",
     linkedin: "https://linkedin.com/company/ds-group-of-companies",
     youtube: "https://youtube.com/@dsgrouprealty"

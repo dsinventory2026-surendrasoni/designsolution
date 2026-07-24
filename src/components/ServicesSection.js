@@ -147,7 +147,7 @@ export default function ServicesSection({ onOpenContactModal, services: propServ
                 </button>
 
                 <a
-                  href={`https://wa.me/917443000070?text=${encodeURIComponent(`Hello DS Group, I would like to inquire about your flagship "${featuredService.title}" services.`)}`}
+                  href={`https://wa.me/917743000070?text=${encodeURIComponent(`Hello DS Group, I would like to inquire about your flagship "${featuredService.title}" services.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-navy py-3.5 px-6 rounded-xl text-xs font-semibold flex items-center justify-center gap-2"
@@ -214,7 +214,7 @@ export default function ServicesSection({ onOpenContactModal, services: propServ
                     </button>
 
                     <a
-                      href={`https://wa.me/917443000070?text=${encodeURIComponent(`Hello DS Group, I am inquiring about "${service.title}".`)}`}
+                      href={`https://wa.me/917743000070?text=${encodeURIComponent(`Hello DS Group, I am inquiring about "${service.title}".`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-2 rounded-lg text-emerald-400 hover:bg-emerald-500/10 transition-colors"
@@ -259,7 +259,7 @@ export default function ServicesSection({ onOpenContactModal, services: propServ
 
             <div className="flex flex-col sm:flex-row gap-3 pt-5 border-t border-slate-800">
               <a
-                href={`https://wa.me/917443000070?text=${encodeURIComponent(`Hello DS Group, I would like to consult regarding ${selectedService.title}.`)}`}
+                href={`https://wa.me/917743000070?text=${encodeURIComponent(`Hello DS Group, I would like to consult regarding ${selectedService.title}.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition-all"

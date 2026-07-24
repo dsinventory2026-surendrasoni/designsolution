@@ -57,10 +57,10 @@ const SiteConfigSchema = new mongoose.Schema(
 
     // ─── CONTACT ────────────────────────────────────
     contact: {
-      whatsappNumber: { type: String, default: "7443000070" },
-      whatsappFormatted: { type: String, default: "+91 74430 00070" },
-      whatsappLink: { type: String, default: "https://wa.me/917443000070" },
-      phonePrimary: { type: String, default: "+91 74430 00070" },
+      whatsappNumber: { type: String, default: "7743000070" },
+      whatsappFormatted: { type: String, default: "+91 77430 00070" },
+      whatsappLink: { type: String, default: "https://wa.me/917743000070" },
+      phonePrimary: { type: String, default: "+91 77430 00070" },
       phoneSecondary: { type: String, default: "+91 98123 45678" },
       emailPrimary: { type: String, default: "info@dsgroupofcompanies.com" },
       emailSales: { type: String, default: "sales@dsgroupofcompanies.com" },

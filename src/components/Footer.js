@@ -53,7 +53,7 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
                 className="px-3.5 py-2 rounded-lg bg-emerald-600/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold flex items-center gap-2 hover:bg-emerald-600/30 transition-colors"
               >
                 <MessageSquare className="w-4 h-4" />
-                <span>WhatsApp (7443000070)</span>
+                <span>WhatsApp (7743000070)</span>
               </a>
             </div>
           </div>

@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { siteConfig as staticSiteConfig } from "@/data/siteConfig";
-import { X, Send, PhoneCall, CheckCircle2, Building2 } from "lucide-react";
+import { X, Send, MessageSquare, CheckCircle2, Building2 } from "lucide-react";
+
+const WHATSAPP_NUMBER = "917743000070";
 
 export default function ContactModal({ isOpen, onClose, siteConfig: propSiteConfig }) {
   const siteConfig = propSiteConfig || staticSiteConfig;
@@ -20,10 +22,30 @@ export default function ContactModal({ isOpen, onClose, siteConfig: propSiteConf
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
+
+    // Build WhatsApp message with all form details
+    const waMessage = [
+      `🏢 *DS Group of Companies — New Enquiry*`,
+      ``,
+      `👤 *Name:* ${formData.name}`,
+      `📞 *Mobile:* ${formData.phone}`,
+      formData.email ? `📧 *Email:* ${formData.email}` : null,
+      `🏠 *Interest:* ${formData.category}`,
+      formData.message ? `💬 *Message:* ${formData.message}` : null,
+      ``,
+      `_(Submitted via DS Group Website)_`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+
+    // Open WhatsApp in new tab after short delay
     setTimeout(() => {
+      window.open(waUrl, "_blank", "noopener,noreferrer");
       setSubmitted(false);
       onClose();
-    }, 2500);
+    }, 1500);
   };
 
   return (
@@ -41,12 +63,12 @@ export default function ContactModal({ isOpen, onClose, siteConfig: propSiteConf
 
         {submitted ? (
           <div className="py-10 text-center space-y-4">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto shadow-lg">
-              <CheckCircle2 className="w-8 h-8" />
+            <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto shadow-lg animate-pulse">
+              <MessageSquare className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-bold font-outfit text-white">Inquiry Received!</h3>
+            <h3 className="text-2xl font-bold font-outfit text-white">Redirecting to WhatsApp!</h3>
             <p className="text-xs text-slate-300 max-w-xs mx-auto leading-relaxed">
-              Thank you, <span className="font-semibold text-amber-400">{formData.name}</span>. Our senior real estate advisor will call you shortly at <span className="font-semibold text-white">{formData.phone}</span>.
+              Thank you, <span className="font-semibold text-amber-400">{formData.name}</span>! Opening WhatsApp with your enquiry details on <span className="font-semibold text-emerald-400">+91 77430 00070</span>...
             </p>
           </div>
         ) : (

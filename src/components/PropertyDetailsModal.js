@@ -8,7 +8,7 @@ export default function PropertyDetailsModal({ property, onClose, onOpenContactM
 
   if (!property) return null;
 
-  const whatsappPropertyUrl = `https://wa.me/917443000070?text=${encodeURIComponent(
+  const whatsappPropertyUrl = `https://wa.me/917743000070?text=${encodeURIComponent(
     `Hello DS Group of Companies, I would like to inquire about the property details for: "${property.title}" (${property.size}, Price: ${property.price}, Location: ${property.location}).`
   )}`;
 
