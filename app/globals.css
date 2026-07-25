@@ -7,18 +7,18 @@
 
 @layer base {
   :root {
-    --navy-deepest:   #030810;
-    --navy-deep:      #060D1F;
-    --navy-mid:       #0B1629;
-    --navy-light:     #0F1E3D;
-    --navy-border:    #1A2E50;
-    --champagne:      #C9A96E;
-    --champagne-light:#E8C98A;
-    --champagne-dim:  #A8845A;
-    --offwhite:       #F5F3EE;
-    --offwhite-mid:   #EDE9E1;
-    --slate-text:     #94A3B8;
-    --white-soft:     #F0EEE9;
+    --navy-deepest: #030810;
+    --navy-deep: #060D1F;
+    --navy-mid: #0B1629;
+    --navy-light: #0F1E3D;
+    --navy-border: #1A2E50;
+    --champagne: #C9A96E;
+    --champagne-light: #E8C98A;
+    --champagne-dim: #A8845A;
+    --offwhite: #F5F3EE;
+    --offwhite-mid: #EDE9E1;
+    --slate-text: #94A3B8;
+    --white-soft: #F0EEE9;
   }
 
   html {
@@ -221,6 +221,7 @@
     opacity: 0;
     transform: translateY(28px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -232,6 +233,7 @@
     opacity: 0;
     transform: translateX(-24px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -243,6 +245,7 @@
     opacity: 0;
     transform: translateX(24px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -254,6 +257,7 @@
     opacity: 0;
     transform: scale(0.94);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -261,18 +265,37 @@
 }
 
 @keyframes shimmerSlide {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @keyframes champagnePulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(201, 169, 110, 0); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(201, 169, 110, 0);
+  }
 }
 
 @keyframes floatUp {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @keyframes slideDown {
@@ -280,6 +303,7 @@
     opacity: 0;
     transform: translateY(-12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -291,6 +315,7 @@
     opacity: 0;
     transform: translateY(12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -331,15 +356,32 @@
 }
 
 /* Stagger delays */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
-.delay-600 { animation-delay: 600ms; }
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-600 {
+  animation-delay: 600ms;
+}
 
 .animate-shimmer {
-  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(201,169,110,0.15) 50%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(201, 169, 110, 0.15) 50%, rgba(255, 255, 255, 0) 100%);
   background-size: 200% 100%;
   animation: shimmerSlide 2.5s infinite;
 }
@@ -427,8 +469,15 @@
    COUNTER ANIMATION
    ===================================================== */
 @keyframes countUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .counter-animate {
@@ -473,6 +522,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
+  line-clamp: 1;
 }
 
 .line-clamp-2 {
@@ -480,6 +530,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 
 .line-clamp-3 {
@@ -487,6 +538,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
 /* =====================================================

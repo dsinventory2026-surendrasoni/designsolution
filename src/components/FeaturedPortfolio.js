@@ -17,10 +17,10 @@ export default function FeaturedPortfolio({
     ? ["All", ...Array.from(new Set(propPropertiesData.map((p) => p.category)))]
     : staticPropertyCategories;
   const [selectedCategory, setSelectedCategory] = useState(activeCategory);
-  const [selectedSize,     setSelectedSize]      = useState("all");
-  const [selectedPrice,    setSelectedPrice]     = useState("all");
-  const [searchKeyword,    setSearchKeyword]     = useState("");
-  const [isVisible,        setIsVisible]         = useState(false);
+  const [selectedSize, setSelectedSize] = useState("all");
+  const [selectedPrice, setSelectedPrice] = useState("all");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -30,8 +30,8 @@ export default function FeaturedPortfolio({
   useEffect(() => {
     if (heroFilterState) {
       if (heroFilterState.category) setSelectedCategory(heroFilterState.category);
-      if (heroFilterState.size)     setSelectedSize(heroFilterState.size);
-      if (heroFilterState.keyword)  setSearchKeyword(heroFilterState.keyword);
+      if (heroFilterState.size) setSelectedSize(heroFilterState.size);
+      if (heroFilterState.keyword) setSearchKeyword(heroFilterState.keyword);
     }
   }, [heroFilterState]);
 
@@ -63,16 +63,16 @@ export default function FeaturedPortfolio({
     return propertiesData.filter((p) => {
       if (selectedCategory !== "All" && p.category !== selectedCategory) return false;
       if (selectedSize !== "all") {
-        if (selectedSize === "600"  && p.numericSize !== 600)  return false;
-        if (selectedSize === "800"  && p.numericSize !== 800)  return false;
+        if (selectedSize === "600" && p.numericSize !== 600) return false;
+        if (selectedSize === "800" && p.numericSize !== 800) return false;
         if (selectedSize === "1000" && p.numericSize !== 1000) return false;
         if (selectedSize === "1200" && p.numericSize !== 1200) return false;
-        if (selectedSize === "1500" && p.numericSize < 1500)   return false;
+        if (selectedSize === "1500" && p.numericSize < 1500) return false;
       }
       if (selectedPrice !== "all") {
-        if (selectedPrice === "under80"   && p.numericPrice >= 80)  return false;
-        if (selectedPrice === "80to150"   && (p.numericPrice < 80 || p.numericPrice > 150)) return false;
-        if (selectedPrice === "above150"  && p.numericPrice <= 150) return false;
+        if (selectedPrice === "under80" && p.numericPrice >= 80) return false;
+        if (selectedPrice === "80to150" && (p.numericPrice < 80 || p.numericPrice > 150)) return false;
+        if (selectedPrice === "above150" && p.numericPrice <= 150) return false;
       }
       if (searchKeyword.trim()) {
         const q = searchKeyword.toLowerCase();
@@ -83,7 +83,7 @@ export default function FeaturedPortfolio({
   }, [selectedCategory, selectedSize, selectedPrice, searchKeyword]);
 
   const featuredProperties = filteredProperties.filter(p => p.featured);
-  const regularProperties  = filteredProperties.filter(p => !p.featured);
+  const regularProperties = filteredProperties.filter(p => !p.featured);
   const showFeaturedLayout = selectedCategory === "All" && !searchKeyword && selectedSize === "all" && selectedPrice === "all" && featuredProperties.length >= 2;
 
   return (

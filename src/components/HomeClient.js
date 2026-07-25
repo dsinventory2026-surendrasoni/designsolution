@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import PropertyDetailsModal from "@/components/PropertyDetailsModal";
 import ContactModal from "@/components/ContactModal";
 import FloatingSocial from "@/components/FloatingSocial";
+import ValuablePropertyPopup from "@/components/ValuablePropertyPopup";
 
 export default function HomeClient({ siteConfigData, propertiesData }) {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -43,6 +44,9 @@ export default function HomeClient({ siteConfigData, propertiesData }) {
         onOpenContactModal={() => setIsContactModalOpen(true)}
         siteConfig={siteConfigData}
       />
+
+      {/* Floating Valuable Property Notification Popup */}
+      <ValuablePropertyPopup />
 
       {/* Main Content Sections */}
       <main className="flex-grow">

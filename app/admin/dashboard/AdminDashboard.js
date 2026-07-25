@@ -7,7 +7,7 @@ import {
   FileText, Settings, LogOut, Plus, Pencil, Trash2, Save,
   X, ChevronDown, ChevronUp, CheckCircle2, AlertCircle,
   RefreshCw, Eye, Building, MapPin, PhoneCall, Mail,
-  Image as ImageIcon, ArrowLeft, ArrowRight, Menu
+  Image as ImageIcon, ArrowLeft, ArrowRight, Menu, Sparkles, Copy, ExternalLink
 } from "lucide-react";
 
 // ─── Reusable UI Atoms ─────────────────────────────────────────────────────
@@ -19,11 +19,10 @@ function Toast({ msg, type, onClose }) {
   }, [onClose]);
 
   return (
-    <div className={`fixed top-5 right-5 z-[9999] flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-2xl text-sm font-semibold transition-all duration-300 ${
-      type === "success"
+    <div className={`fixed top-5 right-5 z-[9999] flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-2xl text-sm font-semibold transition-all duration-300 ${type === "success"
         ? "bg-emerald-600 text-white border border-emerald-500"
         : "bg-red-600 text-white border border-red-500"
-    }`}>
+      }`}>
       {type === "success" ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
       <span>{msg}</span>
       <button onClick={onClose} className="ml-2 opacity-70 hover:opacity-100"><X className="w-3.5 h-3.5" /></button>
@@ -112,6 +111,7 @@ function Badge({ text, color = "amber" }) {
 const NAV_ITEMS = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "hero", label: "Hero Section", icon: Home },
+  { id: "valuable-properties", label: "📌 Valuable Properties", icon: Sparkles },
   { id: "properties", label: "Properties", icon: Building2 },
   { id: "about", label: "About Section", icon: Users },
   { id: "services", label: "Services", icon: Settings },
@@ -863,6 +863,372 @@ function FooterPanel({ showToast }) {
   );
 }
 
+// ─── VALUABLE PROPERTIES PANEL ──────────────────────────────────────────────
+
+const EMPTY_VALUABLE_PROPERTY = {
+  projectName: "",
+  slug: "",
+  thumbnail: "",
+  heroBanner: "",
+  gallery: [""],
+  propertyType: "Apartment",
+  location: "Gurugram, Haryana",
+  price: "",
+  offerPrice: "",
+  area: "",
+  bedrooms: "",
+  bathrooms: "",
+  parking: "",
+  status: "Available",
+  shortDescription: "",
+  fullDescription: "",
+  amenities: [""],
+  features: [""],
+  specifications: [{ label: "", value: "" }],
+  googleMap: "",
+  builderName: "",
+  reraNumber: "",
+  possessionDate: "",
+  contactNumber: "",
+  whatsappNumber: "",
+  featured: false,
+  popupEnabled: true,
+  priority: 1,
+  publishStatus: "Published",
+  seoTitle: "",
+  seoDescription: "",
+  seoKeywords: "",
+};
+
+function ValuablePropertiesPanel({ showToast }) {
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [editingProp, setEditingProp] = useState(null);
+  const [isAdding, setIsAdding] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterPublish, setFilterPublish] = useState("All");
+
+  const fetchProperties = useCallback(async () => {
+    setLoading(true);
+    const res = await fetch("/api/admin/valuable-properties");
+    const d = await res.json();
+    if (d.success) setProperties(d.data);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchProperties();
+  }, [fetchProperties]);
+
+  const filtered = properties.filter((p) => {
+    const matchPublish = filterPublish === "All" || p.publishStatus === filterPublish;
+    const matchSearch =
+      p.projectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.builderName?.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchPublish && matchSearch;
+  });
+
+  const handleSave = async () => {
+    setSaving(true);
+    const isNew = isAdding;
+    const method = isNew ? "POST" : "PUT";
+    const url = isNew ? "/api/admin/valuable-properties" : `/api/admin/valuable-properties?id=${editingProp._id}`;
+
+    const payload = {
+      ...editingProp,
+      gallery: (editingProp.gallery || []).filter((img) => img.trim()),
+      amenities: (editingProp.amenities || []).filter((a) => a.trim()),
+      features: (editingProp.features || []).filter((f) => f.trim()),
+      specifications: (editingProp.specifications || []).filter((s) => s.label.trim()),
+    };
+
+    const res = await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const d = await res.json();
+    setSaving(false);
+
+    if (d.success) {
+      showToast(isNew ? "Valuable Property created!" : "Valuable Property updated!", "success");
+      setEditingProp(null);
+      setIsAdding(false);
+      fetchProperties();
+    } else {
+      showToast(d.message, "error");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure you want to delete this Valuable Property?")) return;
+    const res = await fetch(`/api/admin/valuable-properties?id=${id}`, { method: "DELETE" });
+    const d = await res.json();
+    showToast(d.success ? "Valuable Property deleted!" : d.message, d.success ? "success" : "error");
+    if (d.success) fetchProperties();
+  };
+
+  const handleDuplicate = (prop) => {
+    const duplicated = {
+      ...prop,
+      _id: undefined,
+      projectName: `${prop.projectName} (Copy)`,
+      slug: `${prop.slug}-copy-${Date.now().toString().slice(-4)}`,
+      publishStatus: "Unpublished",
+    };
+    setEditingProp(duplicated);
+    setIsAdding(true);
+    showToast("Duplicated as draft. Make edits and save.", "success");
+  };
+
+  const startEdit = (prop) => {
+    setEditingProp({
+      ...prop,
+      gallery: prop.gallery?.length ? prop.gallery : [""],
+      amenities: prop.amenities?.length ? prop.amenities : [""],
+      features: prop.features?.length ? prop.features : [""],
+      specifications: prop.specifications?.length ? prop.specifications : [{ label: "", value: "" }],
+    });
+    setIsAdding(false);
+  };
+
+  const startAdd = () => {
+    setEditingProp({ ...EMPTY_VALUABLE_PROPERTY });
+    setIsAdding(true);
+  };
+
+  // ── Edit Form ──
+  if (editingProp) {
+    return (
+      <div>
+        <div className="flex items-center gap-4 mb-6">
+          <button onClick={() => { setEditingProp(null); setIsAdding(false); }} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors">
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <div className="flex-1">
+            <h2 className="text-xl font-bold text-white">{isAdding ? "Create Valuable Property" : "Edit Valuable Property"}</h2>
+            <p className="text-xs text-slate-400">{editingProp.projectName || "New Project"}</p>
+          </div>
+          {editingProp.slug && !isAdding && (
+            <a href={`/valuable-properties/${editingProp.slug}`} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-400 bg-amber-400/10 border border-amber-400/20 hover:bg-amber-400/20 transition-all">
+              <ExternalLink className="w-3.5 h-3.5" /> Preview Page
+            </a>
+          )}
+          <SaveBtn loading={saving} onClick={handleSave} label={isAdding ? "Create Property" : "Save Changes"} />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {/* Main Overview */}
+          <SectionCard title="Basic Details" icon={Building2}>
+            <div className="space-y-4">
+              <InputField label="Project Name *" value={editingProp.projectName} onChange={(v) => setEditingProp({ ...editingProp, projectName: v, slug: editingProp.slug || v.toLowerCase().replace(/[^a-z0-9]+/g, "-") })} placeholder="e.g. DS Imperial Residences" required />
+              <InputField label="Slug (URL identifier)" value={editingProp.slug} onChange={(v) => setEditingProp({ ...editingProp, slug: v })} placeholder="ds-imperial-residences" />
+              <InputField label="Builder / Developer Name" value={editingProp.builderName} onChange={(v) => setEditingProp({ ...editingProp, builderName: v })} placeholder="DS Realty Group" />
+              <InputField label="Property Type" value={editingProp.propertyType} onChange={(v) => setEditingProp({ ...editingProp, propertyType: v })} placeholder="Luxury Penthouse / Villa / Apartment" />
+              <InputField label="Location" value={editingProp.location} onChange={(v) => setEditingProp({ ...editingProp, location: v })} placeholder="Golf Course Road, Gurugram" />
+              <SelectField label="Availability Status" value={editingProp.status} onChange={(v) => setEditingProp({ ...editingProp, status: v })} options={["Available", "Under Construction", "Ready to Move", "Upcoming", "Sold Out"].map((s) => ({ label: s, value: s }))} />
+              <InputField label="Possession Date" value={editingProp.possessionDate} onChange={(v) => setEditingProp({ ...editingProp, possessionDate: v })} placeholder="Ready to Move / Dec 2027" />
+              <InputField label="RERA Number" value={editingProp.reraNumber} onChange={(v) => setEditingProp({ ...editingProp, reraNumber: v })} placeholder="RC/REP/HARERA/GGM/..." />
+            </div>
+          </SectionCard>
+
+          {/* Pricing & Controls */}
+          <SectionCard title="Pricing & Hero Popup Controls" icon={Sparkles}>
+            <div className="space-y-4">
+              <InputField label="Starting Price (Display Text)" value={editingProp.price} onChange={(v) => setEditingProp({ ...editingProp, price: v })} placeholder="₹3.5 Cr Onwards" />
+              <InputField label="Offer / Special Price (Optional)" value={editingProp.offerPrice} onChange={(v) => setEditingProp({ ...editingProp, offerPrice: v })} placeholder="₹3.2 Cr (Festive Discount)" />
+              <InputField label="Super / Carpet Area" value={editingProp.area} onChange={(v) => setEditingProp({ ...editingProp, area: v })} placeholder="2,800 - 4,500 Sq. Ft." />
+              <div className="grid grid-cols-3 gap-3">
+                <InputField label="Bedrooms" value={editingProp.bedrooms} onChange={(v) => setEditingProp({ ...editingProp, bedrooms: v })} placeholder="3, 4 BHK" />
+                <InputField label="Bathrooms" value={editingProp.bathrooms} onChange={(v) => setEditingProp({ ...editingProp, bathrooms: v })} placeholder="4" />
+                <InputField label="Parking" value={editingProp.parking} onChange={(v) => setEditingProp({ ...editingProp, parking: v })} placeholder="2 Reserved" />
+              </div>
+              <InputField label="Priority Order (Higher appears first in Popup)" type="number" value={editingProp.priority} onChange={(v) => setEditingProp({ ...editingProp, priority: parseInt(v) || 0 })} />
+              <SelectField label="Publish Status" value={editingProp.publishStatus} onChange={(v) => setEditingProp({ ...editingProp, publishStatus: v })} options={[{ label: "Published (Visible)", value: "Published" }, { label: "Unpublished (Draft)", value: "Unpublished" }]} />
+              
+              <div className="flex gap-6 pt-3 border-t border-slate-800">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={editingProp.popupEnabled} onChange={(e) => setEditingProp({ ...editingProp, popupEnabled: e.target.checked })} className="w-4 h-4 rounded accent-amber-400" />
+                  <span className="text-sm text-slate-200 font-semibold">Enable Hero Floating Popup</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={editingProp.featured} onChange={(e) => setEditingProp({ ...editingProp, featured: e.target.checked })} className="w-4 h-4 rounded accent-amber-400" />
+                  <span className="text-sm text-slate-200 font-semibold">Featured Badge</span>
+                </label>
+              </div>
+            </div>
+          </SectionCard>
+
+          {/* Descriptions & Contacts */}
+          <SectionCard title="Descriptions & Contact Numbers" icon={PhoneCall}>
+            <div className="space-y-4">
+              <InputField label="Short Tagline / Summary (Shown in Popup)" value={editingProp.shortDescription} onChange={(v) => setEditingProp({ ...editingProp, shortDescription: v })} rows={2} placeholder="Ultra-luxury 4 BHK residences with private splash pools on Golf Course Road" />
+              <InputField label="Full Overview Description" value={editingProp.fullDescription} onChange={(v) => setEditingProp({ ...editingProp, fullDescription: v })} rows={5} placeholder="Detailed property overview..." />
+              <div className="grid grid-cols-2 gap-3">
+                <InputField label="Direct Contact Phone" value={editingProp.contactNumber} onChange={(v) => setEditingProp({ ...editingProp, contactNumber: v })} placeholder="+91 98765 43210" />
+                <InputField label="WhatsApp Number (Digits only)" value={editingProp.whatsappNumber} onChange={(v) => setEditingProp({ ...editingProp, whatsappNumber: v })} placeholder="919876543210" />
+              </div>
+              <InputField label="Google Map Embed URL" value={editingProp.googleMap} onChange={(v) => setEditingProp({ ...editingProp, googleMap: v })} placeholder="https://www.google.com/maps/embed?pb=..." />
+            </div>
+          </SectionCard>
+
+          {/* Media Images */}
+          <SectionCard title="Images & Banners" icon={ImageIcon}>
+            <div className="space-y-4">
+              <InputField label="Thumbnail Image URL (Used in Popup & Cards)" value={editingProp.thumbnail} onChange={(v) => setEditingProp({ ...editingProp, thumbnail: v })} placeholder="https://images.unsplash.com/..." />
+              <InputField label="Hero Banner Image URL (Used in Details Page Header)" value={editingProp.heroBanner} onChange={(v) => setEditingProp({ ...editingProp, heroBanner: v })} placeholder="https://images.unsplash.com/..." />
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Gallery Image URLs</label>
+                <div className="space-y-2">
+                  {(editingProp.gallery || [""]).map((img, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <input type="text" value={img} onChange={(e) => { const gal = [...editingProp.gallery]; gal[idx] = e.target.value; setEditingProp({ ...editingProp, gallery: gal }); }}
+                        placeholder="https://..." className="flex-1 px-4 py-2 rounded-xl text-sm text-white outline-none"
+                        style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }} />
+                      <button onClick={() => { const gal = editingProp.gallery.filter((_, i) => i !== idx); setEditingProp({ ...editingProp, gallery: gal.length ? gal : [""] }); }} className="p-2 rounded-lg bg-red-500/10 text-red-400 shrink-0"><Trash2 className="w-4 h-4" /></button>
+                    </div>
+                  ))}
+                  <button onClick={() => setEditingProp({ ...editingProp, gallery: [...(editingProp.gallery || []), ""] })} className="flex items-center gap-2 text-xs text-amber-400 font-semibold py-1">
+                    <Plus className="w-4 h-4" /> Add Gallery Image
+                  </button>
+                </div>
+              </div>
+            </div>
+          </SectionCard>
+
+          {/* Amenities & Features */}
+          <SectionCard title="Amenities & Features" icon={CheckCircle2}>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Amenities</label>
+                <div className="space-y-2">
+                  {(editingProp.amenities || [""]).map((a, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <input type="text" value={a} onChange={(e) => { const am = [...editingProp.amenities]; am[idx] = e.target.value; setEditingProp({ ...editingProp, amenities: am }); }}
+                        placeholder="e.g. Temperature Controlled Pool" className="flex-1 px-4 py-2 rounded-xl text-sm text-white outline-none"
+                        style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }} />
+                      <button onClick={() => { const am = editingProp.amenities.filter((_, i) => i !== idx); setEditingProp({ ...editingProp, amenities: am.length ? am : [""] }); }} className="p-2 rounded-lg bg-red-500/10 text-red-400 shrink-0"><Trash2 className="w-4 h-4" /></button>
+                    </div>
+                  ))}
+                  <button onClick={() => setEditingProp({ ...editingProp, amenities: [...(editingProp.amenities || []), ""] })} className="flex items-center gap-2 text-xs text-amber-400 font-semibold py-1">
+                    <Plus className="w-4 h-4" /> Add Amenity
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Key Highlights / Features</label>
+                <div className="space-y-2">
+                  {(editingProp.features || [""]).map((f, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <input type="text" value={f} onChange={(e) => { const ft = [...editingProp.features]; ft[idx] = e.target.value; setEditingProp({ ...editingProp, features: ft }); }}
+                        placeholder="e.g. 11ft Floor to Ceiling Height" className="flex-1 px-4 py-2 rounded-xl text-sm text-white outline-none"
+                        style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }} />
+                      <button onClick={() => { const ft = editingProp.features.filter((_, i) => i !== idx); setEditingProp({ ...editingProp, features: ft.length ? ft : [""] }); }} className="p-2 rounded-lg bg-red-500/10 text-red-400 shrink-0"><Trash2 className="w-4 h-4" /></button>
+                    </div>
+                  ))}
+                  <button onClick={() => setEditingProp({ ...editingProp, features: [...(editingProp.features || []), ""] })} className="flex items-center gap-2 text-xs text-amber-400 font-semibold py-1">
+                    <Plus className="w-4 h-4" /> Add Highlight Feature
+                  </button>
+                </div>
+              </div>
+            </div>
+          </SectionCard>
+
+          {/* SEO Metadata */}
+          <SectionCard title="SEO Metadata" icon={FileText}>
+            <div className="space-y-4">
+              <InputField label="SEO Meta Title" value={editingProp.seoTitle} onChange={(v) => setEditingProp({ ...editingProp, seoTitle: v })} placeholder="DS Imperial Residences - Luxury 4 BHK Apartments Gurugram" />
+              <InputField label="SEO Meta Description" value={editingProp.seoDescription} onChange={(v) => setEditingProp({ ...editingProp, seoDescription: v })} rows={3} placeholder="Explore ultra luxury 4 BHK apartments..." />
+              <InputField label="SEO Keywords" value={editingProp.seoKeywords} onChange={(v) => setEditingProp({ ...editingProp, seoKeywords: v })} placeholder="luxury property gurugram, 4 BHK flat golf course road" />
+            </div>
+          </SectionCard>
+        </div>
+      </div>
+    );
+  }
+
+  // ── List View ──
+  return (
+    <div>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-6 h-6 text-amber-400" />
+            <h2 className="text-2xl font-bold text-white">Valuable Properties</h2>
+          </div>
+          <p className="text-sm text-slate-400 mt-1">Independent module for Hero Section Featured Popups & High-Value Listings ({properties.length} items)</p>
+        </div>
+        <button onClick={startAdd} className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white"
+          style={{ background: "linear-gradient(135deg, #C9A96E, #b8933a)", boxShadow: "0 4px 15px rgba(201,169,110,0.2)" }}>
+          <Plus className="w-4 h-4" /> Add Valuable Property
+        </button>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-3 mb-5">
+        <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search Valuable Properties..."
+          className="px-4 py-2 rounded-xl text-sm text-white outline-none flex-1 min-w-48"
+          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }} />
+        <div className="flex gap-2">
+          {["All", "Published", "Unpublished"].map((st) => (
+            <button key={st} onClick={() => setFilterPublish(st)}
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${filterPublish === st ? "text-white" : "text-slate-400 hover:text-white"}`}
+              style={{ background: filterPublish === st ? "linear-gradient(135deg, #C9A96E, #b8933a)" : "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+              {st}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="text-slate-400 text-sm py-12 text-center"><RefreshCw className="w-6 h-6 animate-spin mx-auto mb-3 text-amber-400" />Loading Valuable Properties...</div>
+      ) : (
+        <div className="grid grid-cols-1 gap-4">
+          {filtered.map((prop) => (
+            <div key={prop._id} className="flex items-center gap-4 p-4 rounded-2xl transition-all hover:border-amber-400/30"
+              style={{ background: "rgba(10,22,40,0.7)", border: "1px solid rgba(201,169,110,0.15)" }}>
+              {prop.thumbnail || prop.heroBanner ? (
+                <img src={prop.thumbnail || prop.heroBanner} alt={prop.projectName} className="w-24 h-18 rounded-xl object-cover shrink-0" />
+              ) : (
+                <div className="w-24 h-18 rounded-xl bg-slate-800 flex items-center justify-center text-slate-500 shrink-0"><Building2 className="w-6 h-6" /></div>
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start gap-2 flex-wrap">
+                  <h4 className="text-sm font-bold text-white truncate">{prop.projectName}</h4>
+                  {prop.publishStatus === "Published" ? <Badge text="Published" color="green" /> : <Badge text="Unpublished" color="red" />}
+                  {prop.popupEnabled && <Badge text="Popup Active" color="amber" />}
+                  <span className="text-[10px] text-slate-400 font-mono">Priority: {prop.priority}</span>
+                </div>
+                <p className="text-xs text-slate-400 mt-1">{prop.propertyType} • {prop.location} • {prop.price || "Price on Request"}</p>
+                {prop.shortDescription && <p className="text-xs text-slate-300 mt-1 line-clamp-1 italic">{prop.shortDescription}</p>}
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <a href={`/valuable-properties/${prop.slug}`} target="_blank" rel="noreferrer" className="p-2 rounded-lg text-amber-400 hover:bg-amber-500/10 transition-colors" title="Preview Page">
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+                <button onClick={() => handleDuplicate(prop)} className="p-2 rounded-lg text-indigo-400 hover:bg-indigo-500/10 transition-colors" title="Duplicate">
+                  <Copy className="w-4 h-4" />
+                </button>
+                <button onClick={() => startEdit(prop)} className="p-2 rounded-lg text-blue-400 hover:bg-blue-500/10 transition-colors" title="Edit">
+                  <Pencil className="w-4 h-4" />
+                </button>
+                <button onClick={() => handleDelete(prop._id)} className="p-2 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors" title="Delete">
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          ))}
+          {filtered.length === 0 && (
+            <div className="text-center py-12 text-slate-500">No Valuable Properties found. Click "Add Valuable Property" to create one.</div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── OVERVIEW PANEL ──────────────────────────────────────────────────────────
 
 function OverviewPanel({ showToast, adminEmail }) {
@@ -909,7 +1275,7 @@ function OverviewPanel({ showToast, adminEmail }) {
 
       <SectionCard title="Database Management" icon={RefreshCw}>
         <p className="text-sm text-slate-300 mb-4">
-          If the website data is not yet in MongoDB, click below to seed it from the static data files. 
+          If the website data is not yet in MongoDB, click below to seed it from the static data files.
           This is a one-time operation — it won't overwrite existing data.
         </p>
         <button onClick={handleSeed} disabled={seeding}
@@ -956,6 +1322,7 @@ export default function AdminDashboard({ adminEmail }) {
     switch (activeTab) {
       case "overview": return <OverviewPanel showToast={showToast} adminEmail={adminEmail} />;
       case "hero": return <HeroPanel showToast={showToast} />;
+      case "valuable-properties": return <ValuablePropertiesPanel showToast={showToast} />;
       case "properties": return <PropertiesPanel showToast={showToast} />;
       case "about": return <AboutPanel showToast={showToast} />;
       case "services": return <ServicesPanel showToast={showToast} />;
@@ -999,9 +1366,8 @@ export default function AdminDashboard({ adminEmail }) {
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-200 ${
-                activeTab === id ? "text-white" : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
-              }`}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-200 ${activeTab === id ? "text-white" : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
+                }`}
               style={activeTab === id ? { background: "linear-gradient(135deg, rgba(201,169,110,0.15), rgba(30,64,175,0.15))", border: "1px solid rgba(201,169,110,0.2)" } : {}}
               title={!sidebarOpen ? label : undefined}
             >
