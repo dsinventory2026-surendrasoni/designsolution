@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { siteConfig as staticSiteConfig } from "@/data/siteConfig";
 import { MessageSquare, PhoneCall, Menu, X, ChevronRight } from "lucide-react";
@@ -25,14 +26,14 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
   }, [isMobileMenuOpen]);
 
   const navLinks = [
-    { name: "Home",         href: "#hero",        isCategory: false },
-    { name: "Residential",  href: "#portfolio",   isCategory: true,  category: "Residential" },
-    { name: "Commercial",   href: "#portfolio",   isCategory: true,  category: "Commercial" },
-    { name: "Plots",        href: "#portfolio",   isCategory: true,  category: "Plots" },
-    { name: "Construction", href: "#portfolio",   isCategory: true,  category: "Construction" },
-    { name: "New Launches", href: "#portfolio",   isCategory: true,  category: "New Launches" },
-    { name: "Services",     href: "#services",    isCategory: false },
-    { name: "Testimonials", href: "#testimonials",isCategory: false },
+    { name: "Home",         href: "/#hero",        isCategory: false },
+    { name: "Residential",  href: "/#portfolio",   isCategory: true,  category: "Residential" },
+    { name: "Commercial",   href: "/#portfolio",   isCategory: true,  category: "Commercial" },
+    { name: "Plots",        href: "/#portfolio",   isCategory: true,  category: "Plots" },
+    { name: "Construction", href: "/#portfolio",   isCategory: true,  category: "Construction" },
+    { name: "New Launches", href: "/#portfolio",   isCategory: true,  category: "New Launches" },
+    { name: "Services",     href: "/#services",    isCategory: false },
+    { name: "Testimonials", href: "/#testimonials",isCategory: false },
   ];
 
   const handleNavClick = (link) => {
@@ -54,7 +55,7 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
 
             {/* FAR LEFT: Official DS Group Logo */}
             <a
-              href="#hero"
+              href="/#hero"
               className="flex items-center gap-3 group flex-shrink-0 focus:outline-none"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -125,13 +126,13 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
                 <span>{siteConfig.contact.whatsappNumber}</span>
               </a>
 
-              <button
-                onClick={onOpenContactModal}
+              <Link
+                href="/enquire"
                 className="btn-champagne flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold tracking-wide uppercase whitespace-nowrap shadow-lg"
               >
                 <PhoneCall className="w-3.5 h-3.5" />
                 <span>Enquire Now</span>
-              </button>
+              </Link>
             </div>
 
             {/* MOBILE: Hamburger Menu */}
@@ -247,13 +248,14 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
               <span>WhatsApp Us ({siteConfig.contact.whatsappNumber})</span>
             </a>
 
-            <button
-              onClick={() => { setIsMobileMenuOpen(false); onOpenContactModal(); }}
+            <Link
+              href="/enquire"
+              onClick={() => setIsMobileMenuOpen(false)}
               className="btn-champagne w-full py-3.5 rounded-xl text-sm font-bold uppercase tracking-wide flex items-center justify-center gap-2"
             >
               <PhoneCall className="w-4 h-4" />
-              <span>Book Site Visit</span>
-            </button>
+              <span>Enquire Now</span>
+            </Link>
           </div>
         </div>
       </div>

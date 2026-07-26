@@ -13,17 +13,34 @@ export default function ContactModal({ isOpen, onClose, siteConfig: propSiteConf
     phone: "",
     email: "",
     category: "Residential",
-    message: ""
+    budget: "₹50 Lakhs - ₹1 Crore",
+    message: "",
   });
+  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
+    try {
+      await fetch("/api/enquire", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          source: "Contact Popup Modal",
+        }),
+      });
+    } catch (err) {
+      console.error("Error submitting contact modal:", err);
+    }
+
+    setLoading(false);
     setSubmitted(true);
 
-    // Build WhatsApp message with all form details
     const waMessage = [
       `🏢 *DS Group of Companies — New Enquiry*`,
       ``,
@@ -31,6 +48,7 @@ export default function ContactModal({ isOpen, onClose, siteConfig: propSiteConf
       `📞 *Mobile:* ${formData.phone}`,
       formData.email ? `📧 *Email:* ${formData.email}` : null,
       `🏠 *Interest:* ${formData.category}`,
+      `💰 *Budget Range:* ${formData.budget}`,
       formData.message ? `💬 *Message:* ${formData.message}` : null,
       ``,
       `_(Submitted via DS Group Website)_`,
@@ -40,12 +58,11 @@ export default function ContactModal({ isOpen, onClose, siteConfig: propSiteConf
 
     const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waMessage)}`;
 
-    // Open WhatsApp in new tab after short delay
     setTimeout(() => {
       window.open(waUrl, "_blank", "noopener,noreferrer");
       setSubmitted(false);
       onClose();
-    }, 1500);
+    }, 2000);
   };
 
   return (
@@ -64,11 +81,11 @@ export default function ContactModal({ isOpen, onClose, siteConfig: propSiteConf
         {submitted ? (
           <div className="py-10 text-center space-y-4">
             <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto shadow-lg animate-pulse">
-              <MessageSquare className="w-8 h-8" />
+              <CheckCircle2 className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-bold font-outfit text-white">Redirecting to WhatsApp!</h3>
+            <h3 className="text-2xl font-bold font-outfit text-white">Submit Successfully!</h3>
             <p className="text-xs text-slate-300 max-w-xs mx-auto leading-relaxed">
-              Thank you, <span className="font-semibold text-amber-400">{formData.name}</span>! Opening WhatsApp with your enquiry details on <span className="font-semibold text-emerald-400">+91 77430 00070</span>...
+              Thank you, <span className="font-semibold text-amber-400">{formData.name}</span>! Your enquiry details have been saved & emailed to <span className="text-amber-400 font-semibold">dsinventory2026@gmail.com</span>. Redirecting to WhatsApp...
             </p>
           </div>
         ) : (
@@ -86,7 +103,7 @@ export default function ContactModal({ isOpen, onClose, siteConfig: propSiteConf
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Your Full Name</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Your Full Name *</label>
                 <input
                   type="text"
                   required
@@ -99,7 +116,7 @@ export default function ContactModal({ isOpen, onClose, siteConfig: propSiteConf
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Mobile Number</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Mobile Number *</label>
                   <input
                     type="tel"
                     required
@@ -126,22 +143,41 @@ export default function ContactModal({ isOpen, onClose, siteConfig: propSiteConf
                 </div>
               </div>
 
-              <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Email Address (Optional)</label>
-                <input
-                  type="email"
-                  placeholder="name@example.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl text-xs font-medium input-dark"
-                />
+              {/* BUDGET SECTION */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-amber-400 mb-1">Budget Range *</label>
+                  <select
+                    value={formData.budget}
+                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl text-xs font-medium input-dark cursor-pointer text-amber-400 font-semibold"
+                  >
+                    <option value="Under ₹25 Lakhs" className="bg-slate-900">Under ₹25 Lakhs</option>
+                    <option value="₹25 Lakhs - ₹50 Lakhs" className="bg-slate-900">₹25 Lakhs - ₹50 Lakhs</option>
+                    <option value="₹50 Lakhs - ₹1 Crore" className="bg-slate-900">₹50 Lakhs - ₹1 Crore</option>
+                    <option value="₹1 Crore - ₹2 Crores" className="bg-slate-900">₹1 Crore - ₹2 Crores</option>
+                    <option value="₹2 Crores +" className="bg-slate-900">₹2 Crores +</option>
+                    <option value="Flexible / Open" className="bg-slate-900">Flexible / Open</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Email Address (Optional)</label>
+                  <input
+                    type="email"
+                    placeholder="name@example.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl text-xs font-medium input-dark"
+                  />
+                </div>
               </div>
 
               <div>
                 <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Specific Requirements / Message</label>
                 <textarea
                   rows="3"
-                  placeholder="Tell us your preferred size, budget range, or site visit date..."
+                  placeholder="Tell us your preferred size, location, or site visit date..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="w-full px-4 py-3 rounded-xl text-xs font-medium input-dark"
@@ -150,10 +186,11 @@ export default function ContactModal({ isOpen, onClose, siteConfig: propSiteConf
 
               <button
                 type="submit"
+                disabled={loading}
                 className="btn-champagne w-full py-3.5 rounded-xl text-xs font-bold uppercase tracking-wide flex items-center justify-center gap-2.5 mt-2"
               >
                 <Send className="w-4 h-4" />
-                <span>Submit Inquiry</span>
+                <span>{loading ? "Submitting..." : "Submit Inquiry"}</span>
               </button>
             </form>
           </div>

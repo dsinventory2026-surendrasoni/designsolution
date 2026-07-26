@@ -62,11 +62,11 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
           <div className="lg:col-span-2 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">Company</h4>
             <ul className="space-y-2 text-xs font-medium">
-              <li><a href="#hero" className="hover:text-blue-400 transition-colors">Home</a></li>
-              <li><a href="#about" className="hover:text-blue-400 transition-colors">About Us</a></li>
-              <li><a href="#services" className="hover:text-blue-400 transition-colors">Our Services</a></li>
-              <li><a href="#portfolio" className="hover:text-blue-400 transition-colors">Portfolio</a></li>
-              <li><a href="#testimonials" className="hover:text-blue-400 transition-colors">Testimonials</a></li>
+              <li><a href="/#hero" className="hover:text-blue-400 transition-colors">Home</a></li>
+              <li><a href="/#about" className="hover:text-blue-400 transition-colors">About Us</a></li>
+              <li><a href="/#services" className="hover:text-blue-400 transition-colors">Our Services</a></li>
+              <li><a href="/#portfolio" className="hover:text-blue-400 transition-colors">Portfolio</a></li>
+              <li><a href="/#testimonials" className="hover:text-blue-400 transition-colors">Testimonials</a></li>
               <li><button onClick={onOpenContactModal} className="hover:text-blue-400 transition-colors">Contact Us</button></li>
             </ul>
           </div>
@@ -78,7 +78,7 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
               {propertyCategories.filter(c => c !== "All").map((cat) => (
                 <li key={cat}>
                   <a
-                    href="#portfolio"
+                    href="/#portfolio"
                     onClick={() => handleCategoryClick(cat)}
                     className="hover:text-blue-400 transition-colors flex items-center gap-1.5"
                   >

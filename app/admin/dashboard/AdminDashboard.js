@@ -6,7 +6,7 @@ import {
   LayoutDashboard, Home, Building2, Users, Star, Share2,
   FileText, Settings, LogOut, Plus, Pencil, Trash2, Save,
   X, ChevronDown, ChevronUp, CheckCircle2, AlertCircle,
-  RefreshCw, Eye, Building, MapPin, PhoneCall, Mail,
+  RefreshCw, Eye, Building, MapPin, PhoneCall, Mail, MessageSquare,
   Image as ImageIcon, ArrowLeft, ArrowRight, Menu, Sparkles, Copy, ExternalLink
 } from "lucide-react";
 
@@ -110,6 +110,7 @@ function Badge({ text, color = "amber" }) {
 
 const NAV_ITEMS = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
+  { id: "leads", label: "📋 Enquiries & Leads", icon: PhoneCall },
   { id: "hero", label: "Hero Section", icon: Home },
   { id: "valuable-properties", label: "📌 Valuable Properties", icon: Sparkles },
   { id: "properties", label: "Properties", icon: Building2 },
@@ -1301,6 +1302,308 @@ function OverviewPanel({ showToast, adminEmail }) {
   );
 }
 
+// ─── LEADS & ENQUIRIES PANEL ───────────────────────────────────────────────
+
+function LeadsPanel({ showToast }) {
+  const [leads, setLeads] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+
+  const fetchLeads = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/leads");
+      const data = await res.json();
+      if (data.success) {
+        setLeads(data.data || []);
+      } else {
+        showToast(data.message || "Failed to load leads", "error");
+      }
+    } catch (err) {
+      showToast("Error loading leads", "error");
+    } finally {
+      setLoading(false);
+    }
+  }, [showToast]);
+
+  useEffect(() => {
+    fetchLeads();
+  }, [fetchLeads]);
+
+  const handleUpdateStatus = async (id, newStatus) => {
+    try {
+      const res = await fetch("/api/admin/leads", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: newStatus }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setLeads((prev) =>
+          prev.map((l) => (l._id === id ? { ...l, status: newStatus } : l))
+        );
+        showToast("Lead status updated!", "success");
+      } else {
+        showToast(data.message || "Update failed", "error");
+      }
+    } catch (err) {
+      showToast("Failed to update status", "error");
+    }
+  };
+
+  const handleDeleteLead = async (id, name) => {
+    if (!window.confirm(`Are you sure you want to delete lead for "${name}"?`)) return;
+    try {
+      const res = await fetch(`/api/admin/leads?id=${id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success) {
+        setLeads((prev) => prev.filter((l) => l._id !== id));
+        showToast("Lead deleted successfully", "success");
+      } else {
+        showToast(data.message || "Deletion failed", "error");
+      }
+    } catch (err) {
+      showToast("Failed to delete lead", "error");
+    }
+  };
+
+  // Filtered Leads
+  const filteredLeads = leads.filter((lead) => {
+    const matchesStatus = statusFilter === "All" || lead.status === statusFilter;
+    const q = searchQuery.toLowerCase();
+    const matchesSearch =
+      !q ||
+      lead.name?.toLowerCase().includes(q) ||
+      lead.phone?.includes(q) ||
+      lead.email?.toLowerCase().includes(q) ||
+      lead.category?.toLowerCase().includes(q) ||
+      lead.budget?.toLowerCase().includes(q) ||
+      lead.message?.toLowerCase().includes(q);
+
+    return matchesStatus && matchesSearch;
+  });
+
+  const totalCount = leads.length;
+  const newCount = leads.filter((l) => l.status === "New").length;
+  const contactedCount = leads.filter((l) => l.status === "Contacted").length;
+  const closedCount = leads.filter((l) => l.status === "Closed").length;
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-extrabold text-white flex items-center gap-2">
+            <span>📋 Client Enquiries & Leads</span>
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
+              {totalCount} Total
+            </span>
+          </h2>
+          <p className="text-xs text-slate-400 mt-1">
+            Real-time client leads from Enquiry Form & Contact popups saved in MongoDB & forwarded to dsinventory2026@gmail.com
+          </p>
+        </div>
+
+        <button
+          onClick={fetchLeads}
+          disabled={loading}
+          className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 transition-all self-start sm:self-auto"
+        >
+          <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-amber-400" : ""}`} />
+          <span>Refresh Leads</span>
+        </button>
+      </div>
+
+      {/* Summary Stat Cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
+          <div className="text-2xl font-black text-white">{totalCount}</div>
+          <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mt-0.5">Total Leads</div>
+        </div>
+        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30">
+          <div className="text-2xl font-black text-amber-400">{newCount}</div>
+          <div className="text-[11px] font-bold uppercase tracking-wider text-amber-400/80 mt-0.5">🔥 New Leads</div>
+        </div>
+        <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/30">
+          <div className="text-2xl font-black text-blue-400">{contactedCount}</div>
+          <div className="text-[11px] font-bold uppercase tracking-wider text-blue-400/80 mt-0.5">📞 Contacted</div>
+        </div>
+        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30">
+          <div className="text-2xl font-black text-emerald-400">{closedCount}</div>
+          <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-400/80 mt-0.5">✅ Closed Deals</div>
+        </div>
+      </div>
+
+      {/* Search & Filter Controls */}
+      <div className="flex flex-col sm:flex-row items-center gap-3 p-4 rounded-2xl bg-slate-900/90 border border-slate-800">
+        <div className="relative flex-1 w-full">
+          <input
+            type="text"
+            placeholder="Search by client name, mobile, email, category, budget..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full px-4 py-2.5 rounded-xl text-xs bg-slate-950 border border-slate-800 text-white placeholder-slate-500 outline-none focus:border-amber-400"
+          />
+        </div>
+
+        <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0">
+          {["All", "New", "Contacted", "In Progress", "Closed"].map((st) => (
+            <button
+              key={st}
+              onClick={() => setStatusFilter(st)}
+              className={`px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+                statusFilter === st
+                  ? "bg-amber-500 text-slate-950 font-black"
+                  : "bg-slate-950 text-slate-400 border border-slate-800 hover:text-white"
+              }`}
+            >
+              {st}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Leads List */}
+      {loading ? (
+        <div className="py-16 text-center space-y-3">
+          <RefreshCw className="w-8 h-8 animate-spin text-amber-400 mx-auto" />
+          <p className="text-xs text-slate-400">Loading client leads from MongoDB...</p>
+        </div>
+      ) : filteredLeads.length === 0 ? (
+        <div className="py-16 text-center rounded-2xl bg-slate-900/50 border border-slate-800/60 space-y-2">
+          <PhoneCall className="w-10 h-10 text-slate-600 mx-auto" />
+          <h3 className="text-sm font-bold text-white">No Enquiries Found</h3>
+          <p className="text-xs text-slate-500">No client leads match your selected filter criteria.</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {filteredLeads.map((lead) => {
+            const formattedDate = lead.createdAt
+              ? new Date(lead.createdAt).toLocaleString("en-IN", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              : "N/A";
+
+            return (
+              <div
+                key={lead._id}
+                className="rounded-2xl p-5 bg-slate-900/90 border border-slate-800/80 hover:border-amber-500/30 transition-all space-y-4 shadow-lg"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-600 text-slate-950 font-black flex items-center justify-center text-sm shadow-md">
+                      {lead.name ? lead.name.charAt(0).toUpperCase() : "C"}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-sm font-bold text-white">{lead.name}</h4>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">
+                          {lead.source || "Website"}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-400 mt-0.5">{formattedDate}</p>
+                    </div>
+                  </div>
+
+                  {/* Actions & Status */}
+                  <div className="flex items-center gap-2 self-end sm:self-auto">
+                    <select
+                      value={lead.status || "New"}
+                      onChange={(e) => handleUpdateStatus(lead._id, e.target.value)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold outline-none cursor-pointer border ${
+                        lead.status === "Closed"
+                          ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/40"
+                          : lead.status === "Contacted"
+                          ? "bg-blue-500/20 text-blue-400 border-blue-500/40"
+                          : lead.status === "In Progress"
+                          ? "bg-purple-500/20 text-purple-400 border-purple-500/40"
+                          : "bg-amber-500/20 text-amber-400 border-amber-500/40"
+                      }`}
+                    >
+                      <option value="New" className="bg-slate-900 text-amber-400">🔥 New Lead</option>
+                      <option value="Contacted" className="bg-slate-900 text-blue-400">📞 Contacted</option>
+                      <option value="In Progress" className="bg-slate-900 text-purple-400">⏳ In Progress</option>
+                      <option value="Closed" className="bg-slate-900 text-emerald-400">✅ Closed</option>
+                    </select>
+
+                    <button
+                      onClick={() => handleDeleteLead(lead._id, lead.name)}
+                      className="p-2 rounded-xl text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                      title="Delete Lead"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Grid Details */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                    <span className="text-[10px] uppercase font-bold text-slate-500 block mb-1">Contact Phone</span>
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-emerald-400">{lead.phone}</span>
+                      <div className="flex items-center gap-1">
+                        <a
+                          href={`tel:${lead.phone}`}
+                          className="p-1 rounded bg-slate-800 text-slate-300 hover:text-white"
+                          title="Call"
+                        >
+                          <PhoneCall className="w-3.5 h-3.5" />
+                        </a>
+                        <a
+                          href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1 rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30"
+                          title="WhatsApp"
+                        >
+                          <MessageSquare className="w-3.5 h-3.5" />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                    <span className="text-[10px] uppercase font-bold text-slate-500 block mb-1">Email Address</span>
+                    <span className="font-semibold text-blue-400 truncate block">
+                      {lead.email || "Not Provided"}
+                    </span>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                    <span className="text-[10px] uppercase font-bold text-slate-500 block mb-1">Category Interest</span>
+                    <span className="font-bold text-amber-400">{lead.category}</span>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                    <span className="text-[10px] uppercase font-bold text-amber-400/80 block mb-1">Budget Range</span>
+                    <span className="font-extrabold text-amber-400">{lead.budget}</span>
+                  </div>
+                </div>
+
+                {/* Message / Requirements */}
+                {lead.message && (
+                  <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800/80 text-xs">
+                    <span className="text-[10px] uppercase font-bold text-slate-500 block mb-1">Requirements / Message</span>
+                    <p className="text-slate-300 leading-relaxed">{lead.message}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── MAIN ADMIN DASHBOARD ────────────────────────────────────────────────────
 
 export default function AdminDashboard({ adminEmail }) {
@@ -1321,6 +1624,7 @@ export default function AdminDashboard({ adminEmail }) {
   const renderContent = () => {
     switch (activeTab) {
       case "overview": return <OverviewPanel showToast={showToast} adminEmail={adminEmail} />;
+      case "leads": return <LeadsPanel showToast={showToast} />;
       case "hero": return <HeroPanel showToast={showToast} />;
       case "valuable-properties": return <ValuablePropertiesPanel showToast={showToast} />;
       case "properties": return <PropertiesPanel showToast={showToast} />;
