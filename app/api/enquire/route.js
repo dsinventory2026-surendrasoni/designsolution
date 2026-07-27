@@ -9,12 +9,12 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "dsinventory2026@gmail.com";
 async function sendNotificationEmail(leadData) {
   const host = process.env.SMTP_HOST || "smtp.gmail.com";
   const port = parseInt(process.env.SMTP_PORT || "587");
-  const user = process.env.SMTP_USER || process.env.ADMIN_EMAIL;
-  const pass = process.env.SMTP_PASS;
+  const user = process.env.SMTP_EMAIL;   // matches .env key SMTP_EMAIL
+  const pass = process.env.SMTP_PASSWORD; // matches .env key SMTP_PASSWORD
 
-  // If password/SMTP credentials aren't provided, log and return early without failing the API
-  if (!pass && !process.env.SMTP_USER) {
-    console.log("ℹ️ SMTP_PASS not set in environment variables. Email notification skipped, lead saved in MongoDB.");
+  // If SMTP credentials aren't provided, log and return early without failing the API
+  if (!user || !pass) {
+    console.log("ℹ️ SMTP_EMAIL / SMTP_PASSWORD not set in environment variables. Email notification skipped, lead saved in MongoDB.");
     return false;
   }
 
@@ -76,8 +76,8 @@ async function sendNotificationEmail(leadData) {
     `;
 
     await transporter.sendMail({
-      from: `"DS Group Website" <${user || ADMIN_EMAIL}>`,
-      to: ADMIN_EMAIL,
+      from: `"DS Group Website" <${user}>`,
+      to: ADMIN_EMAIL,  // dsinventory2026@gmail.com (from .env ADMIN_EMAIL)
       replyTo: leadData.email ? leadData.email : undefined,
       subject: `🚨 New Enquiry from ${leadData.name} (${leadData.category} - ${leadData.budget})`,
       html: emailHtml,
