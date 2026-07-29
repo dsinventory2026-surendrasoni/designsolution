@@ -82,89 +82,8 @@ export default function EnquirePage() {
           </Link>
         </div>
 
-        {/* SECTION 1: INTRO / OVERVIEW (Phle alag page & intro section) */}
-        <section className="relative rounded-3xl p-8 sm:p-12 mb-12 overflow-hidden border border-amber-500/20 shadow-2xl grain-overlay" style={{ background: "linear-gradient(135deg, rgba(11,22,41,0.95), rgba(15,28,52,0.95))" }}>
-          {/* Subtle Background Glow */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest">
-                <Sparkles className="w-4 h-4" />
-                <span>DS Group VIP Advisory</span>
-              </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-outfit text-white leading-tight tracking-tight">
-                Exclusive Real Estate & Construction Consultation
-              </h1>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
-                Get personalized property recommendations, site visit bookings, price insights, and turnkey construction assistance directly from our senior architecture and real estate specialists.
-              </p>
-
-              {/* Trust Badges */}
-              <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-white/10">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-                    <ShieldCheck className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-bold text-white">100% Verified</h4>
-                    <p className="text-[10px] text-slate-400">RERA Approved Properties</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-                    <Award className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-bold text-white">Zero Brokerage</h4>
-                    <p className="text-[10px] text-slate-400">Direct Builder Pricing</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3 col-span-2 sm:col-span-1">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-bold text-white">Quick Response</h4>
-                    <p className="text-[10px] text-slate-400">Within 30 Minutes</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Contact Card */}
-            <div className="lg:col-span-4 rounded-2xl p-6 bg-slate-900/80 border border-slate-800 space-y-4">
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider border-b border-slate-800 pb-3 flex items-center gap-2">
-                <PhoneCall className="w-4 h-4 text-amber-400" />
-                <span>Direct Hotline</span>
-              </h3>
-
-              <div className="space-y-3 text-xs">
-                <a href="tel:+917743000070" className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-amber-500/10 border border-white/10 transition-all">
-                  <PhoneCall className="w-4 h-4 text-emerald-400" />
-                  <div>
-                    <div className="text-[10px] text-slate-400 uppercase">Call Sales Manager</div>
-                    <div className="font-bold text-white">+91 77430 00070</div>
-                  </div>
-                </a>
-
-                <a href="mailto:dsinventory2026@gmail.com" className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-amber-500/10 border border-white/10 transition-all">
-                  <Mail className="w-4 h-4 text-amber-400" />
-                  <div>
-                    <div className="text-[10px] text-slate-400 uppercase">Email Enquiries</div>
-                    <div className="font-bold text-white">dsinventory2026@gmail.com</div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION 2: FORM FILLUP SECTION */}
-        <section className="max-w-3xl mx-auto">
+        {/* SECTION 1: FORM FILLUP SECTION (Form pehle dikhega) */}
+        <section className="max-w-3xl mx-auto mb-12">
           {submitted ? (
             /* SUBMIT SUCCESSFULLY SCREEN */
             <div className="rounded-3xl p-8 sm:p-12 text-center space-y-6 bg-slate-900 border border-emerald-500/40 shadow-2xl animate-fade-up">
@@ -411,6 +330,87 @@ export default function EnquirePage() {
               </form>
             </div>
           )}
+        </section>
+
+        {/* SECTION 2: DS GROUP VIP ADVISORY INFO (Form ke baad dikhega) */}
+        <section className="relative rounded-3xl p-8 sm:p-12 mt-12 overflow-hidden border border-amber-500/20 shadow-2xl grain-overlay" style={{ background: "linear-gradient(135deg, rgba(11,22,41,0.95), rgba(15,28,52,0.95))" }}>
+          {/* Subtle Background Glow */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-8 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest">
+                <Sparkles className="w-4 h-4" />
+                <span>DS Group VIP Advisory</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-outfit text-white leading-tight tracking-tight">
+                Exclusive Real Estate & Construction Consultation
+              </h2>
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
+                Get personalized property recommendations, site visit bookings, price insights, and turnkey construction assistance directly from our senior architecture and real estate specialists.
+              </p>
+
+              {/* Trust Badges */}
+              <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-white/10">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-white">100% Verified</h4>
+                    <p className="text-[10px] text-slate-400">RERA Approved Properties</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                    <Award className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-white">Zero Brokerage</h4>
+                    <p className="text-[10px] text-slate-400">Direct Builder Pricing</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 col-span-2 sm:col-span-1">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                    <Clock className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-white">Quick Response</h4>
+                    <p className="text-[10px] text-slate-400">Within 30 Minutes</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Contact Card */}
+            <div className="lg:col-span-4 rounded-2xl p-6 bg-slate-900/80 border border-slate-800 space-y-4">
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider border-b border-slate-800 pb-3 flex items-center gap-2">
+                <PhoneCall className="w-4 h-4 text-amber-400" />
+                <span>Direct Hotline</span>
+              </h3>
+
+              <div className="space-y-3 text-xs">
+                <a href="tel:+917743000070" className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-amber-500/10 border border-white/10 transition-all">
+                  <PhoneCall className="w-4 h-4 text-emerald-400" />
+                  <div>
+                    <div className="text-[10px] text-slate-400 uppercase">Call Sales Manager</div>
+                    <div className="font-bold text-white">+91 77430 00070</div>
+                  </div>
+                </a>
+
+                <a href="mailto:dsinventory2026@gmail.com" className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-amber-500/10 border border-white/10 transition-all">
+                  <Mail className="w-4 h-4 text-amber-400" />
+                  <div>
+                    <div className="text-[10px] text-slate-400 uppercase">Email Enquiries</div>
+                    <div className="font-bold text-white">dsinventory2026@gmail.com</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
         </section>
       </main>
 
