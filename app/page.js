@@ -2,18 +2,35 @@
 // Server Component - fetches live data from MongoDB and passes to client components
 
 import { headers } from "next/headers";
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import FeaturedPortfolio from "@/components/FeaturedPortfolio";
-import AboutSection from "@/components/AboutSection";
-import ServicesSection from "@/components/ServicesSection";
-import LocationSection from "@/components/LocationSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import Footer from "@/components/Footer";
-import FloatingSocial from "@/components/FloatingSocial";
 import HomeClient from "@/components/HomeClient";
 import { siteConfig as staticConfig } from "@/data/siteConfig";
 import { propertiesData as staticProps } from "@/data/propertiesData";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  getOrganizationSchema,
+  getLocalBusinessSchema,
+  getWebSiteSchema,
+} from "@/lib/seo";
+
+// ─── Homepage Metadata ────────────────────────────────────────────────────────
+// Overrides the layout.js defaults with homepage-specific values.
+export const metadata = {
+  title: "DS Group of Companies | Premium Real Estate & Property in Gurugram",
+  description:
+    "DS Group of Companies — Premier real estate developer in Gurugram offering luxury residential apartments, commercial office spaces, freehold plots, and turnkey construction services in Sector 85 and surrounding areas.",
+  alternates: {
+    canonical: "https://www.dsgroupofcompanies.in",
+  },
+  openGraph: {
+    title: "DS Group of Companies | Premium Real Estate & Property in Gurugram",
+    description:
+      "Explore premium residential, commercial, plot and new launch properties in Gurugram with DS Group of Companies. 18+ years of engineering excellence.",
+    url: "https://www.dsgroupofcompanies.in",
+    type: "website",
+  },
+};
+
+// ─── Data Fetchers ────────────────────────────────────────────────────────────
 
 async function fetchSiteConfig() {
   try {
@@ -51,6 +68,8 @@ async function fetchProperties() {
   }
 }
 
+// ─── Page Component ───────────────────────────────────────────────────────────
+
 export default async function Home() {
   const [siteConfigData, propertiesData] = await Promise.all([
     fetchSiteConfig(),
@@ -58,9 +77,22 @@ export default async function Home() {
   ]);
 
   return (
-    <HomeClient
-      siteConfigData={siteConfigData}
-      propertiesData={propertiesData}
-    />
+    <>
+      {/* ─── Structured Data / JSON-LD ───────────────────────────────────── */}
+      {/* Server-rendered — fully crawlable by Google without JavaScript     */}
+      <JsonLd
+        schema={[
+          getOrganizationSchema(),
+          getLocalBusinessSchema(),
+          getWebSiteSchema(),
+        ]}
+      />
+
+      {/* ─── Client Application Shell ─────────────────────────────────────── */}
+      <HomeClient
+        siteConfigData={siteConfigData}
+        propertiesData={propertiesData}
+      />
+    </>
   );
 }
