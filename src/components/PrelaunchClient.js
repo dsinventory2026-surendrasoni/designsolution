@@ -217,7 +217,137 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
           </div>
         </section>
 
-        {/* ─── 2. HERO / PRE-LAUNCH PRICING & BOOKING SECTION ─── */}
+        {/* ─── 2. VISUAL SHOWCASE (MOVED FROM SECTION 9) ─── */}
+        <section className="py-24 bg-[#060D1F] border-t border-white/[0.06]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest mb-3">
+                  <span>Visual Showcase</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-extrabold font-outfit text-white tracking-tight">
+                  Experience NINEZERO
+                </h2>
+                <p className="mt-2 text-slate-400 text-sm">
+                  Explore photorealistic project renderings of the development.
+                </p>
+              </div>
+
+              <span className="text-xs text-slate-400 font-semibold hidden sm:inline">
+                Click any image for fullscreen view
+              </span>
+            </div>
+
+            {/* Gallery Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+              {/* Featured Large Image */}
+              <div
+                onClick={() => {
+                  setActiveGalleryIndex(0);
+                  setIsLightboxOpen(true);
+                }}
+                className="md:col-span-8 group relative rounded-3xl overflow-hidden border border-white/10 cursor-pointer aspect-[16/10] bg-slate-900"
+              >
+                <img
+                  src={NINEZERO_GALLERY[0].url}
+                  alt={NINEZERO_GALLERY[0].title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+                  <div>
+                    <h3 className="text-lg font-bold text-white font-outfit">{NINEZERO_GALLERY[0].title}</h3>
+                    <p className="text-xs text-slate-300 mt-1">{NINEZERO_GALLERY[0].caption}</p>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-black/60 backdrop-blur-md border border-white/20 text-white">
+                    <Maximize2 className="w-4 h-4" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Side Stack 1 */}
+              <div
+                onClick={() => {
+                  setActiveGalleryIndex(1);
+                  setIsLightboxOpen(true);
+                }}
+                className="md:col-span-4 group relative rounded-3xl overflow-hidden border border-white/10 cursor-pointer aspect-[16/10] md:aspect-auto bg-slate-900"
+              >
+                <img
+                  src={NINEZERO_GALLERY[1].url}
+                  alt={NINEZERO_GALLERY[1].title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+                  <div>
+                    <h3 className="text-base font-bold text-white font-outfit">{NINEZERO_GALLERY[1].title}</h3>
+                    <p className="text-[11px] text-slate-300 mt-0.5">{NINEZERO_GALLERY[1].caption}</p>
+                  </div>
+                  <div className="p-2 rounded-lg bg-black/60 backdrop-blur-md border border-white/20 text-white">
+                    <Maximize2 className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Row 1 */}
+              <div
+                onClick={() => {
+                  setActiveGalleryIndex(2);
+                  setIsLightboxOpen(true);
+                }}
+                className="md:col-span-6 group relative rounded-3xl overflow-hidden border border-white/10 cursor-pointer aspect-[16/10] bg-slate-900"
+              >
+                <img
+                  src={NINEZERO_GALLERY[2].url}
+                  alt={NINEZERO_GALLERY[2].title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+                  <div>
+                    <h3 className="text-base font-bold text-white font-outfit">{NINEZERO_GALLERY[2].title}</h3>
+                    <p className="text-[11px] text-slate-300 mt-0.5">{NINEZERO_GALLERY[2].caption}</p>
+                  </div>
+                  <div className="p-2 rounded-lg bg-black/60 backdrop-blur-md border border-white/20 text-white">
+                    <Maximize2 className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Row 2 */}
+              <div
+                onClick={() => {
+                  setActiveGalleryIndex(3);
+                  setIsLightboxOpen(true);
+                }}
+                className="md:col-span-6 group relative rounded-3xl overflow-hidden border border-white/10 cursor-pointer aspect-[16/10] bg-slate-900"
+              >
+                <img
+                  src={NINEZERO_GALLERY[3].url}
+                  alt={NINEZERO_GALLERY[3].title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+                  <div>
+                    <h3 className="text-base font-bold text-white font-outfit">{NINEZERO_GALLERY[3].title}</h3>
+                    <p className="text-[11px] text-slate-300 mt-0.5">{NINEZERO_GALLERY[3].caption}</p>
+                  </div>
+                  <div className="p-2 rounded-lg bg-black/60 backdrop-blur-md border border-white/20 text-white">
+                    <Maximize2 className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── 3. HERO / PRE-LAUNCH PRICING & BOOKING SECTION ─── */}
         <section className="relative py-16 sm:py-20 bg-[#060D1F] border-y border-white/[0.06] overflow-hidden">
           {/* Subtle ambient lighting */}
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[140px] pointer-events-none" />
@@ -433,111 +563,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
           </div>
         </section>
 
-        {/* ─── 4. RESIDENCE SECTION ─── */}
-        <section className="py-20 bg-[#060D1F] border-t border-white/[0.06]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              {/* Text Side */}
-              <div className="lg:col-span-6 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest">
-                  <span>Residence Architecture</span>
-                </div>
-
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-outfit text-white tracking-tight leading-tight">
-                  Designed Around <span className="champagne-gradient-text">Spacious Living</span>
-                </h2>
-
-                <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
-                  Every 3BHK + 3T residence at NINEZERO is configured across an expansive approximate footprint of 1,850 Sq. Ft., focusing on generous proportions, natural light, and refined living.
-                </p>
-
-                <div className="space-y-3 pt-2">
-                  <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
-                    <CheckCircle2 className="w-5 h-5 text-amber-400 flex-shrink-0" />
-                    <span className="text-sm font-semibold text-slate-200">
-                      3 Dedicated Bedrooms + 3 Bathrooms Layout
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
-                    <CheckCircle2 className="w-5 h-5 text-amber-400 flex-shrink-0" />
-                    <span className="text-sm font-semibold text-slate-200">
-                      Generous ~1,850 Sq. Ft. Approximate Area
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
-                    <CheckCircle2 className="w-5 h-5 text-amber-400 flex-shrink-0" />
-                    <span className="text-sm font-semibold text-slate-200">
-                      Only 4 Residences Per Core for Enhanced Privacy
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Image Side */}
-              <div className="lg:col-span-6">
-                <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl group relative">
-                  <img
-                    src={NINEZERO_GALLERY[1].url}
-                    alt="Spacious 3BHK Living Room Interiors at NINEZERO"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent pointer-events-none" />
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-black/60 backdrop-blur-md text-slate-200 border border-white/10 inline-block">
-                      Spacious Living Conceptual Render (~1,850 Sq. Ft.)
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ─── 5. ARCHITECTURE / DEVELOPMENT VISUAL SECTION ─── */}
-        <section className="relative py-32 overflow-hidden border-y border-white/[0.08]">
-          <div className="absolute inset-0">
-            <img
-              src={NINEZERO_GALLERY[0].url}
-              alt="NINEZERO Sector 90 Architectural Vision"
-              className="w-full h-full object-cover object-center"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#030810]/95 via-[#030810]/85 to-[#030810]/90" />
-          </div>
-
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left">
-            <div className="max-w-3xl space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-widest">
-                <Rocket className="w-3.5 h-3.5" />
-                <span>Modern Masterplan</span>
-              </div>
-
-              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-outfit text-white tracking-tight leading-tight">
-                An Address Taking Shape in <span className="champagne-gradient-text">Sector 90</span>
-              </h2>
-
-              <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
-                Positioned strategically along the emerging urban corridors of Gurugram, NINEZERO represents a harmonious union of architectural presence, low-density design, and expansive 4.5-acre development.
-              </p>
-
-              {/* Information labels */}
-              <div className="flex flex-wrap gap-3 pt-4">
-                <div className="px-4 py-2.5 rounded-2xl bg-black/60 backdrop-blur-md border border-amber-500/30 text-xs font-bold text-amber-300">
-                  4.5 Acre Development
-                </div>
-                <div className="px-4 py-2.5 rounded-2xl bg-black/60 backdrop-blur-md border border-amber-500/30 text-xs font-bold text-amber-300">
-                  3 Towers
-                </div>
-                <div className="px-4 py-2.5 rounded-2xl bg-black/60 backdrop-blur-md border border-amber-500/30 text-xs font-bold text-amber-300">
-                  Premium Residences
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ─── 6. LOCATION ADVANTAGE & MAP BLOCK ─── */}
+        {/* ─── 4. LOCATION ADVANTAGE & MAP BLOCK ─── */}
         <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest mb-3">
@@ -705,136 +731,6 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                   <PhoneCall className="w-4 h-4 fill-slate-950" />
                   <span>Get Priority Allotment</span>
                 </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ─── 9. PROJECT GALLERY WITH LIGHTBOX ─── */}
-        <section className="py-24 bg-[#060D1F] border-t border-white/[0.06]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest mb-3">
-                  <span>Visual Showcase</span>
-                </div>
-                <h2 className="text-3xl sm:text-4xl font-extrabold font-outfit text-white tracking-tight">
-                  Experience NINEZERO
-                </h2>
-                <p className="mt-2 text-slate-400 text-sm">
-                  Explore photorealistic project renderings of the development.
-                </p>
-              </div>
-
-              <span className="text-xs text-slate-400 font-semibold hidden sm:inline">
-                Click any image for fullscreen view
-              </span>
-            </div>
-
-            {/* Gallery Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-              {/* Featured Large Image */}
-              <div
-                onClick={() => {
-                  setActiveGalleryIndex(0);
-                  setIsLightboxOpen(true);
-                }}
-                className="md:col-span-8 group relative rounded-3xl overflow-hidden border border-white/10 cursor-pointer aspect-[16/10] bg-slate-900"
-              >
-                <img
-                  src={NINEZERO_GALLERY[0].url}
-                  alt={NINEZERO_GALLERY[0].title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
-                  <div>
-                    <h3 className="text-lg font-bold text-white font-outfit">{NINEZERO_GALLERY[0].title}</h3>
-                    <p className="text-xs text-slate-300 mt-1">{NINEZERO_GALLERY[0].caption}</p>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-black/60 backdrop-blur-md border border-white/20 text-white">
-                    <Maximize2 className="w-4 h-4" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Side Stack 1 */}
-              <div
-                onClick={() => {
-                  setActiveGalleryIndex(1);
-                  setIsLightboxOpen(true);
-                }}
-                className="md:col-span-4 group relative rounded-3xl overflow-hidden border border-white/10 cursor-pointer aspect-[16/10] md:aspect-auto bg-slate-900"
-              >
-                <img
-                  src={NINEZERO_GALLERY[1].url}
-                  alt={NINEZERO_GALLERY[1].title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
-                  <div>
-                    <h3 className="text-base font-bold text-white font-outfit">{NINEZERO_GALLERY[1].title}</h3>
-                    <p className="text-[11px] text-slate-300 mt-0.5">{NINEZERO_GALLERY[1].caption}</p>
-                  </div>
-                  <div className="p-2 rounded-lg bg-black/60 backdrop-blur-md border border-white/20 text-white">
-                    <Maximize2 className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom Row 1 */}
-              <div
-                onClick={() => {
-                  setActiveGalleryIndex(2);
-                  setIsLightboxOpen(true);
-                }}
-                className="md:col-span-6 group relative rounded-3xl overflow-hidden border border-white/10 cursor-pointer aspect-[16/10] bg-slate-900"
-              >
-                <img
-                  src={NINEZERO_GALLERY[2].url}
-                  alt={NINEZERO_GALLERY[2].title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
-                  <div>
-                    <h3 className="text-base font-bold text-white font-outfit">{NINEZERO_GALLERY[2].title}</h3>
-                    <p className="text-[11px] text-slate-300 mt-0.5">{NINEZERO_GALLERY[2].caption}</p>
-                  </div>
-                  <div className="p-2 rounded-lg bg-black/60 backdrop-blur-md border border-white/20 text-white">
-                    <Maximize2 className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom Row 2 */}
-              <div
-                onClick={() => {
-                  setActiveGalleryIndex(3);
-                  setIsLightboxOpen(true);
-                }}
-                className="md:col-span-6 group relative rounded-3xl overflow-hidden border border-white/10 cursor-pointer aspect-[16/10] bg-slate-900"
-              >
-                <img
-                  src={NINEZERO_GALLERY[3].url}
-                  alt={NINEZERO_GALLERY[3].title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
-                  <div>
-                    <h3 className="text-base font-bold text-white font-outfit">{NINEZERO_GALLERY[3].title}</h3>
-                    <p className="text-[11px] text-slate-300 mt-0.5">{NINEZERO_GALLERY[3].caption}</p>
-                  </div>
-                  <div className="p-2 rounded-lg bg-black/60 backdrop-blur-md border border-white/20 text-white">
-                    <Maximize2 className="w-3.5 h-3.5" />
-                  </div>
-                </div>
               </div>
             </div>
           </div>
