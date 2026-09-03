@@ -105,7 +105,7 @@ export default async function Home() {
           getLocalBusinessSchema(),
           getWebSiteSchema(),
           getFAQSchema(faqData),
-        ]}
+        ].filter(Boolean)}
       />
 
       {/* ─── Client Application Shell ─────────────────────────────────────── */}

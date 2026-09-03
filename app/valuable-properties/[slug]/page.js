@@ -129,7 +129,7 @@ export default async function ValuablePropertyDetailsPage({ params }) {
         schema={[
           getBreadcrumbSchema(breadcrumbItems),
           getPropertyPageSchema(property),
-        ]}
+        ].filter(Boolean)}
       />
 
       {/* ─── Client Interactive Interface ─────────────────────────────── */}
