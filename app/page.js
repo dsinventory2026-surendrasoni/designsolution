@@ -5,28 +5,47 @@ import { headers } from "next/headers";
 import HomeClient from "@/components/HomeClient";
 import { siteConfig as staticConfig } from "@/data/siteConfig";
 import { propertiesData as staticProps } from "@/data/propertiesData";
+import { faqData } from "@/components/FAQSection";
 import JsonLd from "@/components/seo/JsonLd";
 import {
   getOrganizationSchema,
   getLocalBusinessSchema,
   getWebSiteSchema,
+  getFAQSchema,
 } from "@/lib/seo";
 
 // ─── Homepage Metadata ────────────────────────────────────────────────────────
-// Overrides the layout.js defaults with homepage-specific values.
+// Overrides the layout.js defaults with targeted brand & local real estate search terms.
 export const metadata = {
-  title: "DS Group of Companies | Premium Real Estate & Property in Gurugram",
+  title: "DS Group of Companies | Luxury Real Estate & Property in Sector 85 Gurgaon",
   description:
-    "DS Group of Companies — Premier real estate developer in Gurugram offering luxury residential apartments, commercial office spaces, freehold plots, and turnkey construction services in Sector 85 and surrounding areas.",
+    "DS Group of Companies is the leading real estate consultant and property finder in Sector 85 Gurgaon. Explore luxury flats, 3 BHK apartments, commercial spaces, plots, Godrej Air, and Pyramid Heights in Gurugram.",
   alternates: {
     canonical: "https://www.dsgroupofcompanies.in",
   },
   openGraph: {
-    title: "DS Group of Companies | Premium Real Estate & Property in Gurugram",
+    title: "DS Group of Companies | Luxury Real Estate & Property in Sector 85 Gurgaon",
     description:
-      "Explore premium residential, commercial, plot and new launch properties in Gurugram with DS Group of Companies. 18+ years of engineering excellence.",
+      "Explore luxury residential flats, commercial properties, and turnkey construction in Sector 85 Gurugram with DS Group of Companies. 18+ years of engineering excellence.",
     url: "https://www.dsgroupofcompanies.in",
+    siteName: "DS Group of Companies",
     type: "website",
+    locale: "en_IN",
+    images: [
+      {
+        url: "https://www.dsgroupofcompanies.in/images/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "DS Group of Companies — Real Estate Consultant Sector 85 Gurgaon",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DS Group of Companies | Real Estate in Sector 85 Gurgaon",
+    description:
+      "Premier luxury residential, commercial, and plot investments in Gurugram. Connect with DS Group of Companies today.",
+    images: ["https://www.dsgroupofcompanies.in/images/logo.png"],
   },
 };
 
@@ -79,12 +98,13 @@ export default async function Home() {
   return (
     <>
       {/* ─── Structured Data / JSON-LD ───────────────────────────────────── */}
-      {/* Server-rendered — fully crawlable by Google without JavaScript     */}
+      {/* Server-rendered — fully crawlable by Google, Bing, & AI search engines */}
       <JsonLd
         schema={[
           getOrganizationSchema(),
           getLocalBusinessSchema(),
           getWebSiteSchema(),
+          getFAQSchema(faqData),
         ]}
       />
 

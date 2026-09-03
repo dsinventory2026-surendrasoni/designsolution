@@ -4,9 +4,9 @@
  * Accessible at: https://www.dsgroupofcompanies.in/robots.txt
  *
  * Strategy:
- * - Allow all public-facing pages for search engine crawlers
- * - Block admin, private dashboard, and API routes
- * - CSS, JS, images are NOT blocked (critical for rendering)
+ * - Allow all public-facing pages for search engine and AI crawlers
+ * - Block admin, private dashboard, and internal API routes
+ * - Explicit sitemap declaration
  */
 export default function robots() {
   return {
@@ -21,6 +21,31 @@ export default function robots() {
           "/admin/dashboard/",
           "/api/",
         ],
+      },
+      {
+        userAgent: "Googlebot",
+        allow: ["/"],
+        disallow: ["/admin", "/admin/", "/api/"],
+      },
+      {
+        userAgent: "Bingbot",
+        allow: ["/"],
+        disallow: ["/admin", "/admin/", "/api/"],
+      },
+      {
+        userAgent: "GPTBot",
+        allow: ["/"],
+        disallow: ["/admin", "/admin/", "/api/"],
+      },
+      {
+        userAgent: "PerplexityBot",
+        allow: ["/"],
+        disallow: ["/admin", "/admin/", "/api/"],
+      },
+      {
+        userAgent: "ClaudeBot",
+        allow: ["/"],
+        disallow: ["/admin", "/admin/", "/api/"],
       },
     ],
     sitemap: "https://www.dsgroupofcompanies.in/sitemap.xml",

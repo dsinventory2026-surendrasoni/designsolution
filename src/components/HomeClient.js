@@ -4,10 +4,12 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import FeaturedPortfolio from "@/components/FeaturedPortfolio";
+import Sector85Overview from "@/components/Sector85Overview";
 import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
-import LocationSection from "@/components/LocationSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import FAQSection from "@/components/FAQSection";
+import LocationSection from "@/components/LocationSection";
 import Footer from "@/components/Footer";
 import PropertyDetailsModal from "@/components/PropertyDetailsModal";
 import ContactModal from "@/components/ContactModal";
@@ -36,7 +38,7 @@ export default function HomeClient({ siteConfigData, propertiesData }) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-amber-500 selection:text-slate-950">
       {/* Sticky Premium Navbar */}
       <Navbar
         activeCategory={activeCategory}
@@ -67,6 +69,12 @@ export default function HomeClient({ siteConfigData, propertiesData }) {
           propertiesData={propertiesData}
         />
 
+        {/* Sector 85 Gurgaon Deep-Dive & Landmark Projects */}
+        <Sector85Overview
+          onOpenContactModal={() => setIsContactModalOpen(true)}
+          siteConfig={siteConfigData}
+        />
+
         {/* Services Section */}
         <ServicesSection
           onOpenContactModal={() => setIsContactModalOpen(true)}
@@ -79,6 +87,9 @@ export default function HomeClient({ siteConfigData, propertiesData }) {
 
         {/* Testimonials Section */}
         <TestimonialsSection testimonials={siteConfigData?.testimonials} />
+
+        {/* Real Estate & Brand FAQs (Schema-backed) */}
+        <FAQSection onOpenContactModal={() => setIsContactModalOpen(true)} />
 
         {/* Location Section */}
         <LocationSection

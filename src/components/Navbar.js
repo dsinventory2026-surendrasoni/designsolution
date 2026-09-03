@@ -26,15 +26,15 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
   }, [isMobileMenuOpen]);
 
   const navLinks = [
-    { name: "Home",         href: "/#hero",        isCategory: false },
-    { name: "Residential",  href: "/#portfolio",   isCategory: true,  category: "Residential" },
-    { name: "Commercial",   href: "/#portfolio",   isCategory: true,  category: "Commercial" },
-    { name: "Plots",        href: "/#portfolio",   isCategory: true,  category: "Plots" },
-    { name: "Construction", href: "/#portfolio",   isCategory: true,  category: "Construction" },
-    { name: "New Launches", href: "/#portfolio",   isCategory: true,  category: "New Launches" },
-    { name: "Prelaunch",    href: "/prelaunch",    isCategory: false },
-    { name: "Services",     href: "/#services",    isCategory: false },
-    { name: "Testimonials", href: "/#testimonials",isCategory: false },
+    { name: "Home",         href: "/#hero",            isCategory: false },
+    { name: "Residential",  href: "/#portfolio",       isCategory: true,  category: "Residential" },
+    { name: "Commercial",   href: "/#portfolio",       isCategory: true,  category: "Commercial" },
+    { name: "Plots",        href: "/#portfolio",       isCategory: true,  category: "Plots" },
+    { name: "Sector 85",    href: "/#sector85-guide",  isCategory: false },
+    { name: "Construction", href: "/#portfolio",       isCategory: true,  category: "Construction" },
+    { name: "Services",     href: "/#services",        isCategory: false },
+    { name: "FAQs",         href: "/#faqs",            isCategory: false },
+    { name: "Prelaunch",    href: "/prelaunch",        isCategory: false },
   ];
 
   const handleNavClick = (link) => {
@@ -62,7 +62,7 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
             >
               <img
                 src={siteConfig.brand.logoUrl}
-                alt="DS Group of Companies"
+                alt="DS Group of Companies - Real Estate Sector 85 Gurgaon"
                 className="h-12 sm:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-xl"
               />
               <div className="flex flex-col leading-none">
@@ -86,7 +86,7 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
                     key={link.name}
                     href={link.href}
                     onClick={() => handleNavClick(link)}
-                    className="relative px-3 py-2 text-xs font-semibold transition-all duration-200 group whitespace-nowrap"
+                    className="relative px-2.5 py-2 text-xs font-semibold transition-all duration-200 group whitespace-nowrap"
                     style={{
                       color: isActive ? "var(--champagne)" : "rgba(226,232,240,0.85)",
                     }}

@@ -2,60 +2,82 @@
  * sitemap.js — Dynamic XML Sitemap via Next.js App Router
  *
  * Accessible at: https://www.dsgroupofcompanies.in/sitemap.xml
- *
- * Included:
- * - Static pages: homepage, enquire
- * - Dynamic: /valuable-properties/[slug] (fetched from API at build/ISR time)
- *
- * Excluded:
- * - /admin, /admin/dashboard (private)
- * - /api/* (not indexable)
- * - /new-launches/[slug] (directory exists but no property pages yet)
  */
+
+import { propertiesData as fallbackProperties } from "@/data/propertiesData";
 
 const SITE_URL = "https://www.dsgroupofcompanies.in";
 
 export default async function sitemap() {
-  // ─── Static Pages ──────────────────────────────────────────────────────────
+  const now = new Date();
+
+  // ─── Static Core Pages ──────────────────────────────────────────────────────
   const staticPages = [
     {
       url: SITE_URL,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
+      lastModified: now,
+      changeFrequency: "daily",
       priority: 1.0,
     },
     {
       url: `${SITE_URL}/enquire`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/prelaunch`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/prelaunch/ninezero`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
     },
   ];
 
   // ─── Dynamic: Valuable Properties ─────────────────────────────────────────
-  let valuablePropertyPages = [];
+  let dynamicProperties = [];
   try {
     const res = await fetch(`${SITE_URL}/api/valuable-properties`, {
-      next: { revalidate: 3600 }, // revalidate every hour
+      next: { revalidate: 3600 },
     });
 
     if (res.ok) {
       const data = await res.json();
-      if (data.success && Array.isArray(data.data)) {
-        valuablePropertyPages = data.data
-          .filter((p) => p.slug) // only include entries with a slug
+      if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+        dynamicProperties = data.data
+          .filter((p) => p.slug)
           .map((p) => ({
             url: `${SITE_URL}/valuable-properties/${p.slug}`,
-            lastModified: p.updatedAt ? new Date(p.updatedAt) : new Date(),
+            lastModified: p.updatedAt ? new Date(p.updatedAt) : now,
             changeFrequency: "weekly",
-            priority: 0.9,
+            priority: 0.85,
           }));
       }
     }
   } catch {
-    // If the API is unreachable at build time, omit dynamic pages gracefully.
-    // The sitemap will still include static pages.
+    // API not reachable during static build, use static data fallback
+    dynamicProperties = fallbackProperties.map((p) => ({
+      url: `${SITE_URL}/valuable-properties/${p.id}`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    }));
   }
 
-  return [...staticPages, ...valuablePropertyPages];
+  // If no dynamic properties were parsed from API, use fallback properties
+  if (dynamicProperties.length === 0) {
+    dynamicProperties = fallbackProperties.map((p) => ({
+      url: `${SITE_URL}/valuable-properties/${p.id}`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    }));
+  }
+
+  return [...staticPages, ...dynamicProperties];
 }
