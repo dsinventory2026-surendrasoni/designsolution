@@ -7,7 +7,7 @@ import {
   FileText, Settings, LogOut, Plus, Pencil, Trash2, Save,
   X, ChevronDown, ChevronUp, CheckCircle2, AlertCircle,
   RefreshCw, Eye, Building, MapPin, PhoneCall, Mail, MessageSquare,
-  Image as ImageIcon, ArrowLeft, ArrowRight, Menu, Sparkles, Copy, ExternalLink
+  Image as ImageIcon, ArrowLeft, ArrowRight, Menu, Sparkles, Copy, ExternalLink, BookOpen
 } from "lucide-react";
 
 // ─── Reusable UI Atoms ─────────────────────────────────────────────────────
@@ -111,6 +111,7 @@ function Badge({ text, color = "amber" }) {
 const NAV_ITEMS = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "leads", label: "📋 Enquiries & Leads", icon: PhoneCall },
+  { id: "blogs", label: "📰 Blogs & Articles", icon: BookOpen },
   { id: "hero", label: "Hero Section", icon: Home },
   { id: "valuable-properties", label: "📌 Valuable Properties", icon: Sparkles },
   { id: "properties", label: "Properties", icon: Building2 },
@@ -1604,6 +1605,455 @@ function LeadsPanel({ showToast }) {
   );
 }
 
+// ─── BLOGS & ARTICLES PANEL ──────────────────────────────────────────────────
+
+function BlogsPanel({ showToast }) {
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [editingBlog, setEditingBlog] = useState(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const emptyBlog = {
+    id: "",
+    slug: "",
+    title: "",
+    summary: "",
+    category: "Investment Guides",
+    author: "Surendra Soni",
+    authorTitle: "Founder & MD, DS Group of Companies",
+    publishedDate: new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+    readTime: "6 min read",
+    heroImage: "",
+    tags: ["Sector 85", "Gurgaon Real Estate"],
+    content: [
+      { heading: "Overview & Introduction", body: "" }
+    ],
+    isPublished: true,
+  };
+
+  const fetchBlogs = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/blogs");
+      const d = await res.json();
+      if (d.success) {
+        setBlogs(d.data || []);
+      }
+    } catch (e) {
+      showToast("Error loading blogs", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  const handleSave = async () => {
+    if (!editingBlog.title?.trim()) {
+      showToast("Please enter a blog title", "error");
+      return;
+    }
+    setSaving(true);
+    try {
+      const isNew = isCreating;
+      const url = isNew ? "/api/admin/blogs" : `/api/admin/blogs?id=${editingBlog.id}`;
+      const method = isNew ? "POST" : "PUT";
+
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editingBlog),
+      });
+      const d = await res.json();
+      if (d.success) {
+        showToast(isNew ? "Blog published successfully!" : "Blog updated successfully!", "success");
+        setEditingBlog(null);
+        setIsCreating(false);
+        fetchBlogs();
+      } else {
+        showToast(d.message || "Failed to save blog", "error");
+      }
+    } catch (e) {
+      showToast("Error saving blog", "error");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async (id, title) => {
+    if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
+    try {
+      const res = await fetch(`/api/admin/blogs?id=${id}`, { method: "DELETE" });
+      const d = await res.json();
+      if (d.success) {
+        showToast("Blog deleted", "success");
+        fetchBlogs();
+      } else {
+        showToast(d.message || "Failed to delete", "error");
+      }
+    } catch (e) {
+      showToast("Error deleting blog", "error");
+    }
+  };
+
+  const addContentSection = () => {
+    setEditingBlog({
+      ...editingBlog,
+      content: [...(editingBlog.content || []), { heading: "", body: "" }],
+    });
+  };
+
+  const updateContentSection = (idx, field, val) => {
+    const updated = [...(editingBlog.content || [])];
+    updated[idx] = { ...updated[idx], [field]: val };
+    setEditingBlog({ ...editingBlog, content: updated });
+  };
+
+  const removeContentSection = (idx) => {
+    setEditingBlog({
+      ...editingBlog,
+      content: (editingBlog.content || []).filter((_, i) => i !== idx),
+    });
+  };
+
+  const filteredBlogs = blogs.filter(b =>
+    b.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    b.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    b.slug?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 className="text-xl font-bold text-white flex items-center gap-2.5">
+            <BookOpen className="w-5 h-5 text-amber-400" />
+            <span>Blogs &amp; Real Estate Research</span>
+          </h2>
+          <p className="text-xs text-slate-400 mt-1">
+            Write, publish, and manage live articles synced with /blog and /blog/[slug].
+          </p>
+        </div>
+
+        {!editingBlog && (
+          <button
+            onClick={() => {
+              setEditingBlog({ ...emptyBlog, id: `blog-${Date.now()}` });
+              setIsCreating(true);
+            }}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-lg"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Write New Blog</span>
+          </button>
+        )}
+      </div>
+
+      {/* Editor Modal / View */}
+      {editingBlog ? (
+        <div className="rounded-2xl p-6 sm:p-8 mb-8 border border-slate-800" style={{ background: "rgba(10,22,40,0.85)" }}>
+          <div className="flex items-center justify-between pb-4 mb-6 border-b border-slate-800">
+            <div>
+              <h3 className="text-base font-bold text-white">
+                {isCreating ? "Create New Blog Post" : `Editing: ${editingBlog.title || "Untitled"}`}
+              </h3>
+              <p className="text-xs text-slate-400">
+                This post will appear live on <span className="text-amber-400">/blog</span> and <span className="text-amber-400">/blog/{editingBlog.slug || "[slug]"}</span>
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                setEditingBlog(null);
+                setIsCreating(false);
+              }}
+              className="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="space-y-5">
+            {/* Title & Slug */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <InputField
+                label="Blog Title *"
+                value={editingBlog.title || ""}
+                onChange={(val) => {
+                  const autoSlug = val.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+                  setEditingBlog({
+                    ...editingBlog,
+                    title: val,
+                    slug: isCreating ? autoSlug : editingBlog.slug,
+                  });
+                }}
+                placeholder="e.g. Best Property Investment in Sector 85 Gurgaon 2026"
+                required
+              />
+
+              <InputField
+                label="URL Slug (Auto-generated)"
+                value={editingBlog.slug || ""}
+                onChange={(val) => setEditingBlog({ ...editingBlog, slug: val })}
+                placeholder="e.g. best-property-investment-sector-85-gurgaon-2026"
+                required
+              />
+            </div>
+
+            {/* Category & Hero Image */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <SelectField
+                label="Category"
+                value={editingBlog.category || "Investment Guides"}
+                onChange={(val) => setEditingBlog({ ...editingBlog, category: val })}
+                options={[
+                  { value: "Investment Guides", label: "Investment Guides" },
+                  { value: "Project Reviews", label: "Project Reviews" },
+                  { value: "Market Analysis", label: "Market Analysis" },
+                  { value: "Legal & RERA", label: "Legal & RERA" },
+                  { value: "Construction Tips", label: "Construction Tips" },
+                ]}
+              />
+
+              <InputField
+                label="Hero Image URL (Unsplash or direct URL)"
+                value={editingBlog.heroImage || ""}
+                onChange={(val) => setEditingBlog({ ...editingBlog, heroImage: val })}
+                placeholder="https://images.unsplash.com/photo-..."
+              />
+            </div>
+
+            {/* Author, Read Time & Date */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <InputField
+                label="Author Name"
+                value={editingBlog.author || "Surendra Soni"}
+                onChange={(val) => setEditingBlog({ ...editingBlog, author: val })}
+                placeholder="Surendra Soni"
+              />
+
+              <InputField
+                label="Author Designation"
+                value={editingBlog.authorTitle || "Founder & MD, DS Group"}
+                onChange={(val) => setEditingBlog({ ...editingBlog, authorTitle: val })}
+                placeholder="Founder & MD, DS Group"
+              />
+
+              <InputField
+                label="Reading Time"
+                value={editingBlog.readTime || "5 min read"}
+                onChange={(val) => setEditingBlog({ ...editingBlog, readTime: val })}
+                placeholder="e.g. 7 min read"
+              />
+            </div>
+
+            {/* Summary / Excerpt */}
+            <InputField
+              label="Summary / Excerpt (Shows on card & meta description)"
+              value={editingBlog.summary || ""}
+              onChange={(val) => setEditingBlog({ ...editingBlog, summary: val })}
+              placeholder="Provide a concise 2-3 line summary of the article..."
+              rows={3}
+            />
+
+            {/* Tags */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                Tags (Comma separated)
+              </label>
+              <input
+                type="text"
+                value={Array.isArray(editingBlog.tags) ? editingBlog.tags.join(", ") : ""}
+                onChange={(e) => {
+                  const tagsArr = e.target.value.split(",").map((t) => t.trim()).filter(Boolean);
+                  setEditingBlog({ ...editingBlog, tags: tagsArr });
+                }}
+                placeholder="Sector 85, Gurgaon Real Estate, Godrej Air"
+                className="w-full px-4 py-2.5 rounded-xl text-sm text-white placeholder-slate-500 outline-none transition-all focus:ring-2 focus:ring-amber-400/40"
+                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}
+              />
+            </div>
+
+            {/* Structured Content Sections */}
+            <div className="pt-4 border-t border-slate-800">
+              <div className="flex items-center justify-between mb-4">
+                <label className="text-xs font-bold uppercase tracking-wider text-amber-400">
+                  Article Content Sections (Headings &amp; Paragraphs)
+                </label>
+                <button
+                  type="button"
+                  onClick={addContentSection}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Add Section</span>
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                {(editingBlog.content || []).map((sec, idx) => (
+                  <div key={idx} className="p-4 rounded-xl border border-slate-800/80 bg-slate-950/60 space-y-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-bold text-amber-400 uppercase">Section {idx + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeContentSection(idx)}
+                        className="text-slate-500 hover:text-red-400 transition-colors p-1"
+                        title="Remove Section"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    <InputField
+                      label="Section Heading (H2)"
+                      value={sec.heading || ""}
+                      onChange={(val) => updateContentSection(idx, "heading", val)}
+                      placeholder="e.g. Why Sector 85 is the #1 corridor"
+                    />
+
+                    <InputField
+                      label="Section Body Content"
+                      value={sec.body || ""}
+                      onChange={(val) => updateContentSection(idx, "body", val)}
+                      placeholder="Write your article text here. Markdown and bullet points supported."
+                      rows={5}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center justify-end gap-3 pt-6 border-t border-slate-800">
+              <button
+                type="button"
+                onClick={() => {
+                  setEditingBlog(null);
+                  setIsCreating(false);
+                }}
+                className="px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white bg-slate-800/60 transition-colors"
+              >
+                Cancel
+              </button>
+
+              <SaveBtn
+                loading={saving}
+                onClick={handleSave}
+                label={isCreating ? "Publish Live Article" : "Save & Update"}
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {/* Search Bar */}
+      <div className="mb-6 flex items-center gap-3">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search blogs by title, category, or slug..."
+          className="w-full max-w-md px-4 py-2.5 rounded-xl text-xs text-white placeholder-slate-500 outline-none transition-all focus:ring-2 focus:ring-amber-400/40"
+          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}
+        />
+        <button
+          onClick={fetchBlogs}
+          className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 transition-colors"
+          title="Refresh"
+        >
+          <RefreshCw className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Blogs Table / Cards List */}
+      {loading ? (
+        <div className="text-center py-16 text-slate-500 text-xs flex items-center justify-center gap-2">
+          <RefreshCw className="w-4 h-4 animate-spin text-amber-400" />
+          <span>Loading articles from database...</span>
+        </div>
+      ) : filteredBlogs.length === 0 ? (
+        <div className="text-center py-16 rounded-2xl border border-slate-800 bg-slate-900/40 p-8">
+          <BookOpen className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+          <p className="text-sm font-semibold text-slate-300">No blog articles found</p>
+          <p className="text-xs text-slate-500 mt-1">Click &quot;Write New Blog&quot; to publish your first article.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {filteredBlogs.map((blog) => (
+            <div
+              key={blog.id || blog.slug}
+              className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 hover:border-slate-700 transition-all flex flex-col justify-between group shadow-lg"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-400/10 text-amber-400 border border-amber-400/20">
+                    {blog.category}
+                  </span>
+                  <span className="text-[10px] text-slate-500">{blog.publishedDate || "Recently Published"}</span>
+                </div>
+
+                <h4 className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-2 mb-2 font-outfit">
+                  {blog.title}
+                </h4>
+
+                <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-4">
+                  {blog.summary}
+                </p>
+
+                <div className="flex items-center gap-2 text-[10px] text-slate-500 mb-4">
+                  <span>By {blog.author}</span>
+                  <span>•</span>
+                  <span>{blog.readTime}</span>
+                  <span>•</span>
+                  <span>{(blog.content || []).length} sections</span>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
+                <a
+                  href={`/blog/${blog.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] font-semibold text-slate-400 hover:text-amber-400 transition-colors flex items-center gap-1"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Preview Live</span>
+                </a>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      setEditingBlog(blog);
+                      setIsCreating(false);
+                    }}
+                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-amber-400/20 hover:text-amber-400 text-slate-300 transition-colors"
+                    title="Edit Blog"
+                  >
+                    <Pencil className="w-3.5 h-3.5" />
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(blog.id, blog.title)}
+                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-red-500/20 hover:text-red-400 text-slate-300 transition-colors"
+                    title="Delete Blog"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── MAIN ADMIN DASHBOARD ────────────────────────────────────────────────────
 
 export default function AdminDashboard({ adminEmail }) {
@@ -1625,6 +2075,7 @@ export default function AdminDashboard({ adminEmail }) {
     switch (activeTab) {
       case "overview": return <OverviewPanel showToast={showToast} adminEmail={adminEmail} />;
       case "leads": return <LeadsPanel showToast={showToast} />;
+      case "blogs": return <BlogsPanel showToast={showToast} />;
       case "hero": return <HeroPanel showToast={showToast} />;
       case "valuable-properties": return <ValuablePropertiesPanel showToast={showToast} />;
       case "properties": return <PropertiesPanel showToast={showToast} />;

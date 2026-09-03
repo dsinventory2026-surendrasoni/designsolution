@@ -26,15 +26,14 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
   }, [isMobileMenuOpen]);
 
   const navLinks = [
-    { name: "Home",         href: "/#hero",            isCategory: false },
-    { name: "Residential",  href: "/#portfolio",       isCategory: true,  category: "Residential" },
-    { name: "Commercial",   href: "/#portfolio",       isCategory: true,  category: "Commercial" },
-    { name: "Plots",        href: "/#portfolio",       isCategory: true,  category: "Plots" },
-    { name: "Sector 85",    href: "/#sector85-guide",  isCategory: false },
-    { name: "Construction", href: "/#portfolio",       isCategory: true,  category: "Construction" },
-    { name: "Services",     href: "/#services",        isCategory: false },
-    { name: "FAQs",         href: "/#faqs",            isCategory: false },
-    { name: "Prelaunch",    href: "/prelaunch",        isCategory: false },
+    { name: "Home", href: "/#hero", isCategory: false },
+    { name: "Residential", href: "/#portfolio", isCategory: true, category: "Residential" },
+    { name: "Commercial", href: "/#portfolio", isCategory: true, category: "Commercial" },
+    { name: "Plots", href: "/#portfolio", isCategory: true, category: "Plots" },
+    { name: "Construction", href: "/#portfolio", isCategory: true, category: "Construction" },
+    { name: "Services", href: "/#services", isCategory: false },
+    { name: "Blog", href: "/blog", isCategory: false },
+    { name: "Prelaunch", href: "/prelaunch", isCategory: false },
   ];
 
   const handleNavClick = (link) => {
@@ -45,11 +44,10 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
             ? "glass-nav py-2.5 shadow-2xl"
             : "bg-slate-950/85 backdrop-blur-md py-3.5 border-b border-slate-800/40"
-        }`}
+          }`}
       >
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between w-full">
@@ -171,9 +169,8 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
 
       {/* MOBILE DRAWER */}
       <div
-        className={`fixed inset-0 z-40 lg:hidden transition-all duration-400 ${
-          isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 z-40 lg:hidden transition-all duration-400 ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}
       >
         <div
           className="absolute inset-0 mobile-menu-overlay"
@@ -181,9 +178,8 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
         />
 
         <div
-          className={`absolute inset-y-0 right-0 w-full max-w-sm flex flex-col transition-transform duration-400 ${
-            isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+          className={`absolute inset-y-0 right-0 w-full max-w-sm flex flex-col transition-transform duration-400 ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+            }`}
           style={{ background: "var(--navy-deepest)", borderLeft: "1px solid rgba(201,169,110,0.12)" }}
         >
           <div className="flex items-center justify-between p-6 border-b border-white/10">

@@ -4,11 +4,10 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import FeaturedPortfolio from "@/components/FeaturedPortfolio";
-import Sector85Overview from "@/components/Sector85Overview";
 import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import FAQSection from "@/components/FAQSection";
+
 import LocationSection from "@/components/LocationSection";
 import Footer from "@/components/Footer";
 import PropertyDetailsModal from "@/components/PropertyDetailsModal";
@@ -69,12 +68,6 @@ export default function HomeClient({ siteConfigData, propertiesData }) {
           propertiesData={propertiesData}
         />
 
-        {/* Sector 85 Gurgaon Deep-Dive & Landmark Projects */}
-        <Sector85Overview
-          onOpenContactModal={() => setIsContactModalOpen(true)}
-          siteConfig={siteConfigData}
-        />
-
         {/* Services Section */}
         <ServicesSection
           onOpenContactModal={() => setIsContactModalOpen(true)}
@@ -88,8 +81,6 @@ export default function HomeClient({ siteConfigData, propertiesData }) {
         {/* Testimonials Section */}
         <TestimonialsSection testimonials={siteConfigData?.testimonials} />
 
-        {/* Real Estate & Brand FAQs (Schema-backed) */}
-        <FAQSection onOpenContactModal={() => setIsContactModalOpen(true)} />
 
         {/* Location Section */}
         <LocationSection

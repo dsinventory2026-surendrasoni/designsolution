@@ -24,10 +24,10 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
   return (
     <footer className="bg-slate-950 text-slate-400 border-t border-slate-800 pt-16 pb-12 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-800">
-          
+
           {/* Col 1: Brand Summary (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
@@ -66,10 +66,9 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">Explore</h4>
             <ul className="space-y-2 text-xs font-medium">
               <li><a href="/#hero" className="hover:text-amber-400 transition-colors">Home</a></li>
-              <li><a href="/#sector85-guide" className="hover:text-amber-400 transition-colors">Sector 85 Guide</a></li>
               <li><a href="/#portfolio" className="hover:text-amber-400 transition-colors">Featured Projects</a></li>
               <li><a href="/#services" className="hover:text-amber-400 transition-colors">Our Services</a></li>
-              <li><a href="/#faqs" className="hover:text-amber-400 transition-colors">Real Estate FAQs</a></li>
+              <li><a href="/blog" className="hover:text-amber-400 transition-colors">Research &amp; Blog</a></li>
               <li><a href="/prelaunch" className="hover:text-amber-400 transition-colors">Prelaunch Deals</a></li>
               <li><a href="/#about" className="hover:text-amber-400 transition-colors">About DS Group</a></li>
               <li><a href="/enquire" className="hover:text-amber-400 transition-colors">Enquire Now</a></li>
@@ -81,25 +80,25 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">Top Projects & Properties</h4>
             <ul className="space-y-2 text-xs font-medium">
               <li>
-                <a href="/#sector85-guide" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                <a href="/projects/godrej-air-sector-85-gurgaon" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                   <span>Godrej Air Sector 85 Gurgaon</span>
                 </a>
               </li>
               <li>
-                <a href="/#sector85-guide" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                <a href="/projects/pyramid-heights-sector-85-gurgaon" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                   <span>Pyramid Heights Sector 85</span>
                 </a>
               </li>
               <li>
-                <a href="/#sector85-guide" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                <a href="/projects/ss-the-leaf-sector-85-gurgaon" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                   <span>SS The Leaf Sector 85</span>
                 </a>
               </li>
               <li>
-                <a href="/#sector85-guide" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                <a href="/projects/orris-aster-court-sector-85-gurgaon" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                   <span>Orris Aster Court Sector 85</span>
                 </a>
