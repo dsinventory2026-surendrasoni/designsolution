@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { blogPosts as fallbackPosts, getPostBySlug } from "@/data/blogData";
 import connectDB from "@/lib/mongodb";
 import Blog from "@/lib/models/Blog";
+import JsonLd from "@/components/seo/JsonLd";
 import { Clock, Calendar, ArrowRight, MessageSquare, Tag } from "lucide-react";
 
 export const revalidate = 60; // ISR
@@ -88,16 +89,14 @@ export default async function BlogPostPage({ params }) {
       url: "https://www.dsgroupofcompanies.in",
     },
     datePublished: post.publishedDate,
+    dateModified: post.updatedAt || post.publishedDate,
     mainEntityOfPage: `https://www.dsgroupofcompanies.in/blog/${slug}`,
   };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-amber-500 selection:text-slate-950">
       <Navbar />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify([articleSchema]) }}
-      />
+      <JsonLd schema={[articleSchema]} />
 
       <main className="pt-32 pb-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

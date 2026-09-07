@@ -23,6 +23,30 @@ export const metadata = {
   alternates: {
     canonical: "https://www.dsgroupofcompanies.in/valuable-properties",
   },
+  openGraph: {
+    title: "Valuable Properties in Sector 85 Gurgaon | DS Group of Companies",
+    description:
+      "Explore handpicked, high-value residential & commercial properties in Sector 85, New Gurgaon. HRERA verified listings with maximum ROI potential.",
+    url: "https://www.dsgroupofcompanies.in/valuable-properties",
+    siteName: "DS Group of Companies",
+    locale: "en_IN",
+    type: "website",
+    images: [
+      {
+        url: "https://www.dsgroupofcompanies.in/images/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Valuable Properties in Sector 85 Gurgaon — DS Group of Companies",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Valuable Properties in Sector 85 Gurgaon | DS Group of Companies",
+    description:
+      "Explore handpicked, high-value residential & commercial properties in Sector 85, New Gurgaon. HRERA verified listings with maximum ROI potential.",
+    images: ["https://www.dsgroupofcompanies.in/images/logo.png"],
+  },
 };
 
 export const revalidate = 60; // ISR: revalidate every 60s

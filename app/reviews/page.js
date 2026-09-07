@@ -1,6 +1,8 @@
 // app/reviews/page.js
 import ReviewsClient from "./ReviewsClient";
 import { siteConfig as staticConfig } from "@/data/siteConfig";
+import JsonLd from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata = {
   title: "Client Reviews & Ratings | DS Group of Companies",
@@ -26,6 +28,17 @@ export const metadata = {
   },
 };
 
+const breadcrumb = getBreadcrumbSchema([
+  { name: "Home", href: "/" },
+  { name: "Client Reviews", href: "/reviews" },
+]);
+
 export default function ReviewsPage() {
-  return <ReviewsClient siteConfig={staticConfig} />;
+  return (
+    <>
+      <JsonLd schema={[breadcrumb].filter(Boolean)} />
+      <ReviewsClient siteConfig={staticConfig} />
+    </>
+  );
 }
+

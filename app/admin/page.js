@@ -1,5 +1,8 @@
 "use client";
 
+// NOTE: metadata for this route is exported from app/admin/layout.js
+// (Next.js App Router does not allow metadata exports from "use client" pages)
+
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Building2, Lock, Mail, Eye, EyeOff, Shield, AlertCircle } from "lucide-react";

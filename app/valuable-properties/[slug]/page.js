@@ -118,7 +118,7 @@ export default async function ValuablePropertyDetailsPage({ params }) {
 
   const breadcrumbItems = [
     { name: "Home", href: "/" },
-    { name: "Valuable Properties", href: "/#portfolio" },
+    { name: "Valuable Properties", href: "/valuable-properties" },
     { name: property.projectName, href: `/valuable-properties/${slug}` },
   ];
 

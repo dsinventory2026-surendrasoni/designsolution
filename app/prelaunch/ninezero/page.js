@@ -1,6 +1,8 @@
 // app/prelaunch/ninezero/page.js
 import PrelaunchClient from "@/components/PrelaunchClient";
 import { siteConfig as staticConfig } from "@/data/siteConfig";
+import JsonLd from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata = {
   title: "NINEZERO | LIV 90 – Pre-Launch | Sector 90, Gurugram",
@@ -35,6 +37,18 @@ export const metadata = {
   },
 };
 
+const breadcrumb = getBreadcrumbSchema([
+  { name: "Home", href: "/" },
+  { name: "Pre-Launch", href: "/prelaunch" },
+  { name: "NINEZERO | LIV 90", href: "/prelaunch/ninezero" },
+]);
+
 export default function NineZeroPage() {
-  return <PrelaunchClient siteConfig={staticConfig} />;
+  return (
+    <>
+      <JsonLd schema={[breadcrumb].filter(Boolean)} />
+      <PrelaunchClient siteConfig={staticConfig} />
+    </>
+  );
 }
+

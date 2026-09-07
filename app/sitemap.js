@@ -193,7 +193,8 @@ export default async function sitemap() {
 
     if (dbProps && dbProps.length > 0) {
       dynamicProperties = dbProps
-        .filter((p) => p.slug)
+        // Guard: require slug ≥ 3 chars to reject corrupt/test entries (e.g. slug="l")
+        .filter((p) => p.slug && p.slug.length >= 3)
         .map((p) => ({
           url: `${SITE_URL}/valuable-properties/${p.slug}`,
           lastModified: p.updatedAt ? new Date(p.updatedAt) : now,
@@ -260,27 +261,9 @@ export default async function sitemap() {
     }
   } catch (error) {
     console.error("Error querying blogs from DB for sitemap:", error);
-    // API fallback
-    try {
-      const res = await fetch(`${SITE_URL}/api/admin/blogs`, {
-        next: { revalidate: 60 },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
-          dynamicBlogs = data.data
-            .filter((b) => b.isPublished !== false && b.slug)
-            .map((b) => ({
-              url: `${SITE_URL}/blog/${b.slug}`,
-              lastModified: b.updatedAt ? new Date(b.updatedAt) : now,
-              changeFrequency: "weekly",
-              priority: 0.8,
-            }));
-        }
-      }
-    } catch {
-      // API not reachable
-    }
+    // Note: The direct DB query above is the authoritative source.
+    // Intentionally NOT falling back to /api/admin/blogs (admin route, blocked by robots.txt).
+    // Static fallback below (fallbackBlogs) handles the edge case when DB is unreachable.
   }
 
   // Fallback to static blog data if no dynamic blogs were resolved

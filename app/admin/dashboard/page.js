@@ -8,6 +8,15 @@ import AdminDashboard from "./AdminDashboard";
 
 export const metadata = {
   title: "Admin Dashboard — DS Group of Companies",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
 };
 
 export default async function DashboardPage() {
