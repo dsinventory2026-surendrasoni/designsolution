@@ -38,7 +38,6 @@ async function getOrCreateConfig() {
       owner: staticConfig.owner,
       socialLinks: staticConfig.socialLinks,
       services: staticConfig.services,
-      testimonials: staticConfig.testimonials,
     });
   }
   return config;

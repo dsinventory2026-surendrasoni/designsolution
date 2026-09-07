@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
-  LayoutDashboard, Home, Building2, Users, Star, Share2,
+  LayoutDashboard, Home, Building2, Users, Share2,
   FileText, Settings, LogOut, Plus, Pencil, Trash2, Save,
   X, ChevronDown, ChevronUp, CheckCircle2, AlertCircle,
   RefreshCw, Eye, Building, MapPin, PhoneCall, Mail, MessageSquare,
@@ -117,7 +117,6 @@ const NAV_ITEMS = [
   { id: "properties", label: "Properties", icon: Building2 },
   { id: "about", label: "About Section", icon: Users },
   { id: "services", label: "Services", icon: Settings },
-  { id: "testimonials", label: "Testimonials", icon: Star },
   { id: "social", label: "Social Media", icon: Share2 },
   { id: "footer", label: "Footer / Contact", icon: FileText },
 ];
@@ -650,103 +649,6 @@ function ServicesPanel({ showToast }) {
   );
 }
 
-// ─── TESTIMONIALS PANEL ──────────────────────────────────────────────────────
-
-const EMPTY_TESTIMONIAL = { name: "", role: "", image: "", rating: 5, propertyPurchased: "", text: "" };
-
-function TestimonialsPanel({ showToast }) {
-  const [testimonials, setTestimonials] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [editingT, setEditingT] = useState(null);
-  const [isAdding, setIsAdding] = useState(false);
-  const [saving, setSaving] = useState(false);
-
-  const fetchT = useCallback(async () => {
-    const res = await fetch("/api/admin/testimonials");
-    const d = await res.json();
-    if (d.success) setTestimonials(d.data);
-    setLoading(false);
-  }, []);
-
-  useEffect(() => { fetchT(); }, [fetchT]);
-
-  const handleSave = async () => {
-    setSaving(true);
-    const method = isAdding ? "POST" : "PUT";
-    const res = await fetch("/api/admin/testimonials", { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(editingT) });
-    const d = await res.json();
-    setSaving(false);
-    if (d.success) { showToast(isAdding ? "Testimonial added!" : "Testimonial updated!", "success"); setEditingT(null); setIsAdding(false); fetchT(); }
-    else showToast(d.message, "error");
-  };
-
-  const handleDelete = async (id) => {
-    if (!confirm("Delete this testimonial?")) return;
-    const res = await fetch(`/api/admin/testimonials?id=${id}`, { method: "DELETE" });
-    const d = await res.json();
-    showToast(d.success ? "Deleted!" : d.message, d.success ? "success" : "error");
-    if (d.success) fetchT();
-  };
-
-  if (editingT) {
-    return (
-      <div>
-        <div className="flex items-center gap-4 mb-6">
-          <button onClick={() => { setEditingT(null); setIsAdding(false); }} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5"><ArrowLeft className="w-5 h-5" /></button>
-          <h2 className="text-xl font-bold text-white flex-1">{isAdding ? "Add Testimonial" : "Edit Testimonial"}</h2>
-          <SaveBtn loading={saving} onClick={handleSave} label={isAdding ? "Add" : "Save"} />
-        </div>
-        <SectionCard title="Testimonial Details" icon={Star}>
-          <div className="space-y-4">
-            <InputField label="Client Name" value={editingT.name} onChange={(v) => setEditingT({ ...editingT, name: v })} />
-            <InputField label="Role / Title" value={editingT.role} onChange={(v) => setEditingT({ ...editingT, role: v })} placeholder="CEO, TechVentures India" />
-            <InputField label="Photo URL" value={editingT.image} onChange={(v) => setEditingT({ ...editingT, image: v })} />
-            <InputField label="Property Purchased" value={editingT.propertyPurchased} onChange={(v) => setEditingT({ ...editingT, propertyPurchased: v })} placeholder="3 BHK - DS Crown Heights" />
-            <SelectField label="Rating" value={String(editingT.rating)} onChange={(v) => setEditingT({ ...editingT, rating: parseInt(v) })} options={[5, 4, 3, 2, 1].map((r) => ({ label: `${r} Stars`, value: String(r) }))} />
-            <InputField label="Review Text" value={editingT.text} onChange={(v) => setEditingT({ ...editingT, text: v })} rows={4} />
-          </div>
-        </SectionCard>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <div><h2 className="text-2xl font-bold text-white">Testimonials</h2><p className="text-sm text-slate-400 mt-1">{testimonials.length} reviews</p></div>
-        <button onClick={() => { setEditingT({ ...EMPTY_TESTIMONIAL }); setIsAdding(true); }}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white"
-          style={{ background: "linear-gradient(135deg, #C9A96E, #b8933a)" }}>
-          <Plus className="w-4 h-4" /> Add Review
-        </button>
-      </div>
-      {loading ? <div className="text-slate-400 text-sm py-8 text-center"><RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-amber-400" />Loading...</div> : (
-        <div className="grid grid-cols-1 gap-4">
-          {testimonials.map((t) => (
-            <div key={t.id} className="flex items-start gap-4 p-5 rounded-2xl" style={{ background: "rgba(10,22,40,0.7)", border: "1px solid rgba(255,255,255,0.07)" }}>
-              {t.image && <img src={t.image} alt={t.name} className="w-14 h-14 rounded-xl object-cover shrink-0" />}
-              <div className="flex-1">
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <h4 className="text-sm font-bold text-white">{t.name}</h4>
-                    <p className="text-xs text-slate-400">{t.role}</p>
-                    <p className="text-xs text-amber-400 mt-0.5">{"⭐".repeat(t.rating || 5)}</p>
-                  </div>
-                  <div className="flex gap-1.5 shrink-0">
-                    <button onClick={() => { setEditingT({ ...t }); setIsAdding(false); }} className="p-1.5 rounded-lg text-blue-400 hover:bg-blue-500/10"><Pencil className="w-4 h-4" /></button>
-                    <button onClick={() => handleDelete(t.id)} className="p-1.5 rounded-lg text-red-400 hover:bg-red-500/10"><Trash2 className="w-4 h-4" /></button>
-                  </div>
-                </div>
-                <p className="text-xs text-slate-300 mt-2 italic line-clamp-2">"{t.text}"</p>
-                <p className="text-[10px] text-emerald-400 mt-1">✓ {t.propertyPurchased}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
 
 // ─── SOCIAL MEDIA PANEL ──────────────────────────────────────────────────────
 
@@ -2081,7 +1983,6 @@ export default function AdminDashboard({ adminEmail }) {
       case "properties": return <PropertiesPanel showToast={showToast} />;
       case "about": return <AboutPanel showToast={showToast} />;
       case "services": return <ServicesPanel showToast={showToast} />;
-      case "testimonials": return <TestimonialsPanel showToast={showToast} />;
       case "social": return <SocialPanel showToast={showToast} />;
       case "footer": return <FooterPanel showToast={showToast} />;
       default: return null;

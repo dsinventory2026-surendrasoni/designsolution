@@ -6,7 +6,7 @@ import Hero from "@/components/Hero";
 import FeaturedPortfolio from "@/components/FeaturedPortfolio";
 import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
+
 
 import LocationSection from "@/components/LocationSection";
 import Footer from "@/components/Footer";
@@ -78,8 +78,6 @@ export default function HomeClient({ siteConfigData, propertiesData }) {
         {/* About Section */}
         <AboutSection siteConfig={siteConfigData} />
 
-        {/* Testimonials Section */}
-        <TestimonialsSection testimonials={siteConfigData?.testimonials} />
 
 
         {/* Location Section */}

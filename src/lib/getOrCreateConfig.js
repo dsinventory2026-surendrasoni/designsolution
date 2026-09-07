@@ -71,7 +71,6 @@ export async function getOrCreateConfig() {
         youtube: staticConfig.socialLinks.youtube,
       },
       services: staticConfig.services,
-      testimonials: staticConfig.testimonials,
     });
   }
   return config;

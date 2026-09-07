@@ -34,6 +34,7 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
     { name: "Services", href: "/#services", isCategory: false },
     { name: "Blog", href: "/blog", isCategory: false },
     { name: "Prelaunch", href: "/prelaunch", isCategory: false },
+    { name: "Reviews", href: "/reviews", isCategory: false },
   ];
 
   const handleNavClick = (link) => {

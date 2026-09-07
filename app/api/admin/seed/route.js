@@ -84,7 +84,6 @@ export async function POST(request) {
           youtube: siteConfig.socialLinks.youtube,
         },
         services: siteConfig.services,
-        testimonials: siteConfig.testimonials,
       });
     }
 

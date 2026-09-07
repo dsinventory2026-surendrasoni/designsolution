@@ -61,7 +61,6 @@ export async function GET() {
       },
       googleMapEmbedUrl: config.contact.googleMapEmbedUrl,
       services: config.services,
-      testimonials: config.testimonials,
       hero: config.hero,
     };
 

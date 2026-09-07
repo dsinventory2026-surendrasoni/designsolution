@@ -17,15 +17,6 @@ const ServiceSchema = new mongoose.Schema({
   fullDescription: String,
 });
 
-const TestimonialSchema = new mongoose.Schema({
-  id: Number,
-  name: String,
-  role: String,
-  image: String,
-  rating: { type: Number, default: 5 },
-  propertyPurchased: String,
-  text: String,
-});
 
 const SiteConfigSchema = new mongoose.Schema(
   {
@@ -98,8 +89,6 @@ const SiteConfigSchema = new mongoose.Schema(
     // ─── SERVICES ────────────────────────────────────
     services: [ServiceSchema],
 
-    // ─── TESTIMONIALS ─────────────────────────────────
-    testimonials: [TestimonialSchema],
   },
   { timestamps: true }
 );

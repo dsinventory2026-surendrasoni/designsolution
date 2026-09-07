@@ -72,6 +72,7 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
               <li><a href="/prelaunch" className="hover:text-amber-400 transition-colors">Prelaunch Deals</a></li>
               <li><a href="/#about" className="hover:text-amber-400 transition-colors">About DS Group</a></li>
               <li><a href="/enquire" className="hover:text-amber-400 transition-colors">Enquire Now</a></li>
+              <li><a href="/reviews" className="hover:text-amber-400 transition-colors">Google Reviews</a></li>
             </ul>
           </div>
 

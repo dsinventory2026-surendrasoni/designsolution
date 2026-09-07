@@ -127,43 +127,5 @@ export const siteConfig = {
       shortDescription: "Data-driven property investment advisory, legal due diligence, valuation analysis, and portfolio diversification guidance.",
       fullDescription: "Our expert advisors provide transparent market insights, ROI forecasting, title verification, and tailored portfolio management for individual investors and corporate clients."
     }
-  ],
-  testimonials: [
-    {
-      id: 1,
-      name: "Rajeshwar Verma",
-      role: "CEO, TechVentures India",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
-      rating: 5,
-      propertyPurchased: "Commercial Space - DS Imperial Tower",
-      text: "Investing in DS Imperial Tower was the single best decision for our company headquarters. The structural finish, grand lobby design, and timely delivery by DS Group exceeded all our expectations."
-    },
-    {
-      id: 2,
-      name: "Ananya & Dr. Vikram Mehta",
-      role: "Luxury Homeowners",
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
-      rating: 5,
-      propertyPurchased: "4 BHK Penthouse - DS Elegance Heights",
-      text: "DS Group delivered our dream penthouse exactly as promised. The attention to interior detail, high ceilings, and top-tier security give us complete peace of mind. Truly a 5-star builder!"
-    },
-    {
-      id: 3,
-      name: "Siddharth Malhotra",
-      role: "Real Estate Investor",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
-      rating: 5,
-      propertyPurchased: "Residential Plot - DS Grand Enclave",
-      text: "Clear titles, prompt documentation, and immediate registry! The plot appreciation in Sector 85 has been remarkable. Mr. Deepak Sharma and his team provide unmatched transparency."
-    },
-    {
-      id: 4,
-      name: "Pooja & Rohit Singhania",
-      role: "Villa Owners",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80",
-      rating: 5,
-      propertyPurchased: "Luxury Villa - DS Crest Construction",
-      text: "We hired DS Group for complete turnkey villa construction. From 3D architectural facade design to final interior handover, their engineering quality is simply world-class."
-    }
   ]
 };

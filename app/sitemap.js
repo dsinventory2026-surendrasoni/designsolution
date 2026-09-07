@@ -169,6 +169,7 @@ export default async function sitemap() {
     { url: `${SITE_URL}/prelaunch/ninezero`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/blog`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/valuable-properties`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/reviews`, changeFrequency: "weekly", priority: 0.85 },
   ];
 
   for (const item of coreFallbackRoutes) {
