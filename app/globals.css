@@ -552,3 +552,29 @@
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
+
+/* =====================================================
+   TRUSTINDEX GOOGLE REVIEWS STYLING
+   ===================================================== */
+.trustindex-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.trustindex-target .ti-widget {
+  max-width: 100% !important;
+  margin: 0 auto !important;
+}
+
+.trustindex-target .ti-reviews-container-wrapper {
+  width: 100% !important;
+}
+
+.trustindex-target .ti-review-item {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 1rem !important;
+}
+
+.trustindex-target .ti-review-item:hover {
+  transform: translateY(-2px);
+}

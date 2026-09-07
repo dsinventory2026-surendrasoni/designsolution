@@ -6,8 +6,7 @@ import Hero from "@/components/Hero";
 import FeaturedPortfolio from "@/components/FeaturedPortfolio";
 import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
-
-
+import GoogleReviewsSection from "@/components/GoogleReviewsSection";
 import LocationSection from "@/components/LocationSection";
 import Footer from "@/components/Footer";
 import PropertyDetailsModal from "@/components/PropertyDetailsModal";
@@ -78,7 +77,8 @@ export default function HomeClient({ siteConfigData, propertiesData }) {
         {/* About Section */}
         <AboutSection siteConfig={siteConfigData} />
 
-
+        {/* Google Reviews Section */}
+        <GoogleReviewsSection siteConfig={siteConfigData} />
 
         {/* Location Section */}
         <LocationSection

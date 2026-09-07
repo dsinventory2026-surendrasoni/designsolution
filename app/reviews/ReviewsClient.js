@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -16,48 +15,10 @@ import {
   CheckCircle2,
   ArrowRight
 } from "lucide-react";
+import TrustindexWidget from "@/components/TrustindexWidget";
 
 export default function ReviewsClient({ siteConfig: propSiteConfig }) {
   const siteConfig = propSiteConfig || staticSiteConfig;
-  const widgetContainerRef = useRef(null);
-  const [scriptLoaded, setScriptLoaded] = useState(false);
-
-  useEffect(() => {
-    // Remove existing script if any
-    const existing = document.querySelector(
-      'script[src*="cdn.trustindex.io/loader.js?cef0ad48048c864d7f3689ae2c7"]'
-    );
-    if (existing) {
-      existing.remove();
-    }
-
-    const script = document.createElement("script");
-    script.src =
-      "https://cdn.trustindex.io/loader.js?cef0ad48048c864d7f3689ae2c7";
-    script.async = true;
-    script.defer = true;
-
-    script.onload = () => {
-      setScriptLoaded(true);
-    };
-
-    const timer = setTimeout(() => {
-      setScriptLoaded(true);
-    }, 3500);
-
-    if (widgetContainerRef.current) {
-      widgetContainerRef.current.appendChild(script);
-    } else {
-      document.body.appendChild(script);
-    }
-
-    return () => {
-      clearTimeout(timer);
-      if (script && script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-    };
-  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#030810] text-slate-100 selection:bg-amber-500 selection:text-slate-950 font-sans">
@@ -146,26 +107,8 @@ export default function ReviewsClient({ siteConfig: propSiteConfig }) {
 
         {/* ─── TRUSTINDEX WIDGET CONTAINER ─── */}
         <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full mb-16">
-          <div className="relative rounded-2xl bg-slate-900/40 border border-slate-800/80 p-4 sm:p-8 backdrop-blur-sm shadow-2xl min-h-[420px]">
-            {/* Widget injection container */}
-            <div
-              ref={widgetContainerRef}
-              id="cef0ad48048c864d7f3689ae2c7"
-              data-widget-id="cef0ad48048c864d7f3689ae2c7"
-              className="ti-widget w-full min-h-[380px]"
-            >
-              {!scriptLoaded && (
-                <div className="flex flex-col items-center justify-center py-20 text-slate-400 gap-3">
-                  <div className="w-10 h-10 border-2 border-amber-400/30 border-t-amber-400 rounded-full animate-spin" />
-                  <p className="text-sm font-medium text-slate-300">
-                    Loading Google Reviews...
-                  </p>
-                  <p className="text-xs text-slate-500">
-                    Connecting to live Google Business Profile
-                  </p>
-                </div>
-              )}
-            </div>
+          <div className="relative rounded-2xl bg-slate-900/60 border border-slate-800/80 p-4 sm:p-8 backdrop-blur-sm shadow-2xl min-h-[420px]">
+            <TrustindexWidget />
 
             {/* Direct fallback / info link */}
             <div className="mt-8 pt-6 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
