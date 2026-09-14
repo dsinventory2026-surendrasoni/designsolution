@@ -25,22 +25,58 @@ import ValuableProperty from "@/lib/models/ValuableProperty";
 const SITE_URL = "https://www.dsgroupofcompanies.in";
 const DEFAULT_BASELINE_DATE = new Date("2026-09-01T00:00:00.000Z");
 
+// Genuine modification dates for known static pages based on repository git history
+const STATIC_ROUTE_DATES = {
+  "/": new Date("2026-09-03T11:34:02.000Z"),
+  "/blog": new Date("2026-09-14T11:36:18.000Z"),
+  "/enquire": new Date("2026-07-29T07:00:15.000Z"),
+  "/prelaunch": new Date("2026-09-07T11:54:40.000Z"),
+  "/prelaunch/ninezero": new Date("2026-09-07T11:54:40.000Z"),
+  "/reviews": new Date("2026-09-14T11:36:18.000Z"),
+  "/valuable-properties": new Date("2026-09-07T11:54:40.000Z"),
+};
+
 // Force dynamic execution on every request so newly created blogs appear immediately in sitemap.xml
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 /**
  * Safely parse a date value into a valid Date object.
+ * Rejects historical serverless zip artifact clamps (e.g. 2018-10-20).
  */
 function safeDate(val, fallback = DEFAULT_BASELINE_DATE) {
   if (!val) return fallback;
   try {
     const d = new Date(val);
-    if (!isNaN(d.getTime())) return d;
+    if (!isNaN(d.getTime())) {
+      // Reject any dates before 2024 to avoid serverless build timestamp clamping
+      if (d.getFullYear() >= 2024) {
+        return d;
+      }
+    }
   } catch {
     // ignore
   }
   return fallback;
+}
+
+/**
+ * Resolves a genuine lastmod date for a static route, guarding against
+ * serverless runtime file-timestamp clamping (such as 2018-10-20).
+ */
+function getStaticRouteDate(route, currentDir, pageFileName) {
+  if (STATIC_ROUTE_DATES[route]) {
+    return STATIC_ROUTE_DATES[route];
+  }
+  try {
+    const stat = fs.statSync(path.join(currentDir, pageFileName));
+    if (stat && stat.mtime && stat.mtime.getFullYear() >= 2025) {
+      return stat.mtime;
+    }
+  } catch {
+    // fallback
+  }
+  return DEFAULT_BASELINE_DATE;
 }
 
 /**
@@ -66,18 +102,11 @@ function discoverStaticPublicRoutes() {
       );
 
       if (pageEntry) {
-        let fileMtime = DEFAULT_BASELINE_DATE;
-        try {
-          const stat = fs.statSync(path.join(currentDir, pageEntry.name));
-          if (stat && stat.mtime) {
-            fileMtime = stat.mtime;
-          }
-        } catch {
-          // fallback baseline
-        }
+        const route = currentPath === "" ? "/" : currentPath;
+        const lastMod = getStaticRouteDate(route, currentDir, pageEntry.name);
         routes.push({
-          route: currentPath === "" ? "/" : currentPath,
-          lastModified: fileMtime,
+          route,
+          lastModified: lastMod,
         });
       }
 
@@ -212,9 +241,10 @@ export default async function sitemap() {
 
   for (const item of coreFallbackRoutes) {
     if (!urlMap.has(item.url)) {
+      const relPath = item.url.replace(SITE_URL, "") || "/";
       addEntry({
         url: item.url,
-        lastModified: DEFAULT_BASELINE_DATE,
+        lastModified: STATIC_ROUTE_DATES[relPath] || DEFAULT_BASELINE_DATE,
         changeFrequency: item.changeFrequency,
         priority: item.priority,
       });
@@ -270,7 +300,7 @@ export default async function sitemap() {
   if (dynamicProperties.length === 0 && Array.isArray(fallbackProperties)) {
     dynamicProperties = fallbackProperties.map((p) => ({
       url: `${SITE_URL}/valuable-properties/${p.id}`,
-      lastModified: DEFAULT_BASELINE_DATE,
+      lastModified: STATIC_ROUTE_DATES["/valuable-properties"] || DEFAULT_BASELINE_DATE,
       changeFrequency: "weekly",
       priority: 0.85,
     }));
