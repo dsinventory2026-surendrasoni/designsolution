@@ -8,6 +8,7 @@
  * - Includes /valuable-properties and all published dynamic /valuable-properties/[slug]
  * - Discovers and includes category/listing pages if created (/residential, /commercial, /plots, /construction)
  * - Prevents duplicate URLs
+ * - Uses accurate lastModified dates based on file mtime or entity timestamps (no fake 'today' signals)
  * - Configured with ISR (revalidate = 60) for automatic inclusion of newly published items
  *
  * Accessible at: https://www.dsgroupofcompanies.in/sitemap.xml
@@ -22,9 +23,25 @@ import Blog from "@/lib/models/Blog";
 import ValuableProperty from "@/lib/models/ValuableProperty";
 
 const SITE_URL = "https://www.dsgroupofcompanies.in";
+const DEFAULT_BASELINE_DATE = new Date("2026-09-01T00:00:00.000Z");
 
-// ISR: revalidate sitemap every 60s so newly published blogs & properties appear automatically
-export const revalidate = 60;
+// Force dynamic execution on every request so newly created blogs appear immediately in sitemap.xml
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+/**
+ * Safely parse a date value into a valid Date object.
+ */
+function safeDate(val, fallback = DEFAULT_BASELINE_DATE) {
+  if (!val) return fallback;
+  try {
+    const d = new Date(val);
+    if (!isNaN(d.getTime())) return d;
+  } catch {
+    // ignore
+  }
+  return fallback;
+}
 
 /**
  * Automatically discovers static public routes from the App Router.
@@ -32,7 +49,6 @@ export const revalidate = 60;
  * Automatically excludes:
  * - admin pages (/admin, /admin/dashboard)
  * - API routes (/api/*)
- * - authentication routes
  * - dynamic parameter segments ([slug], etc.)
  * - route groups and private folders ((group), _components, etc.)
  */
@@ -45,12 +61,24 @@ function discoverStaticPublicRoutes() {
     try {
       const entries = fs.readdirSync(currentDir, { withFileTypes: true });
 
-      const hasPage = entries.some(
+      const pageEntry = entries.find(
         (e) => !e.isDirectory() && /^page\.(js|jsx|ts|tsx)$/.test(e.name)
       );
 
-      if (hasPage) {
-        routes.push(currentPath === "" ? "/" : currentPath);
+      if (pageEntry) {
+        let fileMtime = DEFAULT_BASELINE_DATE;
+        try {
+          const stat = fs.statSync(path.join(currentDir, pageEntry.name));
+          if (stat && stat.mtime) {
+            fileMtime = stat.mtime;
+          }
+        } catch {
+          // fallback baseline
+        }
+        routes.push({
+          route: currentPath === "" ? "/" : currentPath,
+          lastModified: fileMtime,
+        });
       }
 
       for (const entry of entries) {
@@ -80,14 +108,14 @@ function discoverStaticPublicRoutes() {
 }
 
 export default async function sitemap() {
-  const now = new Date();
   const urlMap = new Map();
 
   // Helper to add unique entry to sitemap, preventing duplicate URLs
   const addEntry = (entry) => {
     if (!entry || !entry.url) return;
-    // Strip trailing slash (except root) and eliminate any hash anchors
-    let cleanUrl = entry.url.split("#")[0].trim();
+    // Strip query parameters and URL hash anchors
+    let cleanUrl = entry.url.split("?")[0].split("#")[0].trim();
+    // Strip trailing slash (except root)
     if (cleanUrl !== SITE_URL && cleanUrl.endsWith("/")) {
       cleanUrl = cleanUrl.slice(0, -1);
     }
@@ -96,33 +124,37 @@ export default async function sitemap() {
       urlMap.set(cleanUrl, {
         ...entry,
         url: cleanUrl,
+        lastModified: entry.lastModified ? safeDate(entry.lastModified) : DEFAULT_BASELINE_DATE,
       });
     }
   };
 
-  // ─── 1. Homepage & Core Discovered Static Pages ──────────────────────────────
+  // ─── 1. Homepage & Discovered Static Public Pages ─────────────────────────────
   const discoveredRoutes = discoverStaticPublicRoutes();
 
-  // Route-specific priority and frequency mapping
-  for (const route of discoveredRoutes) {
+  // Priority and frequency mapping for discovered static routes
+  for (const item of discoveredRoutes) {
+    const route = item.route;
+    const mtime = item.lastModified || DEFAULT_BASELINE_DATE;
+
     if (route === "/") {
       addEntry({
         url: SITE_URL,
-        lastModified: now,
+        lastModified: mtime,
         changeFrequency: "daily",
         priority: 1.0,
       });
     } else if (route === "/blog") {
       addEntry({
         url: `${SITE_URL}/blog`,
-        lastModified: now,
+        lastModified: mtime,
         changeFrequency: "daily",
         priority: 0.9,
       });
     } else if (route === "/valuable-properties") {
       addEntry({
         url: `${SITE_URL}/valuable-properties`,
-        lastModified: now,
+        lastModified: mtime,
         changeFrequency: "weekly",
         priority: 0.9,
       });
@@ -133,9 +165,16 @@ export default async function sitemap() {
     ) {
       addEntry({
         url: `${SITE_URL}${route}`,
-        lastModified: now,
+        lastModified: mtime,
         changeFrequency: "weekly",
         priority: 0.9,
+      });
+    } else if (route === "/reviews") {
+      addEntry({
+        url: `${SITE_URL}/reviews`,
+        lastModified: mtime,
+        changeFrequency: "weekly",
+        priority: 0.85,
       });
     } else if (
       route === "/residential" ||
@@ -143,25 +182,24 @@ export default async function sitemap() {
       route === "/plots" ||
       route === "/construction"
     ) {
-      // Important category listing pages if they exist as dedicated routes
       addEntry({
         url: `${SITE_URL}${route}`,
-        lastModified: now,
+        lastModified: mtime,
         changeFrequency: "weekly",
         priority: 0.9,
       });
     } else {
-      // Any other newly discovered public page
+      // Future discovered public page
       addEntry({
         url: `${SITE_URL}${route}`,
-        lastModified: now,
+        lastModified: mtime,
         changeFrequency: "weekly",
         priority: 0.8,
       });
     }
   }
 
-  // Ensure core static routes are always present even if filesystem discovery is restricted
+  // Ensure core static routes are always present as fallback
   const coreFallbackRoutes = [
     { url: SITE_URL, changeFrequency: "daily", priority: 1.0 },
     { url: `${SITE_URL}/enquire`, changeFrequency: "weekly", priority: 0.9 },
@@ -176,7 +214,7 @@ export default async function sitemap() {
     if (!urlMap.has(item.url)) {
       addEntry({
         url: item.url,
-        lastModified: now,
+        lastModified: DEFAULT_BASELINE_DATE,
         changeFrequency: item.changeFrequency,
         priority: item.priority,
       });
@@ -187,24 +225,25 @@ export default async function sitemap() {
   let dynamicProperties = [];
   try {
     await connectDB();
-    const dbProps = await ValuableProperty.find({ publishStatus: "Published" })
+    const dbProps = await ValuableProperty.find(
+      { publishStatus: "Published" },
+      "slug updatedAt createdAt"
+    )
       .sort({ priority: -1, createdAt: -1 })
       .lean();
 
     if (dbProps && dbProps.length > 0) {
       dynamicProperties = dbProps
-        // Guard: require slug ≥ 3 chars to reject corrupt/test entries (e.g. slug="l")
         .filter((p) => p.slug && p.slug.length >= 3)
         .map((p) => ({
           url: `${SITE_URL}/valuable-properties/${p.slug}`,
-          lastModified: p.updatedAt ? new Date(p.updatedAt) : now,
+          lastModified: safeDate(p.updatedAt || p.createdAt),
           changeFrequency: "weekly",
           priority: 0.85,
         }));
     }
   } catch (error) {
     console.error("Error querying valuable properties from DB for sitemap:", error);
-    // API fallback
     try {
       const res = await fetch(`${SITE_URL}/api/valuable-properties?limit=1000`, {
         next: { revalidate: 60 },
@@ -213,10 +252,10 @@ export default async function sitemap() {
         const data = await res.json();
         if (data.success && Array.isArray(data.data) && data.data.length > 0) {
           dynamicProperties = data.data
-            .filter((p) => p.slug)
+            .filter((p) => p.slug && p.slug.length >= 3)
             .map((p) => ({
               url: `${SITE_URL}/valuable-properties/${p.slug}`,
-              lastModified: p.updatedAt ? new Date(p.updatedAt) : now,
+              lastModified: safeDate(p.updatedAt || p.createdAt),
               changeFrequency: "weekly",
               priority: 0.85,
             }));
@@ -228,10 +267,10 @@ export default async function sitemap() {
   }
 
   // Fallback to static properties if no dynamic properties were resolved
-  if (dynamicProperties.length === 0) {
+  if (dynamicProperties.length === 0 && Array.isArray(fallbackProperties)) {
     dynamicProperties = fallbackProperties.map((p) => ({
       url: `${SITE_URL}/valuable-properties/${p.id}`,
-      lastModified: now,
+      lastModified: DEFAULT_BASELINE_DATE,
       changeFrequency: "weekly",
       priority: 0.85,
     }));
@@ -241,45 +280,48 @@ export default async function sitemap() {
     addEntry(prop);
   }
 
-  // ─── 3. Dynamic Blog Posts ──────────────────────────────────────────────────
-  let dynamicBlogs = [];
+  // ─── 3. Dynamic Blog Posts (Authoritative MongoDB + Synced Fallback Union) ────
   try {
     await connectDB();
-    const dbBlogs = await Blog.find({ isPublished: true })
+    const dbBlogs = await Blog.find(
+      {
+        slug: { $exists: true, $ne: "" },
+        isPublished: { $ne: false },
+        publishStatus: { $ne: "Unpublished" },
+      },
+      "slug updatedAt createdAt publishedDate title isPublished"
+    )
       .sort({ sortOrder: 1, createdAt: -1 })
       .lean();
 
     if (dbBlogs && dbBlogs.length > 0) {
-      dynamicBlogs = dbBlogs
-        .filter((b) => b.slug)
-        .map((b) => ({
-          url: `${SITE_URL}/blog/${b.slug}`,
-          lastModified: b.updatedAt ? new Date(b.updatedAt) : now,
-          changeFrequency: "weekly",
-          priority: 0.8,
-        }));
+      for (const b of dbBlogs) {
+        if (b.slug) {
+          addEntry({
+            url: `${SITE_URL}/blog/${b.slug}`,
+            lastModified: safeDate(b.updatedAt || b.publishedDate || b.createdAt),
+            changeFrequency: "weekly",
+            priority: 0.85,
+          });
+        }
+      }
     }
   } catch (error) {
     console.error("Error querying blogs from DB for sitemap:", error);
-    // Note: The direct DB query above is the authoritative source.
-    // Intentionally NOT falling back to /api/admin/blogs (admin route, blocked by robots.txt).
-    // Static fallback below (fallbackBlogs) handles the edge case when DB is unreachable.
   }
 
-  // Fallback to static blog data if no dynamic blogs were resolved
-  if (dynamicBlogs.length === 0) {
-    dynamicBlogs = fallbackBlogs
-      .filter((b) => b.slug)
-      .map((b) => ({
-        url: `${SITE_URL}/blog/${b.slug}`,
-        lastModified: b.updatedAt ? new Date(b.updatedAt) : now,
-        changeFrequency: "weekly",
-        priority: 0.8,
-      }));
-  }
-
-  for (const blog of dynamicBlogs) {
-    addEntry(blog);
+  // Union with fallback static blogs to guarantee zero omissions
+  if (Array.isArray(fallbackBlogs)) {
+    for (const b of fallbackBlogs) {
+      if (b && b.slug) {
+        addEntry({
+          url: `${SITE_URL}/blog/${b.slug}`,
+          lastModified: safeDate(b.updatedAt || b.publishedDate || b.createdAt),
+          changeFrequency: "weekly",
+          priority: 0.85,
+        });
+      }
+    }
   }
 
   return Array.from(urlMap.values());

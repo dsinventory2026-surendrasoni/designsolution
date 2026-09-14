@@ -19,12 +19,26 @@ export const metadata = {
     siteName: "DS Group of Companies",
     locale: "en_IN",
     type: "website",
+    images: [
+      {
+        url: "https://www.dsgroupofcompanies.in/images/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Client Reviews - DS Group of Companies",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Client Reviews & Ratings | DS Group of Companies",
     description:
       "Read genuine Google reviews and testimonials from our clients. Discover why DS Group of Companies is trusted for luxury residences, commercial spaces, and turnkey construction in Gurugram.",
+    images: ["https://www.dsgroupofcompanies.in/images/logo.png"],
+    creator: "@dsgroup_realty",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

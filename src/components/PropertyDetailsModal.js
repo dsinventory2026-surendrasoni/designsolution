@@ -64,7 +64,11 @@ export default function PropertyDetailsModal({ property, onClose, onOpenContactM
                       activeImageIndex === idx ? "border-amber-400 scale-105" : "border-slate-800 opacity-60 hover:opacity-100"
                     }`}
                   >
-                    <img src={img} alt="" className="w-full h-full object-cover" />
+                    <img
+                      src={img}
+                      alt={`${property.title || "Property"} thumbnail ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>

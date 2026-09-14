@@ -66,6 +66,7 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">Explore</h4>
             <ul className="space-y-2 text-xs font-medium">
               <li><a href="/#hero" className="hover:text-amber-400 transition-colors">Home</a></li>
+              <li><a href="/valuable-properties" className="hover:text-amber-400 transition-colors">Valuable Properties</a></li>
               <li><a href="/#portfolio" className="hover:text-amber-400 transition-colors">Featured Projects</a></li>
               <li><a href="/#services" className="hover:text-amber-400 transition-colors">Our Services</a></li>
               <li><a href="/blog" className="hover:text-amber-400 transition-colors">Research &amp; Blog</a></li>
@@ -78,30 +79,30 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
 
           {/* Col 3: Sector 85 Landmark Projects & Categories (3 cols) */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Top Projects & Properties</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Top Projects & Guides</h4>
             <ul className="space-y-2 text-xs font-medium">
               <li>
-                <a href="/projects/godrej-air-sector-85-gurgaon" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                <a href="/blog/godrej-air-sector-85-gurgaon-review-2026" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                  <span>Godrej Air Sector 85 Gurgaon</span>
+                  <span>Godrej Air Sector 85 Review</span>
                 </a>
               </li>
               <li>
-                <a href="/projects/pyramid-heights-sector-85-gurgaon" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                <a href="/blog/2-bhk-and-3-bhk-flats-in-sector-85-gurgaon-godrej-air-ss-the-leaf-ss-linden-pyramid-heights-more" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                  <span>Pyramid Heights Sector 85</span>
+                  <span>Sector 85 Luxury Flats Guide</span>
                 </a>
               </li>
               <li>
-                <a href="/projects/ss-the-leaf-sector-85-gurgaon" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                <a href="/blog/vatika-horizon-82-sector-82a-gurgaon-premium-residential-plots-investment-opportunity" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                  <span>SS The Leaf Sector 85</span>
+                  <span>Vatika Horizon 82 Plots</span>
                 </a>
               </li>
               <li>
-                <a href="/projects/orris-aster-court-sector-85-gurgaon" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                <a href="/blog/best-sectors-to-invest-in-gurgaon-in-2026" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                  <span>Orris Aster Court Sector 85</span>
+                  <span>Top Gurgaon Sectors 2026</span>
                 </a>
               </li>
               {propertyCategories.filter(c => c !== "All").map((cat) => (

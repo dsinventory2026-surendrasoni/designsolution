@@ -4,9 +4,45 @@ import ValuablePropertyClient from "@/components/ValuablePropertyClient";
 import JsonLd from "@/components/seo/JsonLd";
 import { getBreadcrumbSchema, getPropertyPageSchema } from "@/lib/seo";
 
+import connectDB from "@/lib/mongodb";
+import ValuableProperty from "@/lib/models/ValuableProperty";
+
 const SITE_URL = "https://www.dsgroupofcompanies.in";
 
 async function fetchPropertyData(slug) {
+  if (!slug) return { property: null, related: [] };
+
+  // 1. First attempt: direct DB query (fast, no self-referential HTTP loop)
+  try {
+    await connectDB();
+    const cleanSlug = slug.toLowerCase();
+    const property = await ValuableProperty.findOne({
+      slug: cleanSlug,
+      publishStatus: "Published",
+    }).lean();
+
+    if (property) {
+      const plainProp = JSON.parse(JSON.stringify(property));
+      let related = [];
+      try {
+        const relatedDocs = await ValuableProperty.find({
+          slug: { $ne: cleanSlug },
+          publishStatus: "Published",
+        })
+          .sort({ priority: -1, createdAt: -1 })
+          .limit(3)
+          .lean();
+        related = JSON.parse(JSON.stringify(relatedDocs));
+      } catch {
+        // non-fatal
+      }
+      return { property: plainProp, related };
+    }
+  } catch (dbErr) {
+    console.warn("Direct DB fetch in property SSR failed, attempting API fallback:", dbErr.message);
+  }
+
+  // 2. Fallback attempt: internal API route
   try {
     const headersList = await headers();
     const host = headersList.get("host") || "localhost:3000";
@@ -17,35 +53,17 @@ async function fetchPropertyData(slug) {
       cache: "no-store",
     });
 
-    if (!res.ok) return { property: null, related: [] };
-    const data = await res.json();
-
-    if (!data.success || !data.data) return { property: null, related: [] };
-
-    const property = data.data;
-
-    // Fetch related properties
-    let related = [];
-    try {
-      const relRes = await fetch(
-        `${baseUrl}/api/valuable-properties?exclude=${slug}&limit=3`,
-        { cache: "no-store" }
-      );
-      if (relRes.ok) {
-        const relData = await relRes.json();
-        if (relData.success) {
-          related = relData.data || [];
-        }
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success && data.data) {
+        return { property: data.data, related: [] };
       }
-    } catch {
-      // Related fetch failure is non-fatal
     }
-
-    return { property, related };
   } catch (error) {
-    console.error("Error fetching property data in SSR:", error);
-    return { property: null, related: [] };
+    console.error("API fallback error in property SSR:", error);
   }
+
+  return { property: null, related: [] };
 }
 
 // ─── Dynamic SEO Metadata Generation ──────────────────────────────────────────

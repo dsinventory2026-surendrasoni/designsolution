@@ -502,3 +502,114 @@ export function getPropertyPageSchema(property) {
 
   return cleanObject(schema) || null;
 }
+
+// ─── Article Schema ───────────────────────────────────────────────────────────
+
+/**
+ * Safely parses any date string (ISO, English format like "September 14, 2026", etc.)
+ * or Date object into a valid ISO 8601 string ("YYYY-MM-DDTHH:mm:ss.sssZ").
+ * Falls back to fallback date if invalid.
+ *
+ * @param {any} dateVal
+ * @param {Date|string} fallback
+ * @returns {string} ISO 8601 string
+ */
+export function parseIsoDate(dateVal, fallback = new Date("2026-09-01T00:00:00.000Z")) {
+  if (!dateVal) {
+    return (fallback instanceof Date ? fallback : new Date(fallback)).toISOString();
+  }
+  try {
+    const d = new Date(dateVal);
+    if (!isNaN(d.getTime())) {
+      return d.toISOString();
+    }
+  } catch {
+    // fallback
+  }
+  return (fallback instanceof Date ? fallback : new Date(fallback)).toISOString();
+}
+
+/**
+ * Article JSON-LD schema for Blog Posts.
+ * Conforms to Schema.org/Article and Google Search Central Rich Results guidelines.
+ *
+ * @param {object} blog
+ * @returns {object|null}
+ */
+export function getArticleSchema(blog) {
+  if (!blog || typeof blog !== "object") return null;
+
+  const headline = (blog.title || "").trim();
+  if (!headline) return null;
+
+  const slug = blog.slug || "";
+  const url = slug ? `${SITE_URL}/blog/${slug}` : `${SITE_URL}/blog`;
+  const description = (blog.summary || headline).trim();
+  const image = blog.heroImage || DEFAULT_OG_IMAGE;
+
+  const datePublished = parseIsoDate(
+    blog.createdAt || blog.publishedDate || blog.publishedAt,
+    new Date("2026-09-01T00:00:00.000Z")
+  );
+
+  const dateModified = parseIsoDate(
+    blog.updatedAt || blog.publishedDate || blog.publishedAt || blog.createdAt,
+    new Date(datePublished)
+  );
+
+  const authorName = (blog.author || "Surendra Soni").trim();
+  const authorJobTitle = (blog.authorTitle || "Founder & Managing Director").trim();
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${url}#article`,
+    isPartOf: {
+      "@type": "WebPage",
+      "@id": url,
+      url: url,
+      name: headline,
+    },
+    headline,
+    description,
+    image: [image],
+    datePublished,
+    dateModified,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+    author: {
+      "@type": "Person",
+      name: authorName,
+      jobTitle: authorJobTitle,
+      worksFor: {
+        "@type": "Organization",
+        name: SITE_NAME,
+        url: SITE_URL,
+      },
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/images/logo.png`,
+        width: 400,
+        height: 200,
+      },
+    },
+  };
+
+  if (Array.isArray(blog.tags) && blog.tags.length > 0) {
+    schema.keywords = blog.tags.join(", ");
+  }
+
+  if (blog.category) {
+    schema.articleSection = blog.category;
+  }
+
+  return cleanObject(schema) || null;
+}
+

@@ -84,6 +84,11 @@ export const metadata = {
   creator: "DS Group of Companies",
   publisher: "DS Group of Companies",
   category: "Real Estate",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
   alternates: {
     canonical: "https://www.dsgroupofcompanies.in",
   },

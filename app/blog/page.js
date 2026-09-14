@@ -6,12 +6,44 @@ import connectDB from "@/lib/mongodb";
 import Blog from "@/lib/models/Blog";
 import { Clock, Calendar, ArrowRight, BookOpen, Tag } from "lucide-react";
 
+import JsonLd from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema } from "@/lib/seo";
+
 export const metadata = {
   title: "Real Estate Blog & Research Hub | DS Group of Companies",
   description:
     "Expert real estate guides, project reviews, investment analysis, and legal tips for Gurgaon property buyers and investors. Authored by DS Group of Companies.",
   alternates: {
     canonical: "https://www.dsgroupofcompanies.in/blog",
+  },
+  openGraph: {
+    title: "Real Estate Blog & Research Hub | DS Group of Companies",
+    description:
+      "Expert real estate guides, project reviews, investment analysis, and legal tips for Gurgaon property buyers and investors. Authored by DS Group of Companies.",
+    url: "https://www.dsgroupofcompanies.in/blog",
+    siteName: "DS Group of Companies",
+    locale: "en_IN",
+    type: "website",
+    images: [
+      {
+        url: "https://www.dsgroupofcompanies.in/images/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "DS Group of Companies Blog & Research Hub",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Real Estate Blog & Research Hub | DS Group of Companies",
+    description:
+      "Expert real estate guides, project reviews, investment analysis, and legal tips for Gurgaon property buyers and investors. Authored by DS Group of Companies.",
+    images: ["https://www.dsgroupofcompanies.in/images/logo.png"],
+    creator: "@dsgroup_realty",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -20,7 +52,13 @@ export const revalidate = 60; // ISR: revalidate every 60s
 async function getBlogs() {
   try {
     await connectDB();
-    const dbBlogs = await Blog.find({ isPublished: true }).sort({ sortOrder: 1, createdAt: -1 }).lean();
+    const dbBlogs = await Blog.find({
+      slug: { $exists: true, $ne: "" },
+      isPublished: { $ne: false },
+      publishStatus: { $ne: "Unpublished" },
+    })
+      .sort({ sortOrder: 1, createdAt: -1 })
+      .lean();
     if (dbBlogs && dbBlogs.length > 0) {
       return dbBlogs.map((b) => ({
         id: b.id || b._id.toString(),
@@ -46,9 +84,15 @@ async function getBlogs() {
 export default async function BlogPage() {
   const posts = await getBlogs();
 
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", href: "/" },
+    { name: "Blog & Research Hub", href: "/blog" },
+  ]);
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-amber-500 selection:text-slate-950">
       <Navbar />
+      <JsonLd schema={[breadcrumbSchema].filter(Boolean)} />
 
       <main className="pt-32 pb-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

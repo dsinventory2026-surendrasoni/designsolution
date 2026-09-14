@@ -2,6 +2,14 @@
 // Singleton MongoDB connection using mongoose
 
 import mongoose from "mongoose";
+import dns from "dns";
+
+// Ensure resilient DNS resolution for MongoDB Atlas SRV lookups on Windows/Node
+try {
+  dns.setServers(["8.8.8.8", "1.1.1.1", "8.8.4.4"]);
+} catch {
+  // Ignore in environments where setServers is restricted
+}
 
 const MONGODB_URI = process.env.MONGODB_URI;
 

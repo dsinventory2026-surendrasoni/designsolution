@@ -31,6 +31,7 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
     { name: "Commercial", href: "/#portfolio", isCategory: true, category: "Commercial" },
     { name: "Plots", href: "/#portfolio", isCategory: true, category: "Plots" },
     { name: "Construction", href: "/#portfolio", isCategory: true, category: "Construction" },
+    { name: "Valuable Properties", href: "/valuable-properties", isCategory: false },
     { name: "Services", href: "/#services", isCategory: false },
     { name: "Blog", href: "/blog", isCategory: false },
     { name: "Prelaunch", href: "/prelaunch", isCategory: false },

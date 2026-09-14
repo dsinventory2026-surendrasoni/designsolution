@@ -6,46 +6,43 @@
  * Strategy:
  * - Allow all public-facing pages for search engine and AI crawlers
  * - Block admin, private dashboard, and internal API routes
- * - Explicit sitemap declaration
+ * - Explicit canonical sitemap declaration
  */
+
 export default function robots() {
+  const disallowedPaths = ["/admin", "/admin/*", "/api", "/api/*"];
+
   return {
     rules: [
       {
         userAgent: "*",
         allow: ["/"],
-        disallow: [
-          "/admin",
-          "/admin/",
-          "/admin/dashboard",
-          "/admin/dashboard/",
-          "/api/",
-        ],
+        disallow: disallowedPaths,
       },
       {
         userAgent: "Googlebot",
         allow: ["/"],
-        disallow: ["/admin", "/admin/", "/api/"],
+        disallow: disallowedPaths,
       },
       {
         userAgent: "Bingbot",
         allow: ["/"],
-        disallow: ["/admin", "/admin/", "/api/"],
+        disallow: disallowedPaths,
       },
       {
         userAgent: "GPTBot",
         allow: ["/"],
-        disallow: ["/admin", "/admin/", "/api/"],
+        disallow: disallowedPaths,
       },
       {
         userAgent: "PerplexityBot",
         allow: ["/"],
-        disallow: ["/admin", "/admin/", "/api/"],
+        disallow: disallowedPaths,
       },
       {
         userAgent: "ClaudeBot",
         allow: ["/"],
-        disallow: ["/admin", "/admin/", "/api/"],
+        disallow: disallowedPaths,
       },
     ],
     sitemap: "https://www.dsgroupofcompanies.in/sitemap.xml",
