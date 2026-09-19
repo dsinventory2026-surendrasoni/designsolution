@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { siteConfig as staticSiteConfig } from "@/data/siteConfig";
 import { propertyCategories as staticPropertyCategories } from "@/data/propertiesData";
@@ -66,10 +66,12 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">Explore</h4>
             <ul className="space-y-2 text-xs font-medium">
               <li><a href="/#hero" className="hover:text-orange-400 transition-colors">Home</a></li>
+              <li><a href="/inventories" className="hover:text-orange-400 transition-colors">Inventories</a></li>
               <li><a href="/valuable-properties" className="hover:text-orange-400 transition-colors">Valuable Properties</a></li>
               <li><a href="/#portfolio" className="hover:text-orange-400 transition-colors">Featured Projects</a></li>
               <li><a href="/#services" className="hover:text-orange-400 transition-colors">Our Services</a></li>
               <li><a href="/blog" className="hover:text-orange-400 transition-colors">Research &amp; Blog</a></li>
+              <li><a href="/reviews" className="hover:text-orange-400 transition-colors">Client Reviews</a></li>
               <li><a href="/about" className="hover:text-orange-400 transition-colors">About DS Group</a></li>
               <li><a href="/about#team" className="hover:text-orange-400 transition-colors">Our Team</a></li>
               <li><a href="/enquire" className="hover:text-orange-400 transition-colors">Enquire Now</a></li>
@@ -185,11 +187,11 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
           </div>
         </div>
 
-        {/* Local SEO Keyword Matrix / Micro-Market Corridor Strip */}
+        {/* Areas We Serve & Real Estate Services Strip */}
         <div className="py-6 border-b border-[#374151]/80 text-[11px] text-slate-400 leading-relaxed">
-          <span className="font-bold text-slate-300 uppercase tracking-wider block mb-1">Key Real Estate Search Corridors in Gurugram:</span>
+          <span className="font-bold text-slate-300 uppercase tracking-wider block mb-1">Areas We Serve Across Gurgaon:</span>
           <p>
-            Sector 85 Gurgaon • Sector 84 Gurugram • Sector 83 Gurgaon • Sector 86 Gurgaon • Sector 88 New Gurgaon • Dwarka Expressway Real Estate • Golf Course Extension Road • Godrej Air Sector 85 • Pyramid Heights Sector 85 • SS The Leaf Sector 85 • Luxury Property in Sector 85 Gurgaon • Commercial Office Space Gurgaon • Residential Plots Sector 85 • Turnkey Villa Construction Gurgaon • DS Group Properties.
+            DS Group of Companies serves property buyers, sellers, and investors across Gurgaon including Sector 82, Sector 82A, Sector 83, Sector 84, Sector 85, Sector 86, Sector 89, Sector 90, Sector 92, Sector 93, Sector 95, New Gurgaon, and Dwarka Expressway. As a trusted property dealer and real estate consultant in Gurgaon, we offer residential flats, luxury apartments, commercial office spaces, SCO plots, DDJAY residential plots, and new launch projects with verified HRERA titles.
           </p>
         </div>
 

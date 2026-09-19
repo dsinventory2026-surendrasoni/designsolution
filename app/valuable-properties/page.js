@@ -16,17 +16,30 @@ import {
   Tag,
 } from "lucide-react";
 
+import JsonLd from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema } from "@/lib/seo";
+
 export const metadata = {
-  title: "Valuable Properties in Sector 85 Gurgaon | DS Group of Companies",
+  title: "Valuable Properties for Sale in Gurgaon & New Gurgaon | DS Group of Companies",
   description:
-    "Explore handpicked, high-value residential & commercial properties in Sector 85, New Gurgaon. HRERA verified listings with maximum ROI potential.",
+    "Explore handpicked, high-value residential and commercial properties in Gurgaon, New Gurgaon, and Sector 85. HRERA verified listings with maximum ROI potential by DS Group of Companies — trusted property dealer and real estate consultant in Gurgaon.",
+  keywords: [
+    "valuable properties in Gurgaon",
+    "properties for sale in Gurgaon",
+    "luxury flats Gurgaon",
+    "commercial property Gurgaon",
+    "property dealer in Gurgaon",
+    "property consultant in Gurgaon",
+    "Sector 85 Gurgaon properties",
+    "DS Group of Companies",
+  ],
   alternates: {
     canonical: "https://www.dsgroupofcompanies.in/valuable-properties",
   },
   openGraph: {
-    title: "Valuable Properties in Sector 85 Gurgaon | DS Group of Companies",
+    title: "Valuable Properties for Sale in Gurgaon & New Gurgaon | DS Group of Companies",
     description:
-      "Explore handpicked, high-value residential & commercial properties in Sector 85, New Gurgaon. HRERA verified listings with maximum ROI potential.",
+      "Explore handpicked, high-value residential and commercial properties in Gurgaon, New Gurgaon, and Sector 85. HRERA verified listings by DS Group of Companies.",
     url: "https://www.dsgroupofcompanies.in/valuable-properties",
     siteName: "DS Group of Companies",
     locale: "en_IN",
@@ -36,16 +49,27 @@ export const metadata = {
         url: "https://www.dsgroupofcompanies.in/images/logo.png",
         width: 1200,
         height: 630,
-        alt: "Valuable Properties in Sector 85 Gurgaon — DS Group of Companies",
+        alt: "Valuable Properties in Gurgaon — DS Group of Companies",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Valuable Properties in Sector 85 Gurgaon | DS Group of Companies",
+    title: "Valuable Properties for Sale in Gurgaon | DS Group of Companies",
     description:
-      "Explore handpicked, high-value residential & commercial properties in Sector 85, New Gurgaon. HRERA verified listings with maximum ROI potential.",
+      "Explore handpicked residential and commercial properties in Gurgaon. HRERA verified listings with DS Group of Companies.",
     images: ["https://www.dsgroupofcompanies.in/images/logo.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -104,6 +128,11 @@ async function getValuableProperties() {
 export default async function ValuablePropertiesPage() {
   const properties = await getValuableProperties();
 
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", href: "/" },
+    { name: "Valuable Properties", href: "/valuable-properties" },
+  ]);
+
   return (
     <div
       className="min-h-screen text-[#111827] selection:bg-[#FF7900] selection:text-white relative overflow-hidden"
@@ -116,12 +145,13 @@ export default async function ValuablePropertiesPage() {
       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#FF7900]/[0.04] rounded-full blur-3xl pointer-events-none -z-10" />
 
       <Navbar />
+      <JsonLd schema={[breadcrumbSchema].filter(Boolean)} />
 
       <main className="pt-32 pb-24 relative z-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-xs text-slate-500 mb-10">
+          <nav className="flex items-center gap-2 text-xs text-slate-500 mb-10" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-[#FF7900] transition-colors">Home</Link>
             <span>/</span>
             <span className="text-[#FF7900] font-semibold">Valuable Properties</span>
@@ -137,10 +167,10 @@ export default async function ValuablePropertiesPage() {
               className="text-3xl sm:text-5xl font-extrabold text-[#111827] tracking-tight leading-tight mb-4"
               style={{ fontFamily: "var(--font-outfit)" }}
             >
-              Valuable Properties in Sector 85 Gurgaon
+              Valuable Properties for Sale in Gurgaon &amp; New Gurgaon
             </h1>
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Explore hand-selected prime residential and commercial investment opportunities in New Gurgaon. 100% HRERA verified with complete legal due diligence by DS Group of Companies.
+              Explore hand-selected prime residential and commercial investment opportunities across Gurgaon and New Gurgaon. 100% HRERA verified with complete legal due diligence by DS Group of Companies.
             </p>
           </div>
 
@@ -156,7 +186,7 @@ export default async function ValuablePropertiesPage() {
                   {property.thumbnail ? (
                     <img
                       src={property.thumbnail}
-                      alt={property.projectName}
+                      alt={`${property.projectName} — ${property.location || "Gurgaon"} | DS Group of Companies`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (

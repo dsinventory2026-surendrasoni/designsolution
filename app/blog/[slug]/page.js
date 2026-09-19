@@ -116,7 +116,19 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
-    keywords: Array.isArray(post.tags) && post.tags.length > 0 ? post.tags : ["Gurgaon Real Estate", "Sector 85 Gurgaon", "DS Group"],
+    keywords: Array.isArray(post.tags) && post.tags.length > 0 ? [
+      ...post.tags,
+      "DS Group of Companies",
+      "property dealer in Gurgaon",
+      "property consultant in Gurgaon",
+      "Gurgaon Real Estate",
+    ] : [
+      "Gurgaon Real Estate",
+      "property dealer in Gurgaon",
+      "property consultant in Gurgaon",
+      "DS Group of Companies",
+      "Sector 85 Gurgaon",
+    ],
     alternates: {
       canonical: canonicalUrl,
     },
@@ -136,7 +148,7 @@ export async function generateMetadata({ params }) {
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: post.title,
+          alt: `${post.title} — DS Group of Companies Gurgaon`,
         },
       ],
     },
@@ -242,7 +254,11 @@ export default async function BlogPostPage({ params }) {
           {/* Hero Image */}
           {post.heroImage && (
             <div className="aspect-[16/9] w-full rounded-2xl overflow-hidden mb-10 border border-[#E5E7EB] shadow-sm">
-              <img src={post.heroImage} alt={post.title} className="w-full h-full object-cover" />
+              <img
+                src={post.heroImage}
+                alt={`${post.title} — DS Group of Companies Gurgaon`}
+                className="w-full h-full object-cover"
+              />
             </div>
           )}
 
@@ -273,10 +289,10 @@ export default async function BlogPostPage({ params }) {
           {/* In-Article CTA */}
           <div className="p-8 rounded-3xl bg-white border border-[#E5E7EB] shadow-sm text-center space-y-4 mb-14">
             <h3 className="text-xl font-bold text-[#111827]" style={{ fontFamily: "var(--font-outfit)" }}>
-              Need Expert Property Advice in Sector 85 Gurgaon?
+              Need Expert Property Advice in Gurgaon?
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto">
-              Talk directly with DS Group&apos;s senior advisors for verified prices, legal due diligence, and private site visits.
+              Talk directly with DS Group&apos;s senior advisors for verified prices, legal due diligence, and private site visits across Gurgaon and New Gurgaon.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <a

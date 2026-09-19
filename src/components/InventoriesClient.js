@@ -197,7 +197,7 @@ export default function InventoriesClient({ initialInventories = [], initialCate
                     <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                       <img
                         src={thumbnail}
-                        alt={item.title}
+                        alt={`${item.title} — ${[item.sector, item.location, "Gurgaon"].filter(Boolean).join(", ")} | DS Group of Companies`}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
@@ -328,6 +328,29 @@ export default function InventoriesClient({ initialInventories = [], initialCate
               })}
             </div>
           )}
+          {/* Bottom Internal Linking Banner */}
+          <div className="mt-16 p-8 sm:p-10 rounded-3xl bg-white border border-orange-100 shadow-sm text-center space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#111827]" style={{ fontFamily: "var(--font-outfit)" }}>
+              Can&apos;t Find the Exact Property You Are Looking For?
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
+              Our property consultants maintain an extensive offline inventory of verified residential flats, commercial properties, and plots across Gurgaon. Submit your requirement for personalized assistance.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+              <Link
+                href="/enquire"
+                className="px-6 py-3 rounded-xl bg-[#FF7900] hover:bg-[#F16E00] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-sm"
+              >
+                Submit Property Requirement
+              </Link>
+              <Link
+                href="/blog"
+                className="px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs uppercase tracking-wider transition-colors"
+              >
+                Read Gurgaon Real Estate Guides
+              </Link>
+            </div>
+          </div>
         </section>
       </main>
 

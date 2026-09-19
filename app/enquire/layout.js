@@ -13,16 +13,25 @@
  * - canonical: /enquire
  */
 export const metadata = {
-  title: "Enquire About Properties in Gurugram | DS Group of Companies",
+  title: "Property Enquiry & Consultation in Gurgaon | DS Group of Companies",
   description:
-    "Submit your property enquiry to DS Group of Companies. Tell us your requirements for residential apartments, commercial spaces, plots, or turnkey construction in Gurugram. Our advisor will contact you within 30 minutes.",
+    "Submit your property enquiry to DS Group of Companies — trusted property dealer and real estate consultant in Gurgaon. Residential flats, commercial properties, plots, and investment consultation across Gurgaon and New Gurgaon.",
+  keywords: [
+    "property enquiry Gurgaon",
+    "property consultant in Gurgaon",
+    "property dealer in Gurgaon",
+    "buy flat in Gurgaon",
+    "DS Group of Companies",
+    "commercial property Gurgaon enquiry",
+    "plots in Gurgaon enquiry",
+  ],
   alternates: {
     canonical: "https://www.dsgroupofcompanies.in/enquire",
   },
   openGraph: {
-    title: "Enquire About Properties in Gurugram | DS Group of Companies",
+    title: "Property Enquiry & Consultation in Gurgaon | DS Group of Companies",
     description:
-      "Reach out to DS Group of Companies for personalised property advice, site visit bookings, price insights, and real estate consultation in Gurugram.",
+      "Connect with DS Group of Companies — trusted property dealer and real estate consultant in Gurgaon for verified residential, commercial, and plot investments.",
     url: "https://www.dsgroupofcompanies.in/enquire",
     type: "website",
     siteName: "DS Group of Companies",
@@ -32,21 +41,28 @@ export const metadata = {
         url: "https://www.dsgroupofcompanies.in/images/logo.png",
         width: 1200,
         height: 630,
-        alt: "Enquire with DS Group of Companies",
+        alt: "Property Enquiry - DS Group of Companies Gurgaon",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Enquire About Properties in Gurugram | DS Group of Companies",
+    title: "Property Enquiry & Consultation in Gurgaon | DS Group of Companies",
     description:
-      "Get expert property advice from DS Group of Companies. Residential, commercial, plots and construction projects in Gurugram.",
+      "Get expert property advice from DS Group of Companies — property dealer in Gurgaon.",
     images: ["https://www.dsgroupofcompanies.in/images/logo.png"],
     creator: "@dsgroup_realty",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

@@ -21,6 +21,7 @@ import { blogPosts as fallbackBlogs } from "@/data/blogData";
 import connectDB from "@/lib/mongodb";
 import Blog from "@/lib/models/Blog";
 import ValuableProperty from "@/lib/models/ValuableProperty";
+import Inventory from "@/lib/models/Inventory";
 
 const SITE_URL = "https://www.dsgroupofcompanies.in";
 const DEFAULT_BASELINE_DATE = new Date("2026-09-01T00:00:00.000Z");
@@ -227,6 +228,10 @@ export default async function sitemap() {
     { url: `${SITE_URL}/enquire`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/blog`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/valuable-properties`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/inventories`, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}/reviews`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/prelaunch`, changeFrequency: "weekly", priority: 0.85 },
+    { url: `${SITE_URL}/prelaunch/ninezero`, changeFrequency: "weekly", priority: 0.85 },
   ];
 
   for (const item of coreFallbackRoutes) {
@@ -342,6 +347,32 @@ export default async function sitemap() {
         });
       }
     }
+  }
+
+  // ─── 4. Dynamic Inventory Pages ────────────────────────────────────────────
+  try {
+    await connectDB();
+    const dbInventories = await Inventory.find(
+      { publishStatus: "Published" },
+      "slug updatedAt createdAt"
+    )
+      .sort({ priority: -1, createdAt: -1 })
+      .lean();
+
+    if (dbInventories && dbInventories.length > 0) {
+      for (const inv of dbInventories) {
+        if (inv.slug) {
+          addEntry({
+            url: `${SITE_URL}/inventories/${inv.slug}`,
+            lastModified: safeDate(inv.updatedAt || inv.createdAt),
+            changeFrequency: "weekly",
+            priority: 0.85,
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error querying inventories from DB for sitemap:", error);
   }
 
   return Array.from(urlMap.values());

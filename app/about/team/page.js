@@ -37,17 +37,43 @@ export async function generateMetadata() {
   const brand = config?.brand || fallbackConfig.brand;
 
   return {
-    title: `Our Team & Employee Directory | ${brand.name} Sector 85 Gurgaon`,
-    description: `Meet the multidisciplinary team of engineers, architects, legal advisors, and sales executives behind ${brand.name} in Gurugram.`,
+    title: `Our Team & Leadership | ${brand.name} Gurgaon`,
+    description: `Meet the team of real estate specialists, property consultants, and engineers behind ${brand.name} — trusted property dealer in Gurgaon.`,
     keywords: [
-      "DS Group employees",
-      "DS Group team directory",
+      "DS Group of Companies",
+      "DS Group team",
       "real estate consultants Gurgaon",
-      "DS Group architects engineers",
+      "property dealer in Gurgaon",
+      "property consultant in Gurgaon",
       "DS Group management Gurgaon",
+      "Sector 85 Gurgaon",
     ],
     alternates: {
       canonical: "https://www.dsgroupofcompanies.in/about/team",
+    },
+    openGraph: {
+      title: `Our Team & Leadership | ${brand.name} Gurgaon`,
+      description: `Meet the team of real estate consultants and engineers behind ${brand.name}.`,
+      url: "https://www.dsgroupofcompanies.in/about/team",
+      siteName: "DS Group of Companies",
+      locale: "en_IN",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `Our Team | ${brand.name}`,
+      description: `Meet the real estate specialists at DS Group of Companies Gurgaon.`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }

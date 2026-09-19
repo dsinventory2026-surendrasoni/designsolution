@@ -161,7 +161,7 @@ export default function InventoryDetailClient({ inventory, related = [] }) {
             <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-100 bg-black aspect-[16/10] relative group">
               <img
                 src={mainImage}
-                alt={inventory.title}
+                alt={`${inventory.title} — ${[inventory.sector, inventory.location, "Gurgaon"].filter(Boolean).join(", ")} | DS Group of Companies`}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -185,7 +185,11 @@ export default function InventoryDetailClient({ inventory, related = [] }) {
                         : "opacity-70 hover:opacity-100 border border-slate-200"
                     }`}
                   >
-                    <img src={img} alt={`Thumb ${idx + 1}`} className="w-full h-full object-cover" />
+                    <img
+                      src={img}
+                      alt={`${inventory.title} photo ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
@@ -436,7 +440,7 @@ export default function InventoryDetailClient({ inventory, related = [] }) {
                   <div className="aspect-[16/10] overflow-hidden bg-slate-100 relative">
                     <img
                       src={rel.thumbnail || (rel.images && rel.images[0]) || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop"}
-                      alt={rel.title}
+                      alt={`${rel.title} — ${[rel.sector, rel.location, "Gurgaon"].filter(Boolean).join(", ")} | DS Group`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/95 text-slate-800 shadow-xs">
@@ -464,6 +468,31 @@ export default function InventoryDetailClient({ inventory, related = [] }) {
             </div>
           </section>
         )}
+
+        {/* Internal Links Navigation Helper */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+          <div className="p-6 rounded-2xl bg-white border border-slate-100 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-600 shadow-xs">
+            <div className="flex items-center gap-3 flex-wrap">
+              <Link href="/inventories" className="font-bold text-[#FF7900] hover:underline flex items-center gap-1">
+                <ArrowLeft className="w-3.5 h-3.5" /> Back to All Inventories
+              </Link>
+              <span>•</span>
+              <Link href="/valuable-properties" className="hover:text-slate-900 transition-colors">
+                Valuable Properties
+              </Link>
+              <span>•</span>
+              <Link href="/blog" className="hover:text-slate-900 transition-colors">
+                Gurgaon Real Estate Guides
+              </Link>
+            </div>
+            <div>
+              <span>Need immediate assistance? Call </span>
+              <a href={`tel:${callNumber.replace(/\s+/g, "")}`} className="font-bold text-slate-900 hover:text-[#FF7900]">
+                {callNumber}
+              </a>
+            </div>
+          </div>
+        </div>
       </main>
 
       <Footer />

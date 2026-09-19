@@ -10,16 +10,26 @@ import JsonLd from "@/components/seo/JsonLd";
 import { getBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata = {
-  title: "Real Estate Blog & Research Hub | DS Group of Companies",
+  title: "Real Estate Blog & Gurgaon Property Guides | DS Group of Companies",
   description:
-    "Expert real estate guides, project reviews, investment analysis, and legal tips for Gurgaon property buyers and investors. Authored by DS Group of Companies.",
+    "Expert real estate guides, project reviews, investment analysis, and sector insights for Gurgaon property buyers and investors. Authored by DS Group of Companies — trusted property dealer and real estate consultant in Gurgaon.",
+  keywords: [
+    "real estate blog Gurgaon",
+    "Gurgaon property guide",
+    "property dealer in Gurgaon",
+    "property consultant in Gurgaon",
+    "property investment Gurgaon",
+    "flats in Gurgaon",
+    "DS Group of Companies",
+    "DS Group blog",
+  ],
   alternates: {
     canonical: "https://www.dsgroupofcompanies.in/blog",
   },
   openGraph: {
-    title: "Real Estate Blog & Research Hub | DS Group of Companies",
+    title: "Real Estate Blog & Gurgaon Property Guides | DS Group of Companies",
     description:
-      "Expert real estate guides, project reviews, investment analysis, and legal tips for Gurgaon property buyers and investors. Authored by DS Group of Companies.",
+      "Expert real estate guides, project reviews, investment analysis, and sector insights for Gurgaon property buyers and investors. Authored by DS Group of Companies.",
     url: "https://www.dsgroupofcompanies.in/blog",
     siteName: "DS Group of Companies",
     locale: "en_IN",
@@ -29,21 +39,28 @@ export const metadata = {
         url: "https://www.dsgroupofcompanies.in/images/logo.png",
         width: 1200,
         height: 630,
-        alt: "DS Group of Companies Blog & Research Hub",
+        alt: "DS Group of Companies Real Estate Blog and Research Hub Gurgaon",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Real Estate Blog & Research Hub | DS Group of Companies",
+    title: "Real Estate Blog & Gurgaon Property Guides | DS Group of Companies",
     description:
-      "Expert real estate guides, project reviews, investment analysis, and legal tips for Gurgaon property buyers and investors. Authored by DS Group of Companies.",
+      "Expert real estate guides, project reviews, investment analysis, and sector insights for Gurgaon property buyers and investors. Authored by DS Group of Companies.",
     images: ["https://www.dsgroupofcompanies.in/images/logo.png"],
     creator: "@dsgroup_realty",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -121,7 +138,7 @@ export default async function BlogPage() {
             </div>
             <h1 className="text-3xl sm:text-5xl font-extrabold text-[#111827] tracking-tight leading-tight mb-4"
               style={{ fontFamily: "var(--font-outfit)" }}>
-              Gurgaon Real Estate Insights, Reviews &amp; Guides
+              Gurgaon Real Estate Insights, Reviews &amp; Guides — DS Group of Companies
             </h1>
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
               In-depth market analyses, honest project reviews, legal checklists, and investment forecasts authored by DS Group&apos;s senior advisory and civil engineering team.
@@ -221,10 +238,10 @@ export default async function BlogPage() {
           {/* Bottom CTA */}
           <div className="mt-16 p-8 sm:p-12 rounded-3xl bg-white border border-[#E5E7EB] shadow-sm text-center space-y-4">
             <h2 className="text-xl sm:text-2xl font-bold text-[#111827]" style={{ fontFamily: "var(--font-outfit)" }}>
-              Need Personalised Real Estate Advice for Sector 85?
+              Need Personalised Real Estate Advice in Gurgaon?
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
-              Connect with DS Group&apos;s senior property advisors for verified listings, legal due diligence, and exclusive resale inventory.
+              Connect with DS Group&apos;s senior property advisors for verified listings, legal due diligence, and exclusive resale inventory across Gurgaon and New Gurgaon.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <a

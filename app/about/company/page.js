@@ -37,18 +37,45 @@ export async function generateMetadata() {
   const brand = config?.brand || fallbackConfig.brand;
 
   return {
-    title: `About Company | ${brand.name} — Sector 85 Gurgaon`,
+    title: `About Company | ${brand.name} — Property Dealer & Real Estate Consultant in Gurgaon`,
     description: company.story
       ? company.story.slice(0, 160)
-      : `Learn about ${brand.name}, premier luxury real estate developer and construction firm in Sector 85 Gurugram.`,
+      : `Learn about ${brand.name}, trusted property dealer and real estate consultant in Gurgaon offering residential flats, commercial properties, and plots.`,
     keywords: company.seoKeywords || [
+      "DS Group of Companies",
       "DS Group of Companies about company",
-      "real estate company Sector 85 Gurgaon",
-      "luxury property developer Gurugram",
+      "property dealer in Gurgaon",
+      "property consultant in Gurgaon",
+      "real estate company in Gurgaon",
       "DS Group history story",
+      "Sector 85 Gurgaon",
     ],
     alternates: {
       canonical: "https://www.dsgroupofcompanies.in/about/company",
+    },
+    openGraph: {
+      title: `About Company | ${brand.name} — Gurgaon`,
+      description: company.story ? company.story.slice(0, 160) : `Learn about ${brand.name}, trusted property dealer and real estate consultant in Gurgaon.`,
+      url: "https://www.dsgroupofcompanies.in/about/company",
+      siteName: "DS Group of Companies",
+      locale: "en_IN",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `About Company | ${brand.name}`,
+      description: `Learn about ${brand.name}, trusted property dealer in Gurgaon.`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }

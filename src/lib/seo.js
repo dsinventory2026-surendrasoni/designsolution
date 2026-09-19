@@ -150,11 +150,10 @@ export function getOrganizationSchema() {
       name: SITE_NAME,
       alternateName: [
         "DS Group",
+        "DS Group Gurgaon",
+        "DS Group of Companies Gurgaon",
         "DS Group Properties",
         "DS Group Real Estate",
-        "DS Group Realty",
-        "DS Group Gurugram",
-        "DS Group Gurgaon",
       ],
       url: SITE_URL,
       logo: {
@@ -164,7 +163,7 @@ export function getOrganizationSchema() {
         height: 200,
       },
       description:
-        "DS Group of Companies is the premier real estate developer and luxury property consultant in Sector 85 Gurgaon, offering high-end residential flats, Grade-A commercial spaces, plots, and turnkey construction.",
+        "DS Group of Companies is a trusted property dealer and real estate consultant in Gurgaon. We offer residential flats, commercial properties, plots, new launches, and property investment consultation across Gurgaon and New Gurgaon.",
       telephone: "+917743000070",
       email: "info@dsgroupofcompanies.in",
       foundingDate: "2008",
@@ -211,18 +210,20 @@ export function getLocalBusinessSchema() {
       "@context": "https://schema.org",
       "@type": "RealEstateAgent",
       "@id": `${SITE_URL}/#localbusiness`,
-      name: "DS Group of Companies - Real Estate Consultant & Property Finder",
+      name: "DS Group of Companies — Property Dealer & Real Estate Consultant in Gurgaon",
       alternateName: [
-        "DS Group Property Dealer Gurgaon",
-        "DS Group Real Estate Consultant Sector 85",
-        "Property Finder Sector 85 Gurgaon",
+        "DS Group Gurgaon",
+        "DS Group of Companies Gurgaon",
+        "property dealer Gurgaon",
+        "property consultant Gurgaon",
+        "real estate consultant Gurgaon",
       ],
       image: `${SITE_URL}/images/logo.png`,
       url: SITE_URL,
       telephone: "+917743000070",
       priceRange: "₹₹₹₹",
       description:
-        "Best real estate consultant, property finder, and property dealer in Sector 85 Gurgaon. Specializing in luxury flats, commercial properties, Godrej Air Sector 85, Pyramid Heights, SS The Leaf, and freehold residential plots.",
+        "DS Group of Companies is a trusted property dealer and real estate consultant in Gurgaon. We help buyers find residential flats, commercial properties, plots, and property investment opportunities across Gurgaon, New Gurgaon, Sector 85, 89, 90, 92, and Dwarka Expressway.",
       address: {
         "@type": "PostalAddress",
         streetAddress: "Plot Sector 85, Tower 7, 3rd Floor, Corporate Business District",
@@ -251,17 +252,20 @@ export function getLocalBusinessSchema() {
         },
       ],
       areaServed: [
-        { "@type": "AdministrativeArea", name: "Sector 85 Gurgaon" },
-        { "@type": "AdministrativeArea", name: "Sector 85 Gurugram" },
-        { "@type": "AdministrativeArea", name: "Sector 84 Gurgaon" },
+        { "@type": "AdministrativeArea", name: "Sector 82 Gurgaon" },
+        { "@type": "AdministrativeArea", name: "Sector 82A Gurgaon" },
         { "@type": "AdministrativeArea", name: "Sector 83 Gurgaon" },
+        { "@type": "AdministrativeArea", name: "Sector 84 Gurgaon" },
+        { "@type": "AdministrativeArea", name: "Sector 85 Gurgaon" },
         { "@type": "AdministrativeArea", name: "Sector 86 Gurgaon" },
-        { "@type": "AdministrativeArea", name: "Sector 88 Gurgaon" },
+        { "@type": "AdministrativeArea", name: "Sector 89 Gurgaon" },
+        { "@type": "AdministrativeArea", name: "Sector 90 Gurgaon" },
+        { "@type": "AdministrativeArea", name: "Sector 92 Gurgaon" },
+        { "@type": "AdministrativeArea", name: "Sector 93 Gurgaon" },
+        { "@type": "AdministrativeArea", name: "Sector 95 Gurgaon" },
         { "@type": "AdministrativeArea", name: "New Gurgaon" },
         { "@type": "AdministrativeArea", name: "Dwarka Expressway" },
         { "@type": "AdministrativeArea", name: "Golf Course Extension Road" },
-        { "@type": "AdministrativeArea", name: "Sohna Road" },
-        { "@type": "AdministrativeArea", name: "Manesar" },
         { "@type": "City", name: "Gurugram" },
         { "@type": "City", name: "Gurgaon" },
       ],
@@ -608,6 +612,90 @@ export function getArticleSchema(blog) {
 
   if (blog.category) {
     schema.articleSection = blog.category;
+  }
+
+  return cleanObject(schema) || null;
+}
+
+/**
+ * Generates Product/RealEstateListing schema for an inventory detail listing.
+ *
+ * @param {object} inventory
+ * @returns {object|null}
+ */
+export function getInventoryPageSchema(inventory) {
+  if (!inventory || typeof inventory !== "object") return null;
+
+  const name = (inventory.title || "").trim();
+  if (!name) return null;
+
+  const description = (
+    inventory.shortDesc ||
+    inventory.fullDesc ||
+    `${name} - ${inventory.category || "Property"} in ${inventory.sector || inventory.location || "Gurgaon"} by DS Group of Companies`
+  ).trim();
+
+  const slug = inventory.slug;
+  const url = slug ? `${SITE_URL}/inventories/${slug}` : `${SITE_URL}/inventories`;
+
+  let images = [];
+  if (inventory.thumbnail) images.push(inventory.thumbnail);
+  if (Array.isArray(inventory.images)) {
+    inventory.images.forEach((img) => {
+      if (typeof img === "string" && img.trim() && !images.includes(img.trim())) {
+        images.push(img.trim());
+      }
+    });
+  }
+  if (images.length === 0) images.push(DEFAULT_OG_IMAGE);
+
+  // Price parsing
+  let priceNumber = undefined;
+  if (typeof inventory.numericPrice === "number" && inventory.numericPrice > 0) {
+    priceNumber = inventory.numericPrice < 10000 ? inventory.numericPrice * 100000 : inventory.numericPrice;
+  } else if (typeof inventory.price === "string") {
+    const lower = inventory.price.toLowerCase().replace(/,/g, "");
+    const matchCr = lower.match(/([\d.]+)\s*(?:cr|crore)/);
+    const matchLakh = lower.match(/([\d.]+)\s*(?:lac|lakh)/);
+    const matchDigits = lower.replace(/[^\d.]/g, "");
+
+    if (matchCr) {
+      priceNumber = Math.round(parseFloat(matchCr[1]) * 10000000);
+    } else if (matchLakh) {
+      priceNumber = Math.round(parseFloat(matchLakh[1]) * 100000);
+    } else if (matchDigits && !isNaN(parseFloat(matchDigits))) {
+      const val = parseFloat(matchDigits);
+      if (val > 0) priceNumber = val;
+    }
+  }
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name,
+    description,
+    url,
+    image: images.length === 1 ? images[0] : images,
+    brand: {
+      "@type": "Brand",
+      name: SITE_NAME,
+    },
+  };
+
+  if (priceNumber && priceNumber > 0) {
+    schema.offers = {
+      "@type": "Offer",
+      priceCurrency: "INR",
+      price: priceNumber,
+      priceValidUntil: "2027-12-31",
+      availability: "https://schema.org/InStock",
+      url,
+      seller: {
+        "@type": "Organization",
+        name: SITE_NAME,
+        "@id": `${SITE_URL}/#organization`,
+      },
+    };
   }
 
   return cleanObject(schema) || null;

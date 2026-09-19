@@ -81,16 +81,24 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const title = `${property.projectName} | ${property.location || "Gurugram"} | DS Group`;
+  const title = `${property.projectName} | ${property.location || "Gurgaon"} | DS Group of Companies`;
   const description =
     property.shortDescription ||
-    `${property.projectName} in ${property.location || "Gurugram"}. Explore pricing, specifications, amenities, and site visit options with DS Group of Companies.`;
+    `${property.projectName} in ${property.location || "Gurgaon"}. Explore pricing, floor plans, amenities, and site visit options with DS Group of Companies — trusted property dealer and real estate consultant in Gurgaon.`;
   const ogImage = property.heroBanner || property.thumbnail || `${SITE_URL}/images/logo.png`;
   const canonicalUrl = `${SITE_URL}/valuable-properties/${slug}`;
 
   return {
     title,
     description,
+    keywords: [
+      property.projectName,
+      property.location || "Gurgaon",
+      "properties for sale in Gurgaon",
+      "property dealer in Gurgaon",
+      "property consultant in Gurgaon",
+      "DS Group of Companies",
+    ],
     alternates: {
       canonical: canonicalUrl,
     },
@@ -106,7 +114,7 @@ export async function generateMetadata({ params }) {
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: `${property.projectName} — DS Group of Companies`,
+          alt: `${property.projectName} — DS Group of Companies Gurgaon`,
         },
       ],
     },
@@ -119,6 +127,13 @@ export async function generateMetadata({ params }) {
     robots: {
       index: true,
       follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }

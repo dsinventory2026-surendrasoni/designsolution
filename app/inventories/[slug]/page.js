@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import connectDB from "@/lib/mongodb";
 import Inventory from "@/lib/models/Inventory";
 import InventoryDetailClient from "@/components/InventoryDetailClient";
+import JsonLd from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema, getInventoryPageSchema } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -17,25 +19,50 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const title = item.seoTitle || `${item.title} in ${item.sector || item.location || "Gurugram"} | DS Group`;
-  const description = item.seoDescription || item.shortDesc || `Explore ${item.title}, a premier ${item.propertyType || item.category} property in ${item.location || item.city}. Contact DS Group for pricing and private site visits.`;
-  const image = item.thumbnail || (item.images && item.images[0]) || "/images/og-image.jpg";
+  const title = item.seoTitle || `${item.title} in ${item.sector || item.location || "Gurgaon"} | DS Group of Companies`;
+  const description = item.seoDescription || item.shortDesc || `Explore ${item.title}, a verified ${item.propertyType || item.category || "property"} in ${item.sector || item.location || "Gurgaon"}. DS Group of Companies — trusted property dealer and real estate consultant in Gurgaon.`;
+  const image = item.thumbnail || (item.images && item.images[0]) || "/images/logo.png";
+  const canonicalUrl = `https://www.dsgroupofcompanies.in/inventories/${slug}`;
 
   return {
     title,
     description,
     keywords: item.seoKeywords ? item.seoKeywords.split(",").map((k) => k.trim()) : [
       item.title,
-      `${item.category} in Gurgaon`,
+      `${item.category || "Property"} in Gurgaon`,
       item.propertyType || "Property",
       item.sector || "Sector 85 Gurgaon",
-      "DS Group inventory",
+      "property dealer in Gurgaon",
+      "flats in Gurgaon",
+      "DS Group of Companies",
     ],
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title,
       description,
-      images: [{ url: image, alt: item.title }],
+      url: canonicalUrl,
+      siteName: "DS Group of Companies",
+      images: [{ url: image, alt: `${item.title} - DS Group of Companies Gurgaon` }],
       type: "article",
+      locale: "en_IN",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }
@@ -63,5 +90,19 @@ export default async function InventorySlugPage({ params }) {
 
   const related = JSON.parse(JSON.stringify(rawRelated));
 
-  return <InventoryDetailClient inventory={inventory} related={related} />;
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", href: "/" },
+    { name: "Inventories", href: "/inventories" },
+    ...(inventory.category ? [{ name: inventory.category, href: `/inventories?category=${encodeURIComponent(inventory.category)}` }] : []),
+    { name: inventory.title, href: `/inventories/${inventory.slug}` },
+  ]);
+
+  const inventorySchema = getInventoryPageSchema(inventory);
+
+  return (
+    <>
+      <JsonLd schema={[breadcrumbSchema, inventorySchema].filter(Boolean)} />
+      <InventoryDetailClient inventory={inventory} related={related} />
+    </>
+  );
 }

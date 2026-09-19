@@ -37,19 +37,46 @@ export async function generateMetadata() {
   const brand = config?.brand || fallbackConfig.brand;
 
   return {
-    title: `About Founder & MD ${owner.name || "Surendra Soni"} | ${brand.name}`,
+    title: `Surendra Soni | Founder & Managing Director | ${brand.name} Gurgaon`,
     description: owner.bio
       ? owner.bio.slice(0, 160)
-      : `Meet Surendra Soni, Founder & Managing Director of DS Group of Companies in Sector 85 Gurugram.`,
+      : `Meet Surendra Soni, Founder & Managing Director of DS Group of Companies — trusted property dealer and real estate consultant in Gurgaon.`,
     keywords: [
+      "Surendra Soni",
       "Surendra Soni real estate",
       "DS Group owner details",
       "Surendra Soni Gurgaon builder",
       "DS Group founder managing director",
+      "property dealer in Gurgaon",
+      "DS Group of Companies",
       "Surendra Soni Sector 85",
     ],
     alternates: {
       canonical: "https://www.dsgroupofcompanies.in/about/owner",
+    },
+    openGraph: {
+      title: `Surendra Soni — Founder & MD | ${brand.name} Gurgaon`,
+      description: owner.bio ? owner.bio.slice(0, 160) : `Meet Surendra Soni, Founder & MD of DS Group of Companies Gurgaon.`,
+      url: "https://www.dsgroupofcompanies.in/about/owner",
+      siteName: "DS Group of Companies",
+      locale: "en_IN",
+      type: "profile",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `Surendra Soni | ${brand.name}`,
+      description: `Founder & Managing Director of DS Group of Companies Gurgaon.`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }

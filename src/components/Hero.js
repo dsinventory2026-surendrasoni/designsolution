@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, Fragment } from "react";
 import { siteConfig as staticSiteConfig } from "@/data/siteConfig";
@@ -49,7 +49,7 @@ export default function Hero({ onFilterSearch, onOpenContactModal, heroData, sit
         {/* Eyebrow Badge */}
         <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full border border-[rgba(255,121,0,0.35)] bg-[rgba(17,24,39,0.65)] text-xs font-semibold uppercase tracking-[0.25em] text-[var(--champagne)] mb-5 shadow-2xl backdrop-blur-md">
           <Sparkles className="w-3.5 h-3.5 text-[var(--champagne)] animate-pulse" />
-          <span>{heroData?.eyebrowBadge || "DS GROUP OF COMPANIES"}</span>
+          <span>{heroData?.eyebrowBadge || "DS GROUP OF COMPANIES — GURGAON"}</span>
         </div>
 
         {/* Main Headline */}
@@ -57,12 +57,12 @@ export default function Hero({ onFilterSearch, onOpenContactModal, heroData, sit
           className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15] drop-shadow-2xl mb-5 max-w-4xl"
           style={{ fontFamily: "var(--font-outfit)" }}
         >
-          {heroData?.headline || "Crafting Iconic Spaces & Timeless Luxury"}
+          {heroData?.headline || "DS Group of Companies — Your Trusted Property Dealer & Real Estate Consultant in Gurgaon"}
         </h1>
 
         {/* Subheadline Paragraph */}
         <p className="text-sm sm:text-base md:text-lg text-slate-200/90 max-w-2xl font-normal leading-relaxed drop-shadow-md mb-9">
-          {heroData?.subheadline || "Pioneering premier residential residences, commercial landmarks, and turnkey architectural construction with 18+ years of uncompromised excellence."}
+          {heroData?.subheadline || "Explore residential flats, commercial properties, plots, new launches, and property investment opportunities across Gurgaon, New Gurgaon, and Dwarka Expressway."}
         </p>
 
         {/* Action Buttons */}
