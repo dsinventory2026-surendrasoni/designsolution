@@ -301,7 +301,15 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
                 )}
               </div>
 
-              {/* 3. About Us Dropdown (Ultra-Premium Luxury Glass & Card) */}
+              {/* 3. Inventories Link (Direct Link) */}
+              <Link
+                href="/inventories"
+                className="relative px-2.5 py-2 text-xs font-semibold transition-all duration-200 group whitespace-nowrap text-slate-200 hover:text-white"
+              >
+                <span className="relative z-10">Inventories</span>
+              </Link>
+
+              {/* 4. About Us Dropdown (Ultra-Premium Luxury Glass & Card) */}
               <div
                 ref={aboutDropdownRef}
                 className="relative"
@@ -568,7 +576,20 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
                 )}
               </div>
 
-              {/* 3. Mobile About Us Accordion */}
+              {/* 3. Mobile Inventories Link */}
+              <Link
+                href="/inventories"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center justify-between px-4 py-3.5 rounded-xl transition-all duration-200 text-sm font-medium text-slate-200 hover:text-white hover:bg-white/5"
+              >
+                <div className="flex items-center gap-2">
+                  <Home className="w-4 h-4 opacity-60" />
+                  <span>Inventories</span>
+                </div>
+                <ChevronRight className="w-4 h-4 opacity-40" />
+              </Link>
+
+              {/* 4. Mobile About Us Accordion */}
               <div>
                 <button
                   onClick={() => setIsMobileAboutOpen((v) => !v)}

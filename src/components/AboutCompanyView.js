@@ -58,6 +58,13 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
   const brand = cfg?.brand || staticSiteConfig.brand;
   const contact = cfg?.contact || staticSiteConfig.contact;
 
+  // Founder / Owner data – synced with Admin → About → Owner tab
+  const ownerDetails = cfg?.about?.ownerDetails || {};
+  const founderPhoto = ownerDetails?.photo || cfg?.owner?.photo || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop";
+  const founderName = ownerDetails?.name || cfg?.owner?.name || "Surendra Soni";
+  const founderDesignation = ownerDetails?.designation || cfg?.owner?.designation || "Founder & Managing Director";
+  const founderQuote = ownerDetails?.quote || cfg?.owner?.quote || "Our vision has always been to create developments that combine architectural excellence, transparency, and long-term value — because every family that trusts us with their investment deserves nothing less than perfection.";
+
   const company = cfg?.about?.companyDetails || {
     story: "Founded with an uncompromising ambition to reshape the National Capital Region's architectural horizon, DS Group of Companies has emerged as Gurugram's preeminent developer and real estate advisory firm. Headquartered in the prime growth epicentre of Sector 85, we orchestrate landmark residential complexes, Grade-A commercial towers, approved freehold plot communities, and end-to-end turnkey construction with absolute transparency, statutory compliance, and engineering mastery.",
     mission: "To engineer iconic living and business destinations that deliver generational wealth, uncompromised structural integrity, and world-class luxury while maintaining 100% legal transparency and ethical advisory for every client.",
@@ -126,15 +133,17 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
   /* ── Lightbox state ── */
   const [lightboxImg, setLightboxImg] = useState(null);
 
-  const timeline = [
-    { year: "2008", event: "Company Founded", desc: "DS Group established in Gurugram with a vision to redefine real estate." },
-    { year: "2012", event: "First Residential Development", desc: "Landmark residential project launched in Sector 85, setting quality benchmarks." },
-    { year: "2016", event: "Commercial Expansion", desc: "Entry into Grade-A commercial spaces along Dwarka Expressway." },
-    { year: "2020", event: "Turnkey Construction Division", desc: "In-house EPC division launched for end-to-end construction delivery." },
-    { year: "2024", event: "Multi-Sector Presence", desc: "Comprehensive portfolio spanning residential, commercial, and plotted developments." },
-  ];
+  const timeline = (company.timeline && company.timeline.length > 0)
+    ? company.timeline
+    : [
+        { year: "2008", event: "Company Founded", desc: "DS Group established in Gurugram with a vision to redefine real estate." },
+        { year: "2012", event: "First Residential Development", desc: "Landmark residential project launched in Sector 85, setting quality benchmarks." },
+        { year: "2016", event: "Commercial Expansion", desc: "Entry into Grade-A commercial spaces along Dwarka Expressway." },
+        { year: "2020", event: "Turnkey Construction Division", desc: "In-house EPC division launched for end-to-end construction delivery." },
+        { year: "2024", event: "Multi-Sector Presence", desc: "Comprehensive portfolio spanning residential, commercial, and plotted developments." },
+      ];
 
-  const whyCards = [
+  const defaultWhyCards = [
     { icon: ShieldCheck, title: "Transparent Transactions", desc: "Every deal is documented, escrow-protected, and fully RERA compliant." },
     { icon: BadgeCheck, title: "RERA Compliant Projects", desc: "100% HRERA registered projects ensuring buyer protection and legal clarity." },
     { icon: MapPin, title: "Prime Locations", desc: "Projects along Dwarka Expressway and Southern Peripheral Road — NCR's growth corridor." },
@@ -142,6 +151,14 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
     { icon: HeartHandshake, title: "Customer Support", desc: "Dedicated relationship managers from booking to possession and beyond." },
     { icon: TrendingUp, title: "Long-Term Value Creation", desc: "Locations and asset classes curated for consistent capital appreciation." },
   ];
+
+  const whyCards = (company.highlights && company.highlights.length > 0)
+    ? company.highlights.map((h, i) => ({
+        icon: defaultWhyCards[i % defaultWhyCards.length].icon,
+        title: h.title,
+        desc: h.description,
+      }))
+    : defaultWhyCards;
 
   const strengthCards = [
     { icon: Calendar, label: "Years in Business", value: "16+", sub: "Since 2008" },
@@ -152,13 +169,30 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
     { icon: ShieldCheck, label: "Regulatory Certs", value: "100%", sub: "Compliance" },
   ];
 
-  const coreValuesList = [
+  const defaultCoreValues = [
     { icon: ShieldCheck, title: "Integrity", desc: "Every transaction backed by full documentation and zero hidden clauses." },
     { icon: Eye, title: "Transparency", desc: "Escrow-protected bookings, RERA IDs visible on every project collateral." },
     { icon: Award, title: "Quality", desc: "ISO-grade materials, seismic-safe structures, luxury-finish standards." },
     { icon: Zap, title: "Innovation", desc: "PropTech integrations, virtual tours, and digital CRM for modern buyers." },
     { icon: HeartHandshake, title: "Customer First", desc: "Relationship-led advisory — your satisfaction defines our success." },
   ];
+
+  const coreValuesList = (company.coreValues && company.coreValues.length > 0)
+    ? company.coreValues.map((cv, i) => ({
+        icon: defaultCoreValues[i % defaultCoreValues.length].icon,
+        title: cv.title,
+        desc: cv.description,
+      }))
+    : defaultCoreValues;
+
+  const dynamicStats = (company.stats && company.stats.length > 0)
+    ? company.stats
+    : [
+        { label: "Projects Delivered", value: "25+" },
+        { label: "Happy Families", value: "500+" },
+        { label: "Years Experience", value: "15+" },
+        { label: "Regulatory Compliance", value: "100%" },
+      ];
 
   const trustPoints = [
     "Compliance Driven", "Customer Focused", "Prime Locations",
@@ -186,8 +220,7 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
               className="text-3xl sm:text-4xl font-extrabold text-[#111827] leading-tight mb-6"
               style={{ fontFamily: "var(--font-outfit)" }}
             >
-              Building Trust. Creating Landmarks. Delivering Value{" "}
-              <span style={{ color: "#FF7900" }}>Since 2008.</span>
+              {company.heroHeading || "Building Trust. Creating Landmarks. Delivering Value Since 2008."}
             </h2>
 
             <p className="text-slate-600 text-base leading-relaxed mb-8">
@@ -228,10 +261,9 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
             </h3>
 
             <div className="grid grid-cols-2 gap-4">
-              <AnimatedStat value="25+" label="Projects Delivered" startWhen={statsVisible} />
-              <AnimatedStat value="500+" label="Happy Families" startWhen={statsVisible} />
-              <AnimatedStat value="15+" label="Years Experience" startWhen={statsVisible} />
-              <AnimatedStat value="100%" label="Regulatory Compliance" startWhen={statsVisible} />
+              {dynamicStats.slice(0, 4).map((st, i) => (
+                <AnimatedStat key={i} value={st.value || "0"} label={st.label || ""} startWhen={statsVisible} />
+              ))}
             </div>
 
             {/* Premium badge strip */}
@@ -371,17 +403,17 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
                   style={{ border: "4px solid #FF7900" }}
                 >
                   <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop"
-                    alt="Surendra Soni - Founder DS Group"
+                    src={founderPhoto}
+                    alt={`${founderName} - Founder DS Group`}
                     className="w-full h-full object-cover"
                   />
                 </div>
 
                 <div className="text-white font-extrabold text-xl" style={{ fontFamily: "var(--font-outfit)" }}>
-                  Surendra Soni
+                  {founderName}
                 </div>
                 <div className="text-[#FF7900] text-sm font-semibold mt-1">
-                  Founder &amp; Managing Director
+                  {founderDesignation}
                 </div>
                 <div className="text-slate-400 text-xs mt-1">
                   DS Group of Companies
@@ -403,7 +435,7 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
                       letterSpacing: "2px"
                     }}
                   >
-                    Surendra Soni
+                    {founderName}
                   </div>
                 </div>
               </div>
@@ -417,11 +449,11 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
                 className="text-xl sm:text-2xl font-semibold text-[#111827] leading-relaxed mb-8"
                 style={{ fontFamily: "var(--font-outfit)" }}
               >
-                "Our vision has always been to create developments that combine architectural excellence, transparency, and long-term value — because every family that trusts us with their investment deserves nothing less than perfection."
+                &quot;{founderQuote}&quot;
               </blockquote>
 
               <p className="text-sm text-slate-500 leading-relaxed mb-8">
-                With over 18 years of visionary leadership in real estate development, construction engineering, and architectural masterplanning, Surendra Soni founded DS Group of Companies on the principle that every structure must stand as a testament to trust, quality, and timeless design.
+                {ownerDetails?.bio || `With over ${ownerDetails?.experienceYears || "18+"} years of visionary leadership in real estate development, construction engineering, and architectural masterplanning, ${founderName} founded DS Group of Companies on the principle that every structure must stand as a testament to trust, quality, and timeless design.`}
               </p>
 
               <div className="flex flex-wrap gap-3">

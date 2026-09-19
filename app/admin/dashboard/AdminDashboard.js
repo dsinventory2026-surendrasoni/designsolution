@@ -115,7 +115,8 @@ const NAV_ITEMS = [
   { id: "blogs", label: "📰 Blogs & Articles", icon: BookOpen },
   { id: "hero", label: "Hero Section", icon: Home },
   { id: "valuable-properties", label: "📌 Valuable Properties", icon: Sparkles },
-  { id: "properties", label: "Properties", icon: Building2 },
+  { id: "inventories", label: "🏢 Inventories", icon: Building2 },
+  { id: "properties", label: "Properties", icon: Building },
   { id: "about", label: "About Section", icon: Users },
   { id: "services", label: "Services", icon: Settings },
   { id: "social", label: "Social Media", icon: Share2 },
@@ -1317,6 +1318,267 @@ function AboutPanel({ showToast }) {
             </div>
           </SectionCard>
 
+          {/* Company Hero Headline & Subtitle */}
+          <SectionCard title="Company Page Hero & Main Headline" icon={Sparkles}>
+            <div className="space-y-4">
+              <InputField
+                label="Main Hero Headline (H2)"
+                value={company.heroHeading || ""}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      companyDetails: { ...data.about.companyDetails, heroHeading: v },
+                    },
+                  })
+                }
+                placeholder="Building Trust. Creating Landmarks. Delivering Value Since 2008."
+              />
+              <InputField
+                label="Hero Subtitle / Description"
+                rows={2}
+                value={company.heroSubheading || ""}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      companyDetails: { ...data.about.companyDetails, heroSubheading: v },
+                    },
+                  })
+                }
+                placeholder="Discover the story, mission, credentials, and milestones of DS Group of Companies..."
+              />
+            </div>
+          </SectionCard>
+
+          {/* Key Animated Statistics Panel */}
+          <SectionCard title="Key Statistics (4 Stat Cards on /about/company)" icon={Award}>
+            <div className="space-y-3">
+              <p className="text-xs text-slate-400">
+                These 4 statistics cards are dynamically displayed in the &quot;At a Glance&quot; animated counter section.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {[0, 1, 2, 3].map((idx) => {
+                  const currentStats = company.stats || [
+                    { label: "Projects Delivered", value: "25+" },
+                    { label: "Happy Families", value: "500+" },
+                    { label: "Years Experience", value: "15+" },
+                    { label: "Regulatory Compliance", value: "100%" },
+                  ];
+                  const st = currentStats[idx] || { label: "", value: "" };
+                  return (
+                    <div key={idx} className="p-3.5 rounded-xl bg-[#111827] border border-slate-800 space-y-2">
+                      <span className="text-[10px] font-bold text-orange-400 uppercase tracking-wider">Stat #{idx + 1}</span>
+                      <InputField
+                        label="Number / Value"
+                        value={st.value}
+                        onChange={(v) => {
+                          const updated = [...currentStats];
+                          updated[idx] = { ...updated[idx], value: v };
+                          setData({ ...data, about: { ...data.about, companyDetails: { ...company, stats: updated } } });
+                        }}
+                        placeholder="e.g. 25+ or 100%"
+                      />
+                      <InputField
+                        label="Label / Title"
+                        value={st.label}
+                        onChange={(v) => {
+                          const updated = [...currentStats];
+                          updated[idx] = { ...updated[idx], label: v };
+                          setData({ ...data, about: { ...data.about, companyDetails: { ...company, stats: updated } } });
+                        }}
+                        placeholder="Projects Delivered"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </SectionCard>
+
+          {/* Growth Timeline Manager */}
+          <SectionCard title="Company Growth Timeline & Milestones" icon={Building2}>
+            <div className="space-y-3">
+              <p className="text-xs text-slate-400">
+                Manage the company journey milestones displayed in the interactive timeline section.
+              </p>
+              {(company.timeline || []).map((item, idx) => (
+                <div key={idx} className="p-4 rounded-xl bg-[#111827] border border-slate-800 flex items-start gap-4">
+                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <InputField
+                      label="Year"
+                      value={item.year || ""}
+                      onChange={(v) => {
+                        const updated = [...(company.timeline || [])];
+                        updated[idx] = { ...updated[idx], year: v };
+                        setData({ ...data, about: { ...data.about, companyDetails: { ...company, timeline: updated } } });
+                      }}
+                      placeholder="e.g. 2008"
+                    />
+                    <InputField
+                      label="Event / Milestone Title"
+                      value={item.event || ""}
+                      onChange={(v) => {
+                        const updated = [...(company.timeline || [])];
+                        updated[idx] = { ...updated[idx], event: v };
+                        setData({ ...data, about: { ...data.about, companyDetails: { ...company, timeline: updated } } });
+                      }}
+                      placeholder="Company Founded"
+                    />
+                    <InputField
+                      label="Description"
+                      value={item.desc || ""}
+                      onChange={(v) => {
+                        const updated = [...(company.timeline || [])];
+                        updated[idx] = { ...updated[idx], desc: v };
+                        setData({ ...data, about: { ...data.about, companyDetails: { ...company, timeline: updated } } });
+                      }}
+                      placeholder="Short milestone narrative..."
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const updated = (company.timeline || []).filter((_, i) => i !== idx);
+                      setData({ ...data, about: { ...data.about, companyDetails: { ...company, timeline: updated } } });
+                    }}
+                    className="mt-6 p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20"
+                    title="Remove Milestone"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={() => {
+                  const updated = [...(company.timeline || []), { year: "2026", event: "New Expansion", desc: "Description of new milestone." }];
+                  setData({ ...data, about: { ...data.about, companyDetails: { ...company, timeline: updated } } });
+                }}
+                className="flex items-center gap-2 text-xs text-orange-400 font-semibold py-2"
+              >
+                <Plus className="w-4 h-4" /> Add Timeline Milestone
+              </button>
+            </div>
+          </SectionCard>
+
+          {/* Why Choose Us / Highlights */}
+          <SectionCard title="Why Choose Us / Highlights (6 Cards)" icon={ShieldCheck}>
+            <div className="space-y-3">
+              <p className="text-xs text-slate-400">
+                Key value propositions displayed in the &quot;Why Choose DS Group&quot; grid.
+              </p>
+              {(company.highlights || []).map((h, idx) => (
+                <div key={idx} className="p-4 rounded-xl bg-[#111827] border border-slate-800 flex items-start gap-4">
+                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <InputField
+                      label="Title"
+                      value={h.title || ""}
+                      onChange={(v) => {
+                        const updated = [...(company.highlights || [])];
+                        updated[idx] = { ...updated[idx], title: v };
+                        setData({ ...data, about: { ...data.about, companyDetails: { ...company, highlights: updated } } });
+                      }}
+                      placeholder="e.g. Transparent Transactions"
+                    />
+                    <InputField
+                      label="Description"
+                      value={h.description || ""}
+                      onChange={(v) => {
+                        const updated = [...(company.highlights || [])];
+                        updated[idx] = { ...updated[idx], description: v };
+                        setData({ ...data, about: { ...data.about, companyDetails: { ...company, highlights: updated } } });
+                      }}
+                      placeholder="Description of the value proposition..."
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const updated = (company.highlights || []).filter((_, i) => i !== idx);
+                      setData({ ...data, about: { ...data.about, companyDetails: { ...company, highlights: updated } } });
+                    }}
+                    className="mt-6 p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20"
+                    title="Remove Highlight"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={() => {
+                  const updated = [...(company.highlights || []), { title: "New Highlight", description: "Highlight description..." }];
+                  setData({ ...data, about: { ...data.about, companyDetails: { ...company, highlights: updated } } });
+                }}
+                className="flex items-center gap-2 text-xs text-orange-400 font-semibold py-2"
+              >
+                <Plus className="w-4 h-4" /> Add Highlight Card
+              </button>
+            </div>
+          </SectionCard>
+
+          {/* Core Values Manager */}
+          <SectionCard title="Core Corporate Values" icon={Tag}>
+            <div className="space-y-3">
+              <p className="text-xs text-slate-400">
+                Core corporate values displayed in the &quot;Mission • Vision • Values&quot; section.
+              </p>
+              {(company.coreValues || []).map((val, idx) => (
+                <div key={idx} className="p-4 rounded-xl bg-[#111827] border border-slate-800 flex items-start gap-4">
+                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <InputField
+                      label="Value Title"
+                      value={val.title || ""}
+                      onChange={(v) => {
+                        const updated = [...(company.coreValues || [])];
+                        updated[idx] = { ...updated[idx], title: v };
+                        setData({ ...data, about: { ...data.about, companyDetails: { ...company, coreValues: updated } } });
+                      }}
+                      placeholder="e.g. Integrity"
+                    />
+                    <InputField
+                      label="Value Description"
+                      value={val.description || ""}
+                      onChange={(v) => {
+                        const updated = [...(company.coreValues || [])];
+                        updated[idx] = { ...updated[idx], description: v };
+                        setData({ ...data, about: { ...data.about, companyDetails: { ...company, coreValues: updated } } });
+                      }}
+                      placeholder="Uncompromised honesty and ethics..."
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const updated = (company.coreValues || []).filter((_, i) => i !== idx);
+                      setData({ ...data, about: { ...data.about, companyDetails: { ...company, coreValues: updated } } });
+                    }}
+                    className="mt-6 p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20"
+                    title="Remove Value"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={() => {
+                  const updated = [...(company.coreValues || []), { title: "New Value", description: "Value description..." }];
+                  setData({ ...data, about: { ...data.about, companyDetails: { ...company, coreValues: updated } } });
+                }}
+                className="flex items-center gap-2 text-xs text-orange-400 font-semibold py-2"
+              >
+                <Plus className="w-4 h-4" /> Add Core Value
+              </button>
+            </div>
+          </SectionCard>
+
           {/* Company Heritage & Story */}
           <SectionCard title="Company Story & Heritage" icon={Building2}>
             <div className="space-y-4">
@@ -1586,6 +1848,41 @@ function AboutPanel({ showToast }) {
       ════════════════════════════════════════════════════════════ */}
       {aboutSubTab === "owner" && (
         <div className="space-y-6">
+
+          {/* Owner Page Hero Headline & Subtitle */}
+          <SectionCard title="Owner Page Hero & Main Headline (/about/owner)" icon={Sparkles}>
+            <div className="space-y-4">
+              <InputField
+                label="Main Hero Headline (H1)"
+                value={owner.heroHeading || ""}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      ownerDetails: { ...data.about.ownerDetails, heroHeading: v },
+                    },
+                  })
+                }
+                placeholder="Architect of Legacies, Pioneer of Trust"
+              />
+              <InputField
+                label="Hero Subtitle / Description"
+                rows={2}
+                value={owner.heroSubtitle || ""}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      ownerDetails: { ...data.about.ownerDetails, heroSubtitle: v },
+                    },
+                  })
+                }
+                placeholder="Meet Surendra Soni — visionary founder and managing director..."
+              />
+            </div>
+          </SectionCard>
 
           {/* Founder Executive Profile */}
           <SectionCard title="Founder Profile & Photo" icon={UserCheck}>
@@ -3502,6 +3799,1031 @@ function BlogsPanel({ showToast }) {
   );
 }
 
+// ─── INVENTORIES PANEL (FULL PROPERTY INVENTORIES CRUD) ──────────────────────
+
+function InventoriesPanel({ showToast }) {
+  const [inventories, setInventories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filterCat, setFilterCat] = useState("All");
+  const [filterSaleType, setFilterSaleType] = useState("All");
+  const [filterStatus, setFilterStatus] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [isCreating, setIsCreating] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [newImageUrl, setNewImageUrl] = useState("");
+  const [customAmenity, setCustomAmenity] = useState("");
+  const [customHighlight, setCustomHighlight] = useState("");
+
+  const fetchInventories = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/inventories");
+      const d = await res.json();
+      if (d.success) {
+        setInventories(d.data || d.inventories || []);
+      }
+    } catch (err) {
+      showToast("Error loading inventories: " + err.message, "error");
+    } finally {
+      setLoading(false);
+    }
+  }, [showToast]);
+
+  useEffect(() => {
+    fetchInventories();
+  }, [fetchInventories]);
+
+  const startCreate = () => {
+    setEditingItem({
+      title: "",
+      slug: "",
+      category: "Residential",
+      saleType: "Sale",
+      propertyType: "Apartment",
+      location: "",
+      sector: "Sector 85",
+      city: "Gurugram",
+      state: "Haryana",
+      price: "",
+      pricePerSqft: "",
+      negotiable: false,
+      area: "",
+      bedrooms: "3 BHK",
+      bathrooms: "3",
+      facing: "East",
+      floor: "7th",
+      totalFloors: "24",
+      parking: "1 Reserved",
+      furnishing: "Semi-Furnished",
+      status: "Available",
+      possession: "Ready to Move",
+      thumbnail: "",
+      images: [],
+      shortDesc: "",
+      fullDesc: "",
+      amenities: ["24x7 Security", "Power Backup", "Clubhouse", "Reserved Parking"],
+      highlights: ["Prime Location near Dwarka Expressway", "100% HRERA Compliant & Clear Title"],
+      reraNumber: "HRERA-PKL-GGM-1234-2024",
+      contactPhone: "+91 77430 00070",
+      whatsappNumber: "917743000070",
+      featured: false,
+      priority: 0,
+      publishStatus: "Published",
+      seoTitle: "",
+      seoDescription: "",
+      seoKeywords: "",
+    });
+    setIsCreating(true);
+  };
+
+  const handleSave = async (e) => {
+    if (e) e.preventDefault();
+    if (!editingItem.title?.trim()) {
+      showToast("Please enter property title", "error");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const method = isCreating ? "POST" : "PUT";
+      const res = await fetch("/api/admin/inventories", {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editingItem),
+      });
+      const d = await res.json();
+      if (d.success) {
+        showToast(isCreating ? "Inventory item created successfully!" : "Inventory updated successfully!", "success");
+        setEditingItem(null);
+        setIsCreating(false);
+        fetchInventories();
+      } else {
+        showToast(d.message || "Failed to save inventory", "error");
+      }
+    } catch (err) {
+      showToast("Error saving inventory: " + err.message, "error");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async (id, title) => {
+    if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
+    try {
+      const res = await fetch(`/api/admin/inventories?id=${id}`, { method: "DELETE" });
+      const d = await res.json();
+      if (d.success) {
+        showToast("Inventory item deleted", "success");
+        fetchInventories();
+      } else {
+        showToast(d.message || "Failed to delete", "error");
+      }
+    } catch (err) {
+      showToast("Error deleting: " + err.message, "error");
+    }
+  };
+
+  const handleTogglePublish = async (item) => {
+    const newStatus = item.publishStatus === "Published" ? "Draft" : "Published";
+    try {
+      const res = await fetch("/api/admin/inventories", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ _id: item._id, publishStatus: newStatus }),
+      });
+      const d = await res.json();
+      if (d.success) {
+        showToast(`Status changed to ${newStatus}`, "success");
+        fetchInventories();
+      }
+    } catch (err) {
+      showToast("Error updating status: " + err.message, "error");
+    }
+  };
+
+  const handleDirectImageUpload = async (file) => {
+    if (!file) return;
+    setUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+      const d = await res.json();
+      if (d.success && d.url) {
+        const currentImages = editingItem.images || [];
+        const newImages = [...currentImages, d.url];
+        setEditingItem({
+          ...editingItem,
+          images: newImages,
+          thumbnail: editingItem.thumbnail || d.url,
+        });
+        showToast("Image uploaded!", "success");
+      } else {
+        showToast(d.message || "Upload failed", "error");
+      }
+    } catch (err) {
+      showToast("Upload error: " + err.message, "error");
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const addImageUrl = () => {
+    if (!newImageUrl.trim()) return;
+    const currentImages = editingItem.images || [];
+    const newImages = [...currentImages, newImageUrl.trim()];
+    setEditingItem({
+      ...editingItem,
+      images: newImages,
+      thumbnail: editingItem.thumbnail || newImageUrl.trim(),
+    });
+    setNewImageUrl("");
+  };
+
+  const removeImage = (idx) => {
+    const currentImages = [...(editingItem.images || [])];
+    const removed = currentImages.splice(idx, 1)[0];
+    const updatedThumbnail = editingItem.thumbnail === removed ? (currentImages[0] || "") : editingItem.thumbnail;
+    setEditingItem({
+      ...editingItem,
+      images: currentImages,
+      thumbnail: updatedThumbnail,
+    });
+  };
+
+  const commonAmenities = [
+    "Swimming Pool", "Gymnasium", "Clubhouse", "24x7 Security", "Power Backup",
+    "Children Play Area", "Reserved Parking", "High Speed Elevators", "EV Charging Station",
+    "Landscaped Garden", "CCTV Surveillance", "Badminton Court", "Jogging Track"
+  ];
+
+  const filteredList = inventories.filter((item) => {
+    const matchCat = filterCat === "All" || item.category === filterCat;
+    const matchSaleType = filterSaleType === "All" || item.saleType === filterSaleType;
+    const matchStatus = filterStatus === "All" || item.publishStatus === filterStatus;
+    const matchSearch =
+      !searchTerm.trim() ||
+      item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.sector?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.propertyType?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.price?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return matchCat && matchSaleType && matchStatus && matchSearch;
+  });
+
+  return (
+    <div>
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+            <Building2 className="w-6 h-6 text-orange-400" />
+            <span>Property Inventories Manager</span>
+          </h2>
+          <p className="text-xs text-slate-400 mt-1">
+            Add &amp; manage Residential, Commercial, and Plot properties with multi-image gallery, specs, pricing &amp; SEO control.
+          </p>
+        </div>
+
+        <button
+          onClick={startCreate}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-950 transition-all shadow-lg"
+          style={{ background: "linear-gradient(135deg, #FF7900, #F16E00)" }}
+        >
+          <Plus className="w-4 h-4" />
+          <span>Add New Inventory</span>
+        </button>
+      </div>
+
+      {/* Filter & Search Bar */}
+      <div className="p-4 rounded-2xl bg-[#091426] border border-slate-800 mb-6 space-y-4">
+        <div className="flex flex-col md:flex-row gap-3 items-center">
+          <input
+            type="text"
+            placeholder="Search inventories by title, sector, location, price..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="flex-1 w-full px-4 py-2.5 bg-[#111827] border border-slate-700/80 rounded-xl text-xs text-white placeholder-slate-500 outline-none focus:border-orange-400"
+          />
+
+          <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto">
+            {["All", "Residential", "Commercial", "Plots"].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setFilterCat(cat)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
+                  filterCat === cat
+                    ? "bg-[#FF7900] text-slate-950 shadow-xs"
+                    : "bg-white/5 text-slate-400 hover:text-white"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800/80 text-xs">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[10px] font-bold uppercase text-slate-500">Sale Type:</span>
+            {["All", "Sale", "Rent", "Lease"].map((st) => (
+              <button
+                key={st}
+                onClick={() => setFilterSaleType(st)}
+                className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
+                  filterSaleType === st
+                    ? "bg-orange-500/20 text-orange-300 border border-orange-500/40"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                {st}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-bold uppercase text-slate-500">Status:</span>
+            {["All", "Published", "Draft"].map((ps) => (
+              <button
+                key={ps}
+                onClick={() => setFilterStatus(ps)}
+                className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
+                  filterStatus === ps
+                    ? "bg-blue-500/20 text-blue-300 border border-blue-500/40"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                {ps}
+              </button>
+            ))}
+            <span className="ml-2 text-slate-500 font-mono text-[11px]">({filteredList.length} items)</span>
+          </div>
+        </div>
+      </div>
+
+      {/* List of Inventories */}
+      {loading ? (
+        <div className="text-center py-16 text-slate-400 text-sm">
+          <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-3 text-orange-400" />
+          <span>Loading inventories from MongoDB...</span>
+        </div>
+      ) : filteredList.length === 0 ? (
+        <div className="text-center py-16 px-4 rounded-3xl bg-[#091426] border border-slate-800 text-slate-400 space-y-3">
+          <Building2 className="w-12 h-12 text-slate-600 mx-auto" />
+          <p className="text-sm font-bold text-slate-300">No Inventory Items Found</p>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            Click &quot;Add New Inventory&quot; above to create your first property listing with complete images, pricing, and SEO details.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-4">
+          {filteredList.map((item) => {
+            const thumb = item.thumbnail || (item.images && item.images[0]) || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=400&auto=format&fit=crop";
+            return (
+              <div
+                key={item._id}
+                className="p-5 rounded-2xl bg-[#091426] border border-slate-800 hover:border-orange-500/30 transition-all flex flex-col md:flex-row items-start md:items-center gap-5 shadow-lg"
+              >
+                {/* Thumbnail */}
+                <div className="relative w-full md:w-36 h-28 rounded-xl overflow-hidden bg-slate-900 border border-slate-700/60 shrink-0">
+                  <img src={thumb} alt={item.title} className="w-full h-full object-cover" />
+                  <div className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-black/70 text-orange-300">
+                    {item.category}
+                  </div>
+                  {item.images?.length > 1 && (
+                    <div className="absolute bottom-1.5 right-1.5 px-1.5 py-0.5 rounded text-[9px] font-bold bg-black/70 text-white">
+                      📷 {item.images.length}
+                    </div>
+                  )}
+                </div>
+
+                {/* Details */}
+                <div className="flex-1 min-w-0 space-y-1.5">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="text-base font-bold text-white truncate">{item.title}</h3>
+                    {item.featured && <Badge text="Featured" color="amber" />}
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                      item.publishStatus === "Published" ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30" : "bg-slate-700 text-slate-300"
+                    }`}>
+                      {item.publishStatus}
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-orange-500/10 text-orange-300">
+                      For {item.saleType}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-400 truncate">
+                    📍 {[item.sector, item.location, item.city].filter(Boolean).join(", ")} · {item.propertyType} {item.bedrooms ? `· ${item.bedrooms}` : ""} {item.area ? `· ${item.area}` : ""}
+                  </p>
+
+                  <div className="flex items-center gap-3 text-xs font-bold text-orange-400">
+                    <span>{item.price || "Price on Request"}</span>
+                    {item.pricePerSqft && <span className="text-slate-500 font-normal">({item.pricePerSqft})</span>}
+                    {item.status && <span className="text-slate-400 font-normal">· {item.status}</span>}
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex items-center gap-2 shrink-0 self-end md:self-center">
+                  <a
+                    href={`/inventories/${item.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+                    title="View Public Page"
+                  >
+                    <Eye className="w-4 h-4" />
+                  </a>
+
+                  <button
+                    onClick={() => handleTogglePublish(item)}
+                    className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+                    title="Toggle Publish Status"
+                  >
+                    {item.publishStatus === "Published" ? "Unpublish" : "Publish"}
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setEditingItem({ ...item });
+                      setIsCreating(false);
+                    }}
+                    className="p-2 rounded-xl bg-orange-500/10 text-orange-400 hover:bg-orange-500/20 transition-colors"
+                    title="Edit Inventory"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(item._id || item.id, item.title)}
+                    className="p-2 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
+                    title="Delete Inventory"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* CREATE / EDIT MODAL */}
+      {editingItem && (
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+          <div className="w-full max-w-4xl rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative my-8 bg-[#091426] border border-orange-500/30 max-h-[90vh] overflow-y-auto">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-slate-800 sticky top-0 bg-[#091426] z-10">
+              <div>
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <Building2 className="w-5 h-5 text-orange-400" />
+                  <span>{isCreating ? "Add New Property Inventory" : "Edit Property Inventory"}</span>
+                </h3>
+                <p className="text-xs text-slate-400">Complete all property specifications, image gallery, pricing, and SEO.</p>
+              </div>
+              <button
+                onClick={() => {
+                  setEditingItem(null);
+                  setIsCreating(false);
+                }}
+                className="p-2 rounded-xl text-slate-400 hover:text-white bg-white/5 hover:bg-white/10"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSave} className="space-y-6">
+              {/* 1. Basic Info */}
+              <SectionCard title="1. Basic Information & Categorization" icon={Building2}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <InputField
+                    label="Property Title *"
+                    required
+                    value={editingItem.title || ""}
+                    onChange={(v) => {
+                      const autoSlug = isCreating
+                        ? v.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")
+                        : editingItem.slug;
+                      setEditingItem({ ...editingItem, title: v, slug: autoSlug });
+                    }}
+                    placeholder="e.g. Ultra Luxury 3 BHK Apartment Sector 85"
+                  />
+
+                  <InputField
+                    label="URL Slug (Auto-generated or custom) *"
+                    required
+                    value={editingItem.slug || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, slug: v })}
+                    placeholder="ultra-luxury-3bhk-sector-85"
+                  />
+
+                  <SelectField
+                    label="Category *"
+                    value={editingItem.category || "Residential"}
+                    onChange={(v) => setEditingItem({ ...editingItem, category: v })}
+                    options={[
+                      { label: "Residential", value: "Residential" },
+                      { label: "Commercial", value: "Commercial" },
+                      { label: "Plots", value: "Plots" },
+                    ]}
+                  />
+
+                  <SelectField
+                    label="Sale Type *"
+                    value={editingItem.saleType || "Sale"}
+                    onChange={(v) => setEditingItem({ ...editingItem, saleType: v })}
+                    options={[
+                      { label: "Sale", value: "Sale" },
+                      { label: "Rent", value: "Rent" },
+                      { label: "Lease", value: "Lease" },
+                    ]}
+                  />
+
+                  <SelectField
+                    label="Property Sub-Type"
+                    value={editingItem.propertyType || "Apartment"}
+                    onChange={(v) => setEditingItem({ ...editingItem, propertyType: v })}
+                    options={[
+                      { label: "Apartment", value: "Apartment" },
+                      { label: "Villa", value: "Villa" },
+                      { label: "Independent House", value: "Independent House" },
+                      { label: "Builder Floor", value: "Builder Floor" },
+                      { label: "Office", value: "Office" },
+                      { label: "Shop", value: "Shop" },
+                      { label: "Showroom", value: "Showroom" },
+                      { label: "Plot / Land", value: "Plot" },
+                      { label: "Warehouse", value: "Warehouse" },
+                    ]}
+                  />
+
+                  <SelectField
+                    label="Availability Status"
+                    value={editingItem.status || "Available"}
+                    onChange={(v) => setEditingItem({ ...editingItem, status: v })}
+                    options={[
+                      { label: "Available", value: "Available" },
+                      { label: "Under Construction", value: "Under Construction" },
+                      { label: "Coming Soon", value: "Coming Soon" },
+                      { label: "Negotiation", value: "Negotiation" },
+                      { label: "Sold", value: "Sold" },
+                    ]}
+                  />
+                </div>
+              </SectionCard>
+
+              {/* 2. Location & Pricing */}
+              <SectionCard title="2. Location & Pricing Details" icon={MapPin}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <InputField
+                    label="Sector / Locality"
+                    value={editingItem.sector || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, sector: v })}
+                    placeholder="Sector 85"
+                  />
+                  <InputField
+                    label="Full Location / Landmark"
+                    value={editingItem.location || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, location: v })}
+                    placeholder="Dwarka Expressway Corridor"
+                  />
+                  <InputField
+                    label="City"
+                    value={editingItem.city || "Gurugram"}
+                    onChange={(v) => setEditingItem({ ...editingItem, city: v })}
+                    placeholder="Gurugram"
+                  />
+                  <InputField
+                    label="State"
+                    value={editingItem.state || "Haryana"}
+                    onChange={(v) => setEditingItem({ ...editingItem, state: v })}
+                    placeholder="Haryana"
+                  />
+
+                  <InputField
+                    label="Display Price *"
+                    value={editingItem.price || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, price: v })}
+                    placeholder="₹1.45 Cr or ₹45,000/month"
+                  />
+                  <InputField
+                    label="Price per Sqft"
+                    value={editingItem.pricePerSqft || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, pricePerSqft: v })}
+                    placeholder="₹8,500/sqft"
+                  />
+                  <div className="flex items-center gap-3 pt-6">
+                    <input
+                      type="checkbox"
+                      id="negotiable"
+                      checked={!!editingItem.negotiable}
+                      onChange={(e) => setEditingItem({ ...editingItem, negotiable: e.target.checked })}
+                      className="w-4 h-4 rounded text-orange-400 bg-slate-900 border-slate-700"
+                    />
+                    <label htmlFor="negotiable" className="text-xs font-semibold text-slate-300 cursor-pointer">
+                      Price is Negotiable
+                    </label>
+                  </div>
+                  <InputField
+                    label="Possession Date / Status"
+                    value={editingItem.possession || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, possession: v })}
+                    placeholder="Ready to Move / Dec 2025"
+                  />
+                </div>
+              </SectionCard>
+
+              {/* 3. Physical Specs */}
+              <SectionCard title="3. Property Specifications & Dimensions" icon={Settings}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <InputField
+                    label="Carpet / Super Area"
+                    value={editingItem.area || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, area: v })}
+                    placeholder="1850 sq.ft."
+                  />
+                  <InputField
+                    label="Bedrooms (BHK)"
+                    value={editingItem.bedrooms || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, bedrooms: v })}
+                    placeholder="3 BHK + Servant"
+                  />
+                  <InputField
+                    label="Bathrooms"
+                    value={editingItem.bathrooms || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, bathrooms: v })}
+                    placeholder="3"
+                  />
+                  <InputField
+                    label="Facing"
+                    value={editingItem.facing || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, facing: v })}
+                    placeholder="East Facing / Park View"
+                  />
+                  <InputField
+                    label="Floor"
+                    value={editingItem.floor || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, floor: v })}
+                    placeholder="7th Floor"
+                  />
+                  <InputField
+                    label="Total Floors in Building"
+                    value={editingItem.totalFloors || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, totalFloors: v })}
+                    placeholder="24 Floors"
+                  />
+                  <InputField
+                    label="Parking Spaces"
+                    value={editingItem.parking || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, parking: v })}
+                    placeholder="2 Covered Reserved"
+                  />
+                  <SelectField
+                    label="Furnishing"
+                    value={editingItem.furnishing || "Unfurnished"}
+                    onChange={(v) => setEditingItem({ ...editingItem, furnishing: v })}
+                    options={[
+                      { label: "Unfurnished", value: "Unfurnished" },
+                      { label: "Semi-Furnished", value: "Semi-Furnished" },
+                      { label: "Fully Furnished", value: "Fully Furnished" },
+                      { label: "Not Applicable", value: "Not Applicable" },
+                    ]}
+                  />
+                </div>
+              </SectionCard>
+
+              {/* 4. Multiple Images Gallery Manager */}
+              <SectionCard title="4. Property Image Gallery (Multiple Images)" icon={ImageIcon}>
+                <div className="space-y-4">
+                  <p className="text-xs text-slate-400">
+                    Upload multiple high-resolution photos of the inventory. You can set any image as the primary card thumbnail.
+                  </p>
+
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <label className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 transition-colors flex items-center justify-center gap-2 shrink-0 shadow cursor-pointer">
+                      {uploadingImage ? (
+                        <>
+                          <RefreshCw className="w-4 h-4 animate-spin" />
+                          <span>Uploading Image...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="w-4 h-4" />
+                          <span>Upload Image From Computer</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              const f = e.target.files?.[0];
+                              if (f) handleDirectImageUpload(f);
+                            }}
+                          />
+                        </>
+                      )}
+                    </label>
+
+                    <div className="flex-1 flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Or paste property image URL (https://...)"
+                        value={newImageUrl}
+                        onChange={(e) => setNewImageUrl(e.target.value)}
+                        onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addImageUrl(); } }}
+                        className="flex-1 px-4 py-2 bg-[#111827] border border-slate-700/80 rounded-xl text-xs text-white placeholder-slate-500 outline-none focus:border-orange-400"
+                      />
+                      <button
+                        type="button"
+                        onClick={addImageUrl}
+                        className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold shrink-0"
+                      >
+                        + Add URL
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Uploaded Images Grid */}
+                  <div>
+                    <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                      Gallery Photos ({(editingItem.images || []).length}):
+                    </div>
+                    {(editingItem.images || []).length === 0 ? (
+                      <div className="p-6 rounded-xl bg-[#111827]/60 border border-slate-800 text-center text-xs text-slate-500">
+                        No property photos added yet. Upload from computer or add URLs above.
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                        {(editingItem.images || []).map((imgUrl, idx) => {
+                          const isThumb = editingItem.thumbnail === imgUrl;
+                          return (
+                            <div key={idx} className="relative rounded-xl overflow-hidden border border-slate-800 bg-[#111827] aspect-[4/3] group">
+                              <img src={imgUrl} alt={`Photo ${idx + 1}`} className="w-full h-full object-cover" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+
+                              {isThumb && (
+                                <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#FF7900] text-slate-950 text-[9px] font-extrabold uppercase">
+                                  Primary Thumbnail
+                                </span>
+                              )}
+
+                              <div className="absolute top-2 right-2 flex items-center gap-1">
+                                {!isThumb && (
+                                  <button
+                                    type="button"
+                                    onClick={() => setEditingItem({ ...editingItem, thumbnail: imgUrl })}
+                                    className="p-1 rounded bg-black/70 text-slate-300 hover:text-orange-400 text-[10px] font-bold"
+                                    title="Set as Primary Thumbnail"
+                                  >
+                                    ★ Set Main
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => removeImage(idx)}
+                                  className="p-1 rounded bg-red-600/90 text-white hover:bg-red-500"
+                                  title="Delete Photo"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+
+                              <div className="absolute bottom-1.5 left-2 right-2 truncate text-[10px] text-slate-400 font-mono">
+                                #{idx + 1} · {imgUrl}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </SectionCard>
+
+              {/* 5. Description, Amenities & Highlights */}
+              <SectionCard title="5. Description, Amenities & Highlights" icon={CheckCircle2}>
+                <div className="space-y-4">
+                  <InputField
+                    label="Short Summary Description"
+                    rows={2}
+                    value={editingItem.shortDesc || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, shortDesc: v })}
+                    placeholder="Short 2-line summary for card previews..."
+                  />
+
+                  <InputField
+                    label="Full Detailed Property Description"
+                    rows={5}
+                    value={editingItem.fullDesc || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, fullDesc: v })}
+                    placeholder="Complete detailed overview, layout, connectivity and specifications..."
+                  />
+
+                  {/* Amenities Manager */}
+                  <div className="pt-4 border-t border-slate-800 space-y-2">
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                      Amenities ({editingItem.amenities?.length || 0})
+                    </label>
+
+                    <div className="flex flex-wrap gap-1.5">
+                      {(editingItem.amenities || []).map((amenity, idx) => (
+                        <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs bg-orange-500/15 text-orange-300 border border-orange-500/30">
+                          <span>{amenity}</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const updated = (editingItem.amenities || []).filter((_, i) => i !== idx);
+                              setEditingItem({ ...editingItem, amenities: updated });
+                            }}
+                            className="hover:text-red-400"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex gap-2 pt-2">
+                      <input
+                        type="text"
+                        placeholder="Add custom amenity..."
+                        value={customAmenity}
+                        onChange={(e) => setCustomAmenity(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            if (customAmenity.trim()) {
+                              setEditingItem({
+                                ...editingItem,
+                                amenities: [...(editingItem.amenities || []), customAmenity.trim()],
+                              });
+                              setCustomAmenity("");
+                            }
+                          }
+                        }}
+                        className="flex-1 px-4 py-2 bg-[#111827] border border-slate-700/80 rounded-xl text-xs text-white placeholder-slate-500 outline-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (customAmenity.trim()) {
+                            setEditingItem({
+                              ...editingItem,
+                              amenities: [...(editingItem.amenities || []), customAmenity.trim()],
+                            });
+                            setCustomAmenity("");
+                          }
+                        }}
+                        className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold"
+                      >
+                        + Add Amenity
+                      </button>
+                    </div>
+
+                    {/* Quick Amenity Suggestions */}
+                    <div className="pt-2 flex flex-wrap gap-1.5">
+                      {commonAmenities.map((ca) => (
+                        <button
+                          key={ca}
+                          type="button"
+                          onClick={() => {
+                            if (!editingItem.amenities?.includes(ca)) {
+                              setEditingItem({
+                                ...editingItem,
+                                amenities: [...(editingItem.amenities || []), ca],
+                              });
+                            }
+                          }}
+                          className="px-2 py-0.5 rounded text-[10px] bg-white/5 border border-white/10 text-slate-300 hover:text-orange-300 hover:border-orange-400"
+                        >
+                          + {ca}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Highlights Manager */}
+                  <div className="pt-4 border-t border-slate-800 space-y-2">
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                      Key Highlights &amp; Selling Points
+                    </label>
+
+                    {(editingItem.highlights || []).map((hl, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          value={hl}
+                          onChange={(e) => {
+                            const updated = [...(editingItem.highlights || [])];
+                            updated[idx] = e.target.value;
+                            setEditingItem({ ...editingItem, highlights: updated });
+                          }}
+                          className="flex-1 px-4 py-2 bg-[#111827] border border-slate-700/80 rounded-xl text-xs text-white outline-none"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const updated = (editingItem.highlights || []).filter((_, i) => i !== idx);
+                            setEditingItem({ ...editingItem, highlights: updated });
+                          }}
+                          className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+
+                    <div className="flex gap-2 pt-1">
+                      <input
+                        type="text"
+                        placeholder="Add new highlight point..."
+                        value={customHighlight}
+                        onChange={(e) => setCustomHighlight(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            if (customHighlight.trim()) {
+                              setEditingItem({
+                                ...editingItem,
+                                highlights: [...(editingItem.highlights || []), customHighlight.trim()],
+                              });
+                              setCustomHighlight("");
+                            }
+                          }
+                        }}
+                        className="flex-1 px-4 py-2 bg-[#111827] border border-slate-700/80 rounded-xl text-xs text-white placeholder-slate-500 outline-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (customHighlight.trim()) {
+                            setEditingItem({
+                              ...editingItem,
+                              highlights: [...(editingItem.highlights || []), customHighlight.trim()],
+                            });
+                            setCustomHighlight("");
+                          }
+                        }}
+                        className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold"
+                      >
+                        + Add Highlight
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </SectionCard>
+
+              {/* 6. Legal, Contact & SEO Controls */}
+              <SectionCard title="6. Legal, Contacts & SEO Metadata" icon={ShieldCheck}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <InputField
+                    label="HRERA Registration No"
+                    value={editingItem.reraNumber || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, reraNumber: v })}
+                    placeholder="HRERA-PKL-GGM-1234-2024"
+                  />
+                  <InputField
+                    label="Contact Phone"
+                    value={editingItem.contactPhone || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, contactPhone: v })}
+                    placeholder="+91 77430 00070"
+                  />
+                  <InputField
+                    label="WhatsApp Number (numbers only)"
+                    value={editingItem.whatsappNumber || ""}
+                    onChange={(v) => setEditingItem({ ...editingItem, whatsappNumber: v })}
+                    placeholder="917743000070"
+                  />
+
+                  <div className="sm:col-span-2 lg:col-span-3">
+                    <InputField
+                      label="SEO Meta Title"
+                      value={editingItem.seoTitle || ""}
+                      onChange={(v) => setEditingItem({ ...editingItem, seoTitle: v })}
+                      placeholder="3 BHK Luxury Apartment in Sector 85 Gurugram | DS Group"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2 lg:col-span-3">
+                    <InputField
+                      label="SEO Meta Description"
+                      rows={2}
+                      value={editingItem.seoDescription || ""}
+                      onChange={(v) => setEditingItem({ ...editingItem, seoDescription: v })}
+                      placeholder="Explore this verified 3 BHK apartment in Sector 85 Gurgaon with zero brokerage..."
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2 lg:col-span-3">
+                    <InputField
+                      label="SEO Keywords (comma separated)"
+                      value={editingItem.seoKeywords || ""}
+                      onChange={(v) => setEditingItem({ ...editingItem, seoKeywords: v })}
+                      placeholder="3 BHK flats sector 85, luxury apartments gurgaon, ready to move flats"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-3 pt-3">
+                    <input
+                      type="checkbox"
+                      id="featuredProp"
+                      checked={!!editingItem.featured}
+                      onChange={(e) => setEditingItem({ ...editingItem, featured: e.target.checked })}
+                      className="w-4 h-4 rounded text-orange-400 bg-slate-900 border-slate-700"
+                    />
+                    <label htmlFor="featuredProp" className="text-xs font-semibold text-slate-300 cursor-pointer">
+                      ⭐ Feature this property on homepage
+                    </label>
+                  </div>
+
+                  <InputField
+                    label="Priority Order (Higher = First)"
+                    type="number"
+                    value={editingItem.priority || 0}
+                    onChange={(v) => setEditingItem({ ...editingItem, priority: parseInt(v) || 0 })}
+                  />
+
+                  <SelectField
+                    label="Publish Status *"
+                    value={editingItem.publishStatus || "Published"}
+                    onChange={(v) => setEditingItem({ ...editingItem, publishStatus: v })}
+                    options={[
+                      { label: "Published (Visible on website)", value: "Published" },
+                      { label: "Draft (Hidden from public)", value: "Draft" },
+                    ]}
+                  />
+                </div>
+              </SectionCard>
+
+              {/* Modal Footer CTAs */}
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800 sticky bottom-0 bg-[#091426] z-10">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingItem(null);
+                    setIsCreating(false);
+                  }}
+                  className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white bg-white/5 hover:bg-white/10"
+                >
+                  Cancel
+                </button>
+
+                <SaveBtn
+                  loading={saving}
+                  onClick={handleSave}
+                  label={isCreating ? "Create & Publish Inventory" : "Save Inventory Changes"}
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── MAIN ADMIN DASHBOARD ────────────────────────────────────────────────────
 
 export default function AdminDashboard({ adminEmail }) {
@@ -3526,6 +4848,7 @@ export default function AdminDashboard({ adminEmail }) {
       case "blogs": return <BlogsPanel showToast={showToast} />;
       case "hero": return <HeroPanel showToast={showToast} />;
       case "valuable-properties": return <ValuablePropertiesPanel showToast={showToast} />;
+      case "inventories": return <InventoriesPanel showToast={showToast} />;
       case "properties": return <PropertiesPanel showToast={showToast} />;
       case "about": return <AboutPanel showToast={showToast} />;
       case "services": return <ServicesPanel showToast={showToast} />;

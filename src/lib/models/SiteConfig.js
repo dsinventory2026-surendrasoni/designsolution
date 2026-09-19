@@ -115,6 +115,8 @@ const SiteConfigSchema = new mongoose.Schema(
     // ─── ABOUT US PAGE (3 DROP-DOWNS & SEO KEYWORDS) ─
     about: {
       companyDetails: {
+        heroHeading: { type: String, default: "Building Trust. Creating Landmarks. Delivering Value Since 2008." },
+        heroSubheading: { type: String, default: "Discover the story, mission, credentials, and milestones of DS Group of Companies — Gurugram's most trusted real estate developer." },
         story: { type: String, default: "" },
         mission: { type: String, default: "" },
         vision: { type: String, default: "" },
@@ -122,14 +124,21 @@ const SiteConfigSchema = new mongoose.Schema(
         headquarters: { type: String, default: "Sector 85, Gurugram, Haryana" },
         reraRegistration: { type: String, default: "HRERA-PKL-GGM-1234-2024" },
         cinNumber: { type: String, default: "U70109HR2014PTC053210" },
+        phone: { type: String, default: "" },
+        email: { type: String, default: "" },
+        workingHours: { type: String, default: "" },
         highlights: [{ title: String, description: String }],
         coreValues: [{ title: String, description: String }],
+        timeline: [{ year: String, event: String, desc: String }],
+        stats: [{ label: String, value: String }],
         images: [String],
         seoKeywords: [String],
         metaTitle: { type: String, default: "About DS Group of Companies | Real Estate Developer Sector 85 Gurgaon" },
         metaDescription: { type: String, default: "Discover DS Group of Companies — Premier real estate developer, construction firm & property consultants in Sector 85 Gurugram. Founded by Surendra Soni." },
       },
       ownerDetails: {
+        heroHeading: { type: String, default: "Architect of Legacies, Pioneer of Trust" },
+        heroSubtitle: { type: String, default: "" },
         name: { type: String, default: "Surendra Soni" },
         designation: { type: String, default: "Founder & Managing Director" },
         photo: { type: String, default: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop" },

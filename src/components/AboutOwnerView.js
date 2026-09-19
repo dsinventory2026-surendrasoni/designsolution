@@ -145,11 +145,11 @@ export default function AboutOwnerView({ siteConfig: propSiteConfig }) {
           className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#111827] tracking-tight leading-tight"
           style={{ fontFamily: "var(--font-outfit)" }}
         >
-          Architect of Legacies, <span style={{ color: "#FF7900" }}>Pioneer of Trust</span>
+          {owner.heroHeading || "Architect of Legacies, Pioneer of Trust"}
         </h1>
 
         <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-3xl mx-auto font-normal leading-relaxed">
-          Meet Surendra Soni — visionary founder and managing director steering DS Group of Companies across Gurugram’s most transformative real estate developments.
+          {owner.heroSubtitle || `Meet ${owner.name || "Surendra Soni"} — visionary founder and managing director steering DS Group of Companies across Gurugram’s most transformative real estate developments.`}
         </p>
       </section>
 
