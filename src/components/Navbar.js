@@ -165,19 +165,19 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
             {/* FAR LEFT: Official DS Group Logo */}
             <a
               href="/#hero"
-              className="flex items-center gap-3 group flex-shrink-0 focus:outline-none"
+              className="flex items-center gap-2.5 sm:gap-3 group flex-shrink-0 focus:outline-none"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <img
                 src={siteConfig.brand.logoUrl}
                 alt="DS Group of Companies - Real Estate Sector 85 Gurgaon"
-                className="h-12 sm:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-xl"
+                className="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-xl"
               />
               <div className="flex flex-col leading-none">
-                <span className="text-base sm:text-lg font-extrabold tracking-tight text-white font-outfit">
+                <span className="text-sm sm:text-base md:text-lg font-extrabold tracking-tight text-white font-outfit">
                   DS GROUP
                 </span>
-                <span className="text-[8px] sm:text-[9px] tracking-[0.24em] font-semibold uppercase mt-1 text-[var(--champagne)]">
+                <span className="text-[7.5px] sm:text-[8.5px] md:text-[9px] tracking-[0.22em] font-semibold uppercase mt-0.5 sm:mt-1 text-[var(--champagne)]">
                   OF COMPANIES
                 </span>
               </div>
@@ -418,8 +418,8 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
               })}
             </nav>
 
-            {/* FAR RIGHT: Contact Actions (WhatsApp & Enquire) */}
-            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {/* FAR RIGHT (DESKTOP): Contact Actions (WhatsApp & Enquire) */}
+            <div className="hidden lg:flex items-center gap-2 sm:gap-3 shrink-0">
               <a
                 href={siteConfig.contact.whatsappLink}
                 target="_blank"
@@ -441,19 +441,22 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
                 <span>Enquire</span>
                 <ChevronRight className="w-3 h-3 text-white" />
               </button>
+            </div>
 
-              {/* Mobile Hamburger */}
+            {/* FAR RIGHT (MOBILE / TABLET): Hamburger Menu Button */}
+            <div className="flex lg:hidden items-center shrink-0">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2 rounded-lg transition-all duration-200 focus:outline-none"
+                className="p-2 sm:p-2.5 rounded-xl transition-all duration-200 focus:outline-none flex items-center justify-center hover:bg-slate-800/80 active:scale-95 shadow-sm"
                 style={{
                   background: "rgba(31,41,55,0.9)",
-                  border: "1px solid rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.12)",
                   color: isMobileMenuOpen ? "var(--champagne)" : "#e2e8f0",
                 }}
-                aria-label="Toggle navigation"
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isMobileMenuOpen}
               >
-                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {isMobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
               </button>
             </div>
           </div>
@@ -462,7 +465,7 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
 
       {/* MOBILE DRAWER */}
       <div
-        className={`fixed inset-0 z-40 lg:hidden transition-all duration-400 ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 z-50 lg:hidden transition-all duration-300 ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
       >
         <div
@@ -471,16 +474,16 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
         />
 
         <div
-          className={`absolute inset-y-0 right-0 w-full max-w-sm flex flex-col transition-transform duration-400 ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          className={`absolute inset-y-0 right-0 w-full max-w-sm flex flex-col transition-transform duration-300 ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
             }`}
-          style={{ background: "var(--navy-deepest)", borderLeft: "1px solid rgba(255,121,0,0.12)" }}
+          style={{ background: "var(--navy-deepest)", borderLeft: "1px solid rgba(255,121,0,0.15)" }}
         >
-          <div className="flex items-center justify-between p-6 border-b border-white/10">
+          <div className="flex items-center justify-between p-5 sm:p-6 border-b border-white/10">
             <div className="flex items-center gap-3">
               <img
                 src={siteConfig.brand.logoUrl}
                 alt="DS Group of Companies"
-                className="w-10 h-10 object-contain drop-shadow-md"
+                className="w-9 h-9 sm:w-10 sm:h-10 object-contain drop-shadow-md"
               />
               <div>
                 <div className="text-sm font-extrabold text-white font-outfit">DS GROUP</div>
@@ -489,7 +492,8 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
             </div>
             <button
               onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2 rounded-lg text-slate-400 hover:text-white transition-colors bg-white/5"
+              className="p-2 rounded-lg text-slate-400 hover:text-white transition-colors bg-white/5 hover:bg-white/10"
+              aria-label="Close menu"
             >
               <X className="w-5 h-5" />
             </button>
@@ -629,26 +633,42 @@ export default function Navbar({ activeCategory, onSelectCategory, onOpenContact
               })}
             </div>
 
-            {/* Quick Contact within Drawer */}
-            <div className="mt-8 pt-6 border-t border-white/10 space-y-4">
+            {/* Quick Actions within Drawer: Enquire, WhatsApp, Call */}
+            <div className="mt-8 pt-6 border-t border-white/10 space-y-3">
               <p className="text-[10px] font-bold tracking-[0.2em] uppercase px-3 text-slate-400">
-                Direct Contact
+                Direct Contact & Enquiries
               </p>
+
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  if (onOpenContactModal) {
+                    onOpenContactModal();
+                  }
+                }}
+                className="w-full py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white transition-all duration-200 hover:opacity-95 active:scale-98 shadow-md flex items-center justify-center gap-2"
+                style={{ background: "#FF7900" }}
+              >
+                <span>Enquire Now</span>
+                <ChevronRight className="w-3.5 h-3.5 text-white" />
+              </button>
+
               <a
                 href={siteConfig.contact.whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-sm font-medium"
+                className="flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/25 text-xs font-semibold transition-colors"
               >
                 <MessageSquare className="w-4 h-4" />
-                <span>WhatsApp: {siteConfig.contact.whatsappFormatted}</span>
+                <span>WhatsApp: {siteConfig.contact.whatsappFormatted || siteConfig.contact.whatsappNumber}</span>
               </a>
+
               <a
                 href={`tel:${siteConfig.contact.phonePrimary.replace(/\s+/g, "")}`}
-                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 text-slate-300 border border-white/10 text-sm font-medium"
+                className="flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 text-xs font-medium transition-colors"
               >
                 <PhoneCall className="w-4 h-4 text-[var(--champagne)]" />
-                <span>{siteConfig.contact.phonePrimary}</span>
+                <span>Call: {siteConfig.contact.phonePrimary}</span>
               </a>
             </div>
           </div>
