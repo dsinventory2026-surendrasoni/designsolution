@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { Star, ShieldCheck, Sparkles, ExternalLink, ArrowRight } from "lucide-react";
+import { Star, ShieldCheck, Sparkles, ExternalLink } from "lucide-react";
 import TrustindexWidget from "@/components/TrustindexWidget";
 import { siteConfig as staticSiteConfig } from "@/data/siteConfig";
 
@@ -17,8 +16,8 @@ export default function GoogleReviewsSection({ siteConfig: propSiteConfig }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-700 text-xs font-semibold uppercase tracking-wider mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-orange-400" />
             <span>Verified Google Reviews</span>
           </div>
 
@@ -38,22 +37,22 @@ export default function GoogleReviewsSection({ siteConfig: propSiteConfig }) {
 
           {/* Quick Metrics Pills */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-700">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white shadow-sm border border-slate-200 font-medium">
-              <div className="flex text-amber-500">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm font-medium">
+              <div className="flex text-[#FF7900]">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  <Star key={i} className="w-3.5 h-3.5 fill-[#FF7900] text-[#FF7900]" />
                 ))}
               </div>
               <span className="font-bold text-slate-900">5.0 / 5.0</span>
               <span className="text-slate-500">on Google</span>
             </div>
 
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white shadow-sm border border-slate-200 font-medium">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm font-medium">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>100% Verified Profile</span>
+              <span className="text-slate-700 font-medium">100% Verified Profile</span>
             </div>
 
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white shadow-sm border border-slate-200 font-medium text-slate-600">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm font-medium text-slate-600">
               <span>Automatic Live Sync</span>
             </div>
           </div>
@@ -75,22 +74,16 @@ export default function GoogleReviewsSection({ siteConfig: propSiteConfig }) {
             <a
               href={googleReviewUrl}
               target="_blank"
+              style={{
+                background: "rgba(31, 41, 55, 0.7)",
+                border: "1px solid rgba(255,255,255,0.07)"
+              }}
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-semibold text-amber-600 hover:text-amber-700 transition-colors"
+              className="inline-flex items-center gap-1.5 font-semibold text-orange-400 hover:text-orange-300 transition-colors px-4 py-2 rounded-xl"
             >
               <span>Write a Review on Google</span>
               <ExternalLink className="w-3 h-3" />
             </a>
-
-            <span className="text-slate-300">|</span>
-
-            <Link
-              href="/reviews"
-              className="inline-flex items-center gap-1 font-semibold text-slate-900 hover:text-amber-600 transition-colors"
-            >
-              <span>View Dedicated Reviews Page</span>
-              <ArrowRight className="w-3 h-3" />
-            </Link>
           </div>
         </div>
       </div>

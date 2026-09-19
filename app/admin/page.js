@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 // NOTE: metadata for this route is exported from app/admin/layout.js
 // (Next.js App Router does not allow metadata exports from "use client" pages)
@@ -45,7 +45,7 @@ function AdminLoginForm() {
   return (
     <div
       className="min-h-screen flex items-center justify-center relative overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #030810 0%, #0a1628 50%, #030810 100%)" }}
+      style={{ background: "linear-gradient(135deg, #0D1117 0%, #0a1628 50%, #0D1117 100%)" }}
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -55,14 +55,14 @@ function AdminLoginForm() {
         />
         <div
           className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-10 blur-3xl"
-          style={{ background: "radial-gradient(circle, #C9A96E, transparent)" }}
+          style={{ background: "radial-gradient(circle, #FF7900, transparent)" }}
         />
         {/* Grid overlay */}
         <div
           className="absolute inset-0 opacity-5"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(201,169,110,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(201,169,110,0.3) 1px, transparent 1px)",
+              "linear-gradient(rgba(255,121,0,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,121,0,0.3) 1px, transparent 1px)",
             backgroundSize: "60px 60px",
           }}
         />
@@ -74,8 +74,8 @@ function AdminLoginForm() {
           <div
             className="w-20 h-20 mx-auto rounded-2xl flex items-center justify-center mb-5 shadow-2xl"
             style={{
-              background: "linear-gradient(135deg, #1e40af, #C9A96E)",
-              boxShadow: "0 20px 60px rgba(201,169,110,0.3)",
+              background: "linear-gradient(135deg, #1e40af, #FF7900)",
+              boxShadow: "0 20px 60px rgba(255,121,0,0.3)",
             }}
           >
             <Building2 className="w-10 h-10 text-white" />
@@ -93,9 +93,9 @@ function AdminLoginForm() {
 
         {/* Expiry / Error Banner */}
         {isExpired && (
-          <div className="mb-4 p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center gap-3">
-            <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
-            <p className="text-amber-300 text-xs font-medium">
+          <div className="mb-4 p-3.5 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center gap-3">
+            <AlertCircle className="w-4 h-4 text-orange-400 shrink-0" />
+            <p className="text-orange-300 text-xs font-medium">
               Session expired. Please log in again.
             </p>
           </div>
@@ -106,14 +106,14 @@ function AdminLoginForm() {
           className="rounded-3xl p-8 shadow-2xl"
           style={{
             background: "rgba(10, 22, 40, 0.85)",
-            border: "1px solid rgba(201, 169, 110, 0.2)",
+            border: "1px solid rgba(255, 121, 0, 0.2)",
             backdropFilter: "blur(20px)",
             boxShadow: "0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)",
           }}
         >
           <div className="flex items-center gap-2 mb-6">
-            <Shield className="w-4 h-4 text-amber-400" />
-            <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">
+            <Shield className="w-4 h-4 text-orange-400" />
+            <span className="text-xs font-bold text-orange-400 uppercase tracking-widest">
               Authorized Access Only
             </span>
           </div>
@@ -139,8 +139,8 @@ function AdminLoginForm() {
                     border: "1px solid rgba(255,255,255,0.1)",
                   }}
                   onFocus={(e) => {
-                    e.target.style.border = "1px solid rgba(201,169,110,0.6)";
-                    e.target.style.boxShadow = "0 0 0 3px rgba(201,169,110,0.1)";
+                    e.target.style.border = "1px solid rgba(255,121,0,0.6)";
+                    e.target.style.boxShadow = "0 0 0 3px rgba(255,121,0,0.1)";
                   }}
                   onBlur={(e) => {
                     e.target.style.border = "1px solid rgba(255,255,255,0.1)";
@@ -170,8 +170,8 @@ function AdminLoginForm() {
                     border: "1px solid rgba(255,255,255,0.1)",
                   }}
                   onFocus={(e) => {
-                    e.target.style.border = "1px solid rgba(201,169,110,0.6)";
-                    e.target.style.boxShadow = "0 0 0 3px rgba(201,169,110,0.1)";
+                    e.target.style.border = "1px solid rgba(255,121,0,0.6)";
+                    e.target.style.boxShadow = "0 0 0 3px rgba(255,121,0,0.1)";
                   }}
                   onBlur={(e) => {
                     e.target.style.border = "1px solid rgba(255,255,255,0.1)";
@@ -204,9 +204,9 @@ function AdminLoginForm() {
               className="w-full py-4 rounded-xl text-sm font-bold uppercase tracking-widest text-white transition-all duration-300 flex items-center justify-center gap-2 mt-2"
               style={{
                 background: loading
-                  ? "rgba(201,169,110,0.5)"
-                  : "linear-gradient(135deg, #C9A96E, #b8933a)",
-                boxShadow: loading ? "none" : "0 10px 30px rgba(201,169,110,0.3)",
+                  ? "rgba(255,121,0,0.5)"
+                  : "linear-gradient(135deg, #FF7900, #F16E00)",
+                boxShadow: loading ? "none" : "0 10px 30px rgba(255,121,0,0.3)",
               }}
             >
               {loading ? (
@@ -239,9 +239,9 @@ export default function AdminLoginPage() {
       fallback={
         <div
           className="min-h-screen flex items-center justify-center"
-          style={{ background: "#030810" }}
+          style={{ background: "#0D1117" }}
         >
-          <div className="w-8 h-8 border-2 border-amber-400/30 border-t-amber-400 rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-orange-400/30 border-t-amber-400 rounded-full animate-spin" />
         </div>
       }
     >

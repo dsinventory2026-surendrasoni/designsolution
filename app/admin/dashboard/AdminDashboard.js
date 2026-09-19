@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   LayoutDashboard, Home, Building2, Users, Share2,
   FileText, Settings, LogOut, Plus, Pencil, Trash2, Save,
   X, ChevronDown, ChevronUp, CheckCircle2, AlertCircle,
   RefreshCw, Eye, Building, MapPin, PhoneCall, Mail, MessageSquare,
-  Image as ImageIcon, ArrowLeft, ArrowRight, Menu, Sparkles, Copy, ExternalLink, BookOpen
+  Image as ImageIcon, ArrowLeft, ArrowRight, Menu, Sparkles, Copy, ExternalLink, BookOpen,
+  Upload, ZoomIn, ZoomOut, Tag, ShieldCheck, UserCheck, Award
 } from "lucide-react";
 
 // ─── Reusable UI Atoms ─────────────────────────────────────────────────────
@@ -31,7 +32,7 @@ function Toast({ msg, type, onClose }) {
 }
 
 function InputField({ label, value, onChange, type = "text", placeholder = "", required = false, rows }) {
-  const cls = "w-full px-4 py-2.5 rounded-xl text-sm text-white placeholder-slate-500 outline-none transition-all focus:ring-2 focus:ring-amber-400/40 focus:border-amber-400/60";
+  const cls = "w-full px-4 py-2.5 rounded-xl text-sm text-white placeholder-slate-500 outline-none transition-all focus:ring-2 focus:ring-amber-400/40 focus:border-orange-400/60";
   const style = { background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" };
 
   return (
@@ -68,8 +69,8 @@ function SectionCard({ title, icon: Icon, children }) {
   return (
     <div className="rounded-2xl p-6 mb-6" style={{ background: "rgba(10,22,40,0.7)", border: "1px solid rgba(255,255,255,0.08)" }}>
       <div className="flex items-center gap-3 mb-5 pb-4 border-b border-slate-800">
-        <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-          <Icon className="w-4 h-4 text-amber-400" />
+        <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+          <Icon className="w-4 h-4 text-orange-400" />
         </div>
         <h3 className="text-base font-bold text-white">{title}</h3>
       </div>
@@ -84,7 +85,7 @@ function SaveBtn({ loading, onClick, label = "Save Changes" }) {
       onClick={onClick}
       disabled={loading}
       className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white transition-all"
-      style={{ background: loading ? "rgba(201,169,110,0.5)" : "linear-gradient(135deg, #C9A96E, #b8933a)", boxShadow: "0 4px 15px rgba(201,169,110,0.2)" }}
+      style={{ background: loading ? "rgba(255,121,0,0.5)" : "linear-gradient(135deg, #FF7900, #F16E00)", boxShadow: "0 4px 15px rgba(255,121,0,0.2)" }}
     >
       {loading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
       <span>{loading ? "Saving..." : label}</span>
@@ -94,7 +95,7 @@ function SaveBtn({ loading, onClick, label = "Save Changes" }) {
 
 function Badge({ text, color = "amber" }) {
   const colors = {
-    amber: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+    amber: "bg-orange-500/10 text-orange-400 border-orange-500/20",
     green: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
     blue: "bg-blue-500/10 text-blue-400 border-blue-500/20",
     red: "bg-red-500/10 text-red-400 border-red-500/20",
@@ -195,7 +196,7 @@ function HeroPanel({ showToast }) {
               </button>
             </div>
           ))}
-          <button onClick={addBadge} className="flex items-center gap-2 text-xs text-amber-400 hover:text-amber-300 font-semibold py-2">
+          <button onClick={addBadge} className="flex items-center gap-2 text-xs text-orange-400 hover:text-orange-300 font-semibold py-2">
             <Plus className="w-4 h-4" /> Add Badge
           </button>
         </div>
@@ -347,7 +348,7 @@ function PropertiesPanel({ showToast }) {
                   <button onClick={() => { const imgs = editingProp.images.filter((_, i) => i !== idx); setEditingProp({ ...editingProp, images: imgs.length ? imgs : [""] }); }} className="mt-6 p-2 rounded-lg bg-red-500/10 text-red-400 shrink-0"><Trash2 className="w-4 h-4" /></button>
                 </div>
               ))}
-              <button onClick={() => setEditingProp({ ...editingProp, images: [...(editingProp.images || []), ""] })} className="flex items-center gap-2 text-xs text-amber-400 font-semibold py-1">
+              <button onClick={() => setEditingProp({ ...editingProp, images: [...(editingProp.images || []), ""] })} className="flex items-center gap-2 text-xs text-orange-400 font-semibold py-1">
                 <Plus className="w-4 h-4" /> Add Image URL
               </button>
             </div>
@@ -364,7 +365,7 @@ function PropertiesPanel({ showToast }) {
                   <button onClick={() => { const am = editingProp.amenities.filter((_, i) => i !== idx); setEditingProp({ ...editingProp, amenities: am.length ? am : [""] }); }} className="p-2 rounded-lg bg-red-500/10 text-red-400 shrink-0"><Trash2 className="w-4 h-4" /></button>
                 </div>
               ))}
-              <button onClick={() => setEditingProp({ ...editingProp, amenities: [...(editingProp.amenities || []), ""] })} className="flex items-center gap-2 text-xs text-amber-400 font-semibold py-1">
+              <button onClick={() => setEditingProp({ ...editingProp, amenities: [...(editingProp.amenities || []), ""] })} className="flex items-center gap-2 text-xs text-orange-400 font-semibold py-1">
                 <Plus className="w-4 h-4" /> Add Amenity
               </button>
             </div>
@@ -386,7 +387,7 @@ function PropertiesPanel({ showToast }) {
                   </div>
                 </div>
               ))}
-              <button onClick={() => setEditingProp({ ...editingProp, specifications: [...(editingProp.specifications || []), { label: "", value: "" }] })} className="flex items-center gap-2 text-xs text-amber-400 font-semibold py-1">
+              <button onClick={() => setEditingProp({ ...editingProp, specifications: [...(editingProp.specifications || []), { label: "", value: "" }] })} className="flex items-center gap-2 text-xs text-orange-400 font-semibold py-1">
                 <Plus className="w-4 h-4" /> Add Specification
               </button>
             </div>
@@ -405,7 +406,7 @@ function PropertiesPanel({ showToast }) {
           <p className="text-sm text-slate-400 mt-1">{properties.length} listings in database</p>
         </div>
         <button onClick={startAdd} className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white"
-          style={{ background: "linear-gradient(135deg, #C9A96E, #b8933a)", boxShadow: "0 4px 15px rgba(201,169,110,0.2)" }}>
+          style={{ background: "linear-gradient(135deg, #FF7900, #F16E00)", boxShadow: "0 4px 15px rgba(255,121,0,0.2)" }}>
           <Plus className="w-4 h-4" /> Add New Property
         </button>
       </div>
@@ -419,7 +420,7 @@ function PropertiesPanel({ showToast }) {
           {["All", ...PROPERTY_CATEGORIES].map((c) => (
             <button key={c} onClick={() => setFilterCat(c)}
               className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${filterCat === c ? "text-white" : "text-slate-400 hover:text-white"}`}
-              style={{ background: filterCat === c ? "linear-gradient(135deg, #C9A96E, #b8933a)" : "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+              style={{ background: filterCat === c ? "linear-gradient(135deg, #FF7900, #F16E00)" : "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
               {c}
             </button>
           ))}
@@ -427,11 +428,11 @@ function PropertiesPanel({ showToast }) {
       </div>
 
       {loading ? (
-        <div className="text-slate-400 text-sm py-12 text-center"><RefreshCw className="w-6 h-6 animate-spin mx-auto mb-3 text-amber-400" />Loading properties...</div>
+        <div className="text-slate-400 text-sm py-12 text-center"><RefreshCw className="w-6 h-6 animate-spin mx-auto mb-3 text-orange-400" />Loading properties...</div>
       ) : (
         <div className="grid grid-cols-1 gap-4">
           {filtered.map((prop) => (
-            <div key={prop.id} className="flex items-center gap-4 p-4 rounded-2xl transition-all hover:border-amber-400/20"
+            <div key={prop.id} className="flex items-center gap-4 p-4 rounded-2xl transition-all hover:border-orange-400/20"
               style={{ background: "rgba(10,22,40,0.7)", border: "1px solid rgba(255,255,255,0.07)" }}>
               {prop.images?.[0] && (
                 <img src={prop.images[0]} alt={prop.title} className="w-20 h-16 rounded-xl object-cover shrink-0" />
@@ -466,89 +467,1634 @@ function PropertiesPanel({ showToast }) {
   );
 }
 
-// ─── ABOUT PANEL ────────────────────────────────────────────────────────────
+// ─── IMAGE UPLOAD & CROPPER MODAL ──────────────────────────────────────────
+
+function ImageCropperModal({ isOpen, onClose, onSave, title = "Select & Crop Image" }) {
+  const [activeTab, setActiveTab] = useState("file"); // "file" | "url"
+  const [urlInput, setUrlInput] = useState("");
+  const [previewSrc, setPreviewSrc] = useState("");
+  const [rawFile, setRawFile] = useState(null);
+  const [zoom, setZoom] = useState(1);
+  const [panX, setPanX] = useState(0);
+  const [panY, setPanY] = useState(0);
+  const [uploading, setUploading] = useState(false);
+  const [fileName, setFileName] = useState("image.jpg");
+  const canvasRef = useRef(null);
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setPreviewSrc("");
+      setUrlInput("");
+      setRawFile(null);
+      setZoom(1);
+      setPanX(0);
+      setPanY(0);
+      setUploading(false);
+    }
+  }, [isOpen]);
+
+  const handleFile = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setRawFile(file);
+      setFileName(file.name);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewSrc(reader.result);
+        setZoom(1);
+        setPanX(0);
+        setPanY(0);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleLoadUrl = () => {
+    if (urlInput.trim()) {
+      setPreviewSrc(urlInput.trim());
+      setFileName("url-image.jpg");
+      setRawFile(null);
+      setZoom(1);
+      setPanX(0);
+      setPanY(0);
+    }
+  };
+
+  const draw = useCallback(() => {
+    const canvas = canvasRef.current;
+    const img = imgRef.current;
+    if (!canvas || !img) return;
+
+    const ctx = canvas.getContext("2d");
+    const size = 360;
+    canvas.width = size;
+    canvas.height = size;
+
+    ctx.clearRect(0, 0, size, size);
+    ctx.fillStyle = "#0a1322";
+    ctx.fillRect(0, 0, size, size);
+
+    const iw = img.naturalWidth || img.width || 360;
+    const ih = img.naturalHeight || img.height || 360;
+    const baseScale = Math.max(size / iw, size / ih);
+    const finalScale = baseScale * zoom;
+
+    const dw = iw * finalScale;
+    const dh = ih * finalScale;
+    const dx = (size - dw) / 2 + panX;
+    const dy = (size - dh) / 2 + panY;
+
+    try {
+      ctx.drawImage(img, dx, dy, dw, dh);
+    } catch (e) {
+      console.warn("Canvas draw error:", e);
+    }
+  }, [zoom, panX, panY]);
+
+  useEffect(() => {
+    if (previewSrc) {
+      draw();
+    }
+  }, [previewSrc, zoom, panX, panY, draw]);
+
+  // Direct upload of original file without cropping
+  const handleDirectUploadRaw = async () => {
+    if (!rawFile) {
+      alert("Please choose an image from your computer first.");
+      return;
+    }
+    try {
+      setUploading(true);
+      const formData = new FormData();
+      formData.append("file", rawFile);
+
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const d = await res.json();
+      setUploading(false);
+
+      if (d.success && d.url) {
+        onSave(d.url);
+        onClose();
+      } else {
+        alert(d.message || "Upload failed. Please check file size or permissions.");
+      }
+    } catch (err) {
+      setUploading(false);
+      alert("Error uploading image: " + err.message);
+    }
+  };
+
+  const handleSave = async () => {
+    if (activeTab === "url" && urlInput.trim() && !previewSrc) {
+      onSave(urlInput.trim());
+      onClose();
+      return;
+    }
+
+    const canvas = canvasRef.current;
+    if (!canvas || !previewSrc) {
+      if (urlInput.trim()) {
+        onSave(urlInput.trim());
+        onClose();
+      } else {
+        alert("Please select an image file or enter a valid URL.");
+      }
+      return;
+    }
+
+    try {
+      setUploading(true);
+
+      if (canvas.toBlob) {
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            uploadBase64Fallback();
+            return;
+          }
+          try {
+            const formData = new FormData();
+            formData.append("file", blob, fileName || "cropped-image.jpg");
+            const res = await fetch("/api/admin/upload", {
+              method: "POST",
+              body: formData,
+            });
+            const d = await res.json();
+            setUploading(false);
+
+            if (d.success && d.url) {
+              onSave(d.url);
+              onClose();
+            } else {
+              alert(d.message || "Upload failed. Please check file size or permissions.");
+            }
+          } catch (e) {
+            uploadBase64Fallback();
+          }
+        }, "image/jpeg", 0.9);
+      } else {
+        uploadBase64Fallback();
+      }
+    } catch (err) {
+      setUploading(false);
+      alert("Error uploading image: " + err.message);
+    }
+  };
+
+  const uploadBase64Fallback = async () => {
+    try {
+      const canvas = canvasRef.current;
+      const base64Data = canvas.toDataURL("image/jpeg", 0.88);
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          base64Data,
+          filename: fileName || "photo.jpg",
+        }),
+      });
+      const d = await res.json();
+      setUploading(false);
+
+      if (d.success && d.url) {
+        onSave(d.url);
+        onClose();
+      } else {
+        alert(d.message || "Upload failed. Please check file size or permissions.");
+      }
+    } catch (err) {
+      setUploading(false);
+      alert("Error uploading image: " + err.message);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+      <div
+        className="w-full max-w-xl rounded-3xl p-6 sm:p-7 space-y-5 shadow-2xl relative max-h-[92vh] overflow-y-auto"
+        style={{ background: "#091426", border: "1px solid rgba(255,121,0,0.3)" }}
+      >
+        {/* Modal Header */}
+        <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+              <Upload className="w-4 h-4 text-orange-400" />
+            </div>
+            <h3 className="text-base font-bold text-white">{title}</h3>
+          </div>
+          <button onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Source Select Tabs */}
+        <div className="flex gap-2 p-1 rounded-xl bg-[#111827] border border-slate-800">
+          <button
+            onClick={() => setActiveTab("file")}
+            className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${activeTab === "file" ? "bg-orange-500 text-slate-950 font-black shadow-md" : "text-slate-400 hover:text-white"}`}
+          >
+            Select from Computer
+          </button>
+          <button
+            onClick={() => setActiveTab("url")}
+            className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${activeTab === "url" ? "bg-orange-500 text-slate-950 font-black shadow-md" : "text-slate-400 hover:text-white"}`}
+          >
+            Paste Direct Image URL
+          </button>
+        </div>
+
+        {/* File Input vs URL Input */}
+        {activeTab === "file" ? (
+          <div className="space-y-3">
+            <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-700 hover:border-orange-400/60 rounded-2xl p-4 cursor-pointer bg-[#111827]/60 transition-colors group">
+              <Upload className="w-7 h-7 text-slate-500 group-hover:text-orange-400 mb-2 transition-colors" />
+              <span className="text-xs font-bold text-white">Click to choose image from computer</span>
+              <span className="text-[10px] text-slate-500 mt-1">PNG, JPG, WEBP supported</span>
+              <input type="file" accept="image/*" onChange={handleFile} className="hidden" />
+            </label>
+
+            {rawFile && (
+              <div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/25 flex items-center justify-between gap-3">
+                <div className="text-xs text-orange-200 truncate">
+                  Selected: <span className="font-bold text-white">{rawFile.name}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleDirectUploadRaw}
+                  disabled={uploading}
+                  className="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 transition-colors shrink-0 shadow-xs cursor-pointer"
+                >
+                  {uploading ? "Uploading..." : "⚡ Use Directly (No Crop)"}
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="https://images.unsplash.com/..."
+              value={urlInput}
+              onChange={(e) => setUrlInput(e.target.value)}
+              className="flex-1 px-4 py-2.5 rounded-xl text-xs bg-[#111827] border border-slate-800 text-white outline-none focus:border-orange-400"
+            />
+            <button
+              onClick={handleLoadUrl}
+              className="px-4 py-2 rounded-xl text-xs font-bold bg-orange-500/20 text-orange-300 border border-orange-500/30 hover:bg-orange-500/30 cursor-pointer"
+            >
+              Load
+            </button>
+          </div>
+        )}
+
+        {/* Reference image for drawing (NOT display:none) */}
+        {previewSrc && (
+          <img
+            ref={imgRef}
+            src={previewSrc}
+            alt="Source"
+            crossOrigin={previewSrc.startsWith("http") ? "anonymous" : undefined}
+            onLoad={draw}
+            style={{ position: "fixed", top: "-9999px", left: "-9999px", opacity: 0, pointerEvents: "none" }}
+          />
+        )}
+
+        {/* Interactive Crop / Zoom Preview */}
+        {previewSrc && (
+          <div className="space-y-4 pt-2">
+            <div className="flex justify-center">
+              <div className="relative rounded-2xl overflow-hidden border-2 border-orange-400/50 shadow-2xl bg-[#111827]">
+                <canvas ref={canvasRef} width={360} height={360} className="w-64 h-64 sm:w-72 sm:h-72 object-cover block" />
+                <div className="absolute inset-0 border border-white/10 pointer-events-none rounded-2xl" />
+              </div>
+            </div>
+
+            {/* Zoom / Size Control (Chhota - Bada Slider) */}
+            <div className="space-y-2 p-3 rounded-xl bg-[#111827] border border-slate-800">
+              <div className="flex items-center justify-between text-xs font-bold">
+                <span className="text-slate-300 flex items-center gap-1.5">
+                  <ZoomIn className="w-3.5 h-3.5 text-orange-400" />
+                  Zoom / Size (Chhota - Bada):
+                </span>
+                <span className="text-orange-400 font-mono">{zoom.toFixed(2)}x</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <ZoomOut className="w-4 h-4 text-slate-500 shrink-0" />
+                <input
+                  type="range"
+                  min="0.6"
+                  max="2.8"
+                  step="0.05"
+                  value={zoom}
+                  onChange={(e) => setZoom(parseFloat(e.target.value))}
+                  className="flex-1 accent-amber-400 cursor-pointer"
+                />
+                <ZoomIn className="w-4 h-4 text-orange-400 shrink-0" />
+              </div>
+
+              {/* Pan Position Controls */}
+              <div className="grid grid-cols-2 gap-3 pt-2 text-[11px]">
+                <div>
+                  <div className="flex justify-between text-slate-400 mb-1">
+                    <span>Move Left / Right</span>
+                    <span className="text-slate-500 font-mono">{panX}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="-140"
+                    max="140"
+                    step="5"
+                    value={panX}
+                    onChange={(e) => setPanX(parseInt(e.target.value))}
+                    className="w-full accent-amber-400 cursor-pointer"
+                  />
+                </div>
+                <div>
+                  <div className="flex justify-between text-slate-400 mb-1">
+                    <span>Move Up / Down</span>
+                    <span className="text-slate-400 font-mono">{panY}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="-140"
+                    max="140"
+                    step="5"
+                    value={panY}
+                    onChange={(e) => setPanY(parseInt(e.target.value))}
+                    className="w-full accent-amber-400 cursor-pointer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal Actions */}
+        <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+          <button
+            onClick={onClose}
+            disabled={uploading}
+            className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition-colors cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={uploading}
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-950 transition-all shadow-lg cursor-pointer"
+            style={{ background: uploading ? "#888" : "linear-gradient(135deg, #FF7900, #F16E00)" }}
+          >
+            {uploading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
+            <span>{uploading ? "Uploading Image..." : "Save Cropped Image"}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── ABOUT PANEL (3 SECTIONS + DYNAMIC SEO KEYWORDS + IMAGE CROPPER) ───────
 
 function AboutPanel({ showToast }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [aboutSubTab, setAboutSubTab] = useState("company"); // "company" | "owner" | "employees"
+
+  // Modal states for image cropping
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [cropTarget, setCropTarget] = useState(null); // { type: 'owner' | 'employee', empIndex?: number }
+
+  // New Keyword input in SEO manager
+  const [newKeyword, setNewKeyword] = useState("");
+
+  // Office Photo inputs
+  const [newOfficeImageUrl, setNewOfficeImageUrl] = useState("");
+
+  // Employee editing modal
+  const [editingEmp, setEditingEmp] = useState(null);
+  const [isAddingEmp, setIsAddingEmp] = useState(false);
 
   useEffect(() => {
-    fetch("/api/admin/about").then((r) => r.json()).then((d) => {
-      if (d.success) setData(d.data);
-      setLoading(false);
-    });
+    fetch("/api/admin/about")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && d.data) {
+          const loaded = d.data;
+          // Ensure about object structure is fully initialized
+          if (!loaded.about) loaded.about = {};
+          if (!loaded.about.companyDetails) loaded.about.companyDetails = {};
+          if (!loaded.about.companyDetails.seoKeywords) loaded.about.companyDetails.seoKeywords = [];
+          if (!loaded.about.ownerDetails) loaded.about.ownerDetails = {};
+          if (!loaded.about.ownerDetails.achievements) loaded.about.ownerDetails.achievements = [];
+          if (!loaded.about.employees) loaded.about.employees = [];
+
+          setData(loaded);
+        }
+        setLoading(false);
+      });
   }, []);
 
   const save = async () => {
     setSaving(true);
-    const res = await fetch("/api/admin/about", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-    const d = await res.json();
-    setSaving(false);
-    showToast(d.success ? "About section saved!" : d.message, d.success ? "success" : "error");
+    try {
+      const res = await fetch("/api/admin/about", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          about: data.about,
+          owner: data.about.ownerDetails,
+          brand: data.brand,
+        }),
+      });
+      const d = await res.json();
+      setSaving(false);
+      showToast(d.success ? "About section, team & SEO keywords saved to MongoDB!" : d.message, d.success ? "success" : "error");
+    } catch (err) {
+      setSaving(false);
+      showToast("Error saving to database: " + err.message, "error");
+    }
   };
 
-  const updateStat = (idx, field, val) => {
-    const stats = [...data.owner.stats];
-    stats[idx] = { ...stats[idx], [field]: val };
-    setData({ ...data, owner: { ...data.owner, stats } });
+  // SEO Keywords helpers
+  const addKeyword = () => {
+    if (!newKeyword.trim()) return;
+    const current = data.about.companyDetails.seoKeywords || [];
+    if (!current.includes(newKeyword.trim())) {
+      setData({
+        ...data,
+        about: {
+          ...data.about,
+          companyDetails: {
+            ...data.about.companyDetails,
+            seoKeywords: [...current, newKeyword.trim()],
+          },
+        },
+      });
+    }
+    setNewKeyword("");
   };
 
-  if (loading || !data) return <div className="text-slate-400 text-sm">Loading...</div>;
+  const removeKeyword = (idx) => {
+    const current = [...(data.about.companyDetails.seoKeywords || [])];
+    current.splice(idx, 1);
+    setData({
+      ...data,
+      about: {
+        ...data.about,
+        companyDetails: {
+          ...data.about.companyDetails,
+          seoKeywords: current,
+        },
+      },
+    });
+  };
+
+  const quickKeywords = [
+    "Luxury flats Sector 85 Gurgaon",
+    "Commercial property Dwarka Expressway",
+    "Freehold plots Gurgaon",
+    "Turnkey construction Gurgaon",
+    "Best property consultant Gurugram",
+    "Surendra Soni real estate developer",
+  ];
+
+  // Image Cropping Callback
+  const handleCroppedImage = (url) => {
+    if (!cropTarget) return;
+
+    if (cropTarget.type === "owner") {
+      setData({
+        ...data,
+        about: {
+          ...data.about,
+          ownerDetails: {
+            ...data.about.ownerDetails,
+            photo: url,
+          },
+        },
+      });
+      showToast("Owner photo updated & cropped!", "success");
+    } else if (cropTarget.type === "editingEmp" && editingEmp) {
+      setEditingEmp({
+        ...editingEmp,
+        photo: url,
+      });
+      showToast("Employee photo updated!", "success");
+    } else if (cropTarget.type === "officePhoto") {
+      const currentImages = data.about?.companyDetails?.images || [];
+      setData({
+        ...data,
+        about: {
+          ...data.about,
+          companyDetails: {
+            ...data.about.companyDetails,
+            images: [...currentImages, url],
+          },
+        },
+      });
+      showToast("Office photo uploaded! Remember to Save Changes.", "success");
+    }
+    setCropTarget(null);
+  };
+
+  // Direct file upload from computer (instant upload without cropper modal)
+  const [directUploading, setDirectUploading] = useState(null); // 'owner' | 'editingEmp' | null
+
+  const handleDirectUpload = async (file, targetType) => {
+    if (!file) return;
+    try {
+      setDirectUploading(targetType);
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const d = await res.json();
+      setDirectUploading(null);
+
+      if (d.success && d.url) {
+        if (targetType === "owner") {
+          setData((prev) => ({
+            ...prev,
+            about: {
+              ...prev.about,
+              ownerDetails: {
+                ...prev.about.ownerDetails,
+                photo: d.url,
+              },
+            },
+          }));
+          showToast("Owner photo uploaded from computer! Remember to Save Changes.", "success");
+        } else if (targetType === "editingEmp") {
+          setEditingEmp((prev) => ({
+            ...prev,
+            photo: d.url,
+          }));
+          showToast("Employee photo uploaded from computer!", "success");
+        }
+      } else {
+        alert(d.message || "Upload failed. Please check file size or permissions.");
+      }
+    } catch (err) {
+      setDirectUploading(null);
+      alert("Error uploading image: " + err.message);
+    }
+  };
+
+  const addOfficeImageUrl = () => {
+    if (!newOfficeImageUrl.trim()) return;
+    const currentImages = data.about?.companyDetails?.images || [];
+    setData({
+      ...data,
+      about: {
+        ...data.about,
+        companyDetails: {
+          ...data.about.companyDetails,
+          images: [...currentImages, newOfficeImageUrl.trim()],
+        },
+      },
+    });
+    setNewOfficeImageUrl("");
+    showToast("Office photo added to gallery! Remember to Save Changes.", "success");
+  };
+
+  const removeOfficeImage = (idx) => {
+    const currentImages = [...(data.about?.companyDetails?.images || [])];
+    currentImages.splice(idx, 1);
+    setData({
+      ...data,
+      about: {
+        ...data.about,
+        companyDetails: {
+          ...data.about.companyDetails,
+          images: currentImages,
+        },
+      },
+    });
+    showToast("Office photo removed! Remember to Save Changes.", "success");
+  };
+
+  // Employee CRUD
+  const saveEmployee = () => {
+    if (!editingEmp.name?.trim()) {
+      alert("Please enter employee name");
+      return;
+    }
+
+    const currentList = [...(data.about.employees || [])];
+    if (isAddingEmp) {
+      const newEmp = {
+        ...editingEmp,
+        id: editingEmp.id || `emp-${Date.now()}`,
+      };
+      currentList.push(newEmp);
+    } else {
+      const idx = currentList.findIndex((e) => e.id === editingEmp.id);
+      if (idx >= 0) {
+        currentList[idx] = editingEmp;
+      }
+    }
+
+    setData({
+      ...data,
+      about: {
+        ...data.about,
+        employees: currentList,
+      },
+    });
+
+    setEditingEmp(null);
+    setIsAddingEmp(false);
+    showToast(isAddingEmp ? "Employee added to list! Remember to Save Changes." : "Employee updated! Remember to Save Changes.", "success");
+  };
+
+  const deleteEmployee = (id) => {
+    if (!confirm("Are you sure you want to delete this employee?")) return;
+    const currentList = (data.about.employees || []).filter((e) => e.id !== id);
+    setData({
+      ...data,
+      about: {
+        ...data.about,
+        employees: currentList,
+      },
+    });
+    showToast("Employee removed. Click Save Changes to update MongoDB.", "success");
+  };
+
+  if (loading || !data) return <div className="text-slate-400 text-sm py-12 text-center">Loading About Us config from MongoDB...</div>;
+
+  const company = data.about?.companyDetails || {};
+  const owner = data.about?.ownerDetails || {};
+  const employees = data.about?.employees || [];
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      {/* Image Cropper Modal */}
+      <ImageCropperModal
+        isOpen={cropModalOpen}
+        onClose={() => { setCropModalOpen(false); setCropTarget(null); }}
+        onSave={handleCroppedImage}
+        title={
+          cropTarget?.type === "owner"
+            ? "Crop & Adjust Owner Photo"
+            : cropTarget?.type === "officePhoto"
+            ? "Upload & Crop Office Photo"
+            : "Crop & Adjust Employee Photo"
+        }
+      />
+
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-white">About Section</h2>
-          <p className="text-sm text-slate-400 mt-1">Edit founder info and company details</p>
+          <h2 className="text-2xl font-bold text-white flex items-center gap-2.5">
+            <span>About Us Management</span>
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-orange-500/20 text-orange-300 border border-orange-500/30">
+              MongoDB Live
+            </span>
+          </h2>
+          <p className="text-xs text-slate-400 mt-1">
+            Manage Company Profile, Owner Profile, Team Directory & Dynamic SEO Keywords for /about
+          </p>
         </div>
-        <SaveBtn loading={saving} onClick={save} />
+        <SaveBtn loading={saving} onClick={save} label="Save to MongoDB" />
       </div>
 
-      <SectionCard title="Founder / Owner Details" icon={Users}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <InputField label="Owner Name" value={data.owner?.name || ""} onChange={(v) => setData({ ...data, owner: { ...data.owner, name: v } })} />
-          <InputField label="Designation" value={data.owner?.designation || ""} onChange={(v) => setData({ ...data, owner: { ...data.owner, designation: v } })} />
-          <InputField label="Photo URL" value={data.owner?.photo || ""} onChange={(v) => setData({ ...data, owner: { ...data.owner, photo: v } })} />
-        </div>
-        <div className="mt-4 space-y-4">
-          <InputField label="Quote" value={data.owner?.quote || ""} onChange={(v) => setData({ ...data, owner: { ...data.owner, quote: v } })} rows={2} />
-          <InputField label="Bio" value={data.owner?.bio || ""} onChange={(v) => setData({ ...data, owner: { ...data.owner, bio: v } })} rows={4} />
-        </div>
-      </SectionCard>
+      {/* 3 Main Sub-Tabs */}
+      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 mb-6 overflow-x-auto">
+        <button
+          onClick={() => setAboutSubTab("company")}
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${aboutSubTab === "company" ? "bg-orange-500 text-slate-950 font-black shadow-lg" : "text-slate-400 hover:text-white"}`}
+        >
+          <Building2 className="w-4 h-4" />
+          <span>1. 🏢 Company Details & SEO</span>
+        </button>
+        <button
+          onClick={() => setAboutSubTab("owner")}
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${aboutSubTab === "owner" ? "bg-orange-500 text-slate-950 font-black shadow-lg" : "text-slate-400 hover:text-white"}`}
+        >
+          <UserCheck className="w-4 h-4" />
+          <span>2. 👤 Owner / Founder Details</span>
+        </button>
+        <button
+          onClick={() => setAboutSubTab("employees")}
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${aboutSubTab === "employees" ? "bg-orange-500 text-slate-950 font-black shadow-lg" : "text-slate-400 hover:text-white"}`}
+        >
+          <Users className="w-4 h-4" />
+          <span>3. 👥 Employee Directory ({employees.length})</span>
+        </button>
+      </div>
 
-      <SectionCard title="Stats Counter" icon={Building}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {(data.owner?.stats || []).map((stat, idx) => (
-            <div key={idx} className="p-4 rounded-xl flex gap-3 items-end" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-              <div className="flex-1 space-y-2">
-                <InputField label="Label" value={stat.label} onChange={(v) => updateStat(idx, "label", v)} />
-                <InputField label="Value" value={stat.value} onChange={(v) => updateStat(idx, "value", v)} />
+      {/* ════════════════════════════════════════════════════════════
+          SUB-TAB 1: COMPANY DETAILS & DYNAMIC SEO KEYWORDS
+      ════════════════════════════════════════════════════════════ */}
+      {aboutSubTab === "company" && (
+        <div className="space-y-6">
+
+          {/* Dynamic SEO Keywords Manager (CRITICAL USER REQUEST) */}
+          <SectionCard title="🔑 Dynamic SEO Keywords Manager (Direct Google Impact)" icon={Tag}>
+            <div className="space-y-4">
+              <p className="text-xs text-slate-300">
+                Add target keywords here. They are directly embedded into the page&apos;s <strong>meta keywords</strong>, <strong>JSON-LD Organization Schema</strong>, and displayed as dynamic specialization tags on the About Us page to drive Google ranking.
+              </p>
+
+              {/* Input + Add */}
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="e.g. Luxury 3 BHK Sector 85 Gurgaon, Best builder Gurugram..."
+                  value={newKeyword}
+                  onChange={(e) => setNewKeyword(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addKeyword(); } }}
+                  className="flex-1 px-4 py-2.5 rounded-xl text-xs bg-[#111827] border border-slate-800 text-white placeholder-slate-500 outline-none focus:border-orange-400"
+                />
+                <button
+                  type="button"
+                  onClick={addKeyword}
+                  className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-950 bg-orange-400 hover:bg-amber-300 transition-colors shrink-0"
+                >
+                  <Plus className="w-3.5 h-3.5 inline mr-1" /> Add Keyword
+                </button>
+              </div>
+
+              {/* Active Keywords Tags */}
+              <div>
+                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                  Active SEO Keywords ({company.seoKeywords?.length || 0}):
+                </div>
+                <div className="flex flex-wrap gap-2 min-h-12 p-3 rounded-xl bg-[#111827]/80 border border-slate-800/80">
+                  {(company.seoKeywords || []).map((kw, idx) => (
+                    <span
+                      key={idx}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-orange-500/15 text-orange-300 border border-orange-500/30"
+                    >
+                      <span>{kw}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeKeyword(idx)}
+                        className="p-0.5 hover:text-red-400 transition-colors"
+                        title="Remove keyword"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </span>
+                  ))}
+                  {(!company.seoKeywords || company.seoKeywords.length === 0) && (
+                    <span className="text-xs text-slate-500 italic">No custom keywords added yet.</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Quick suggestions */}
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Quick Suggestions (Click to Add):</span>
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {quickKeywords.map((qk) => (
+                    <button
+                      key={qk}
+                      type="button"
+                      onClick={() => {
+                        if (!company.seoKeywords?.includes(qk)) {
+                          setData({
+                            ...data,
+                            about: {
+                              ...data.about,
+                              companyDetails: {
+                                ...data.about.companyDetails,
+                                seoKeywords: [...(company.seoKeywords || []), qk],
+                              },
+                            },
+                          });
+                        }
+                      }}
+                      className="px-2.5 py-1 rounded-md text-[11px] font-medium bg-white/5 border border-white/10 text-slate-300 hover:text-orange-300 hover:border-orange-400/40 transition-colors"
+                    >
+                      + {qk}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* SEO Meta Title & Description */}
+              <div className="pt-4 border-t border-slate-800 grid grid-cols-1 gap-4">
+                <InputField
+                  label="SEO Meta Title"
+                  value={company.metaTitle || ""}
+                  onChange={(v) =>
+                    setData({
+                      ...data,
+                      about: {
+                        ...data.about,
+                        companyDetails: { ...data.about.companyDetails, metaTitle: v },
+                      },
+                    })
+                  }
+                  placeholder="About DS Group of Companies | Real Estate Developer Sector 85 Gurgaon"
+                />
+                <InputField
+                  label="SEO Meta Description"
+                  rows={2}
+                  value={company.metaDescription || ""}
+                  onChange={(v) =>
+                    setData({
+                      ...data,
+                      about: {
+                        ...data.about,
+                        companyDetails: { ...data.about.companyDetails, metaDescription: v },
+                      },
+                    })
+                  }
+                  placeholder="Discover DS Group of Companies — Premier real estate developer in Sector 85 Gurugram..."
+                />
               </div>
             </div>
-          ))}
-        </div>
-        <button onClick={() => setData({ ...data, owner: { ...data.owner, stats: [...(data.owner.stats || []), { label: "", value: "" }] } })}
-          className="flex items-center gap-2 text-xs text-amber-400 font-semibold py-2 mt-2">
-          <Plus className="w-4 h-4" /> Add Stat
-        </button>
-      </SectionCard>
+          </SectionCard>
 
-      <SectionCard title="Brand Info" icon={Building2}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <InputField label="Company Name" value={data.brand?.name || ""} onChange={(v) => setData({ ...data, brand: { ...data.brand, name: v } })} />
-          <InputField label="Short Name" value={data.brand?.shortName || ""} onChange={(v) => setData({ ...data, brand: { ...data.brand, shortName: v } })} />
-          <InputField label="Tagline" value={data.brand?.tagline || ""} onChange={(v) => setData({ ...data, brand: { ...data.brand, tagline: v } })} />
-          <InputField label="Established Year" type="number" value={data.brand?.establishedYear || 2008} onChange={(v) => setData({ ...data, brand: { ...data.brand, establishedYear: parseInt(v) } })} />
-          <div className="md:col-span-2">
-            <InputField label="Subtitle" value={data.brand?.subtitle || ""} onChange={(v) => setData({ ...data, brand: { ...data.brand, subtitle: v } })} rows={2} />
-          </div>
+          {/* Company Heritage & Story */}
+          <SectionCard title="Company Story & Heritage" icon={Building2}>
+            <div className="space-y-4">
+              <InputField
+                label="Full Company Story / Description"
+                rows={5}
+                value={company.story || ""}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      companyDetails: { ...data.about.companyDetails, story: v },
+                    },
+                  })
+                }
+                placeholder="Write detailed company overview and history..."
+              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InputField
+                  label="Mission Statement"
+                  rows={3}
+                  value={company.mission || ""}
+                  onChange={(v) =>
+                    setData({
+                      ...data,
+                      about: {
+                        ...data.about,
+                        companyDetails: { ...data.about.companyDetails, mission: v },
+                      },
+                    })
+                  }
+                  placeholder="Enter company mission..."
+                />
+                <InputField
+                  label="Vision Statement"
+                  rows={3}
+                  value={company.vision || ""}
+                  onChange={(v) =>
+                    setData({
+                      ...data,
+                      about: {
+                        ...data.about,
+                        companyDetails: { ...data.about.companyDetails, vision: v },
+                      },
+                    })
+                  }
+                  placeholder="Enter company vision..."
+                />
+              </div>
+            </div>
+          </SectionCard>
+
+          {/* Legal Credentials & Registration */}
+          <SectionCard title="Statutory Credentials & Corporate Registration" icon={ShieldCheck}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <InputField
+                label="Corporate CIN"
+                value={company.cinNumber || ""}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      companyDetails: { ...data.about.companyDetails, cinNumber: v },
+                    },
+                  })
+                }
+                placeholder="U70109HR2014PTC053210"
+              />
+              <InputField
+                label="HRERA Registration No"
+                value={company.reraRegistration || ""}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      companyDetails: { ...data.about.companyDetails, reraRegistration: v },
+                    },
+                  })
+                }
+                placeholder="HRERA-PKL-GGM-1234-2024"
+              />
+              <InputField
+                label="Headquarters Address"
+                value={company.headquarters || ""}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      companyDetails: { ...data.about.companyDetails, headquarters: v },
+                    },
+                  })
+                }
+                placeholder="Sector 85, Gurugram, Haryana"
+              />
+              <InputField
+                label="Established Year"
+                type="number"
+                value={company.establishedYear || 2008}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      companyDetails: { ...data.about.companyDetails, establishedYear: parseInt(v) || 2008 },
+                    },
+                  })
+                }
+              />
+            </div>
+          </SectionCard>
+
+          {/* Corporate Headquarters & Office Contact Details */}
+          <SectionCard title="Corporate Headquarters & Office Contact Details" icon={MapPin}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <InputField
+                label="Headquarters Office Address"
+                value={company.headquarters || ""}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      companyDetails: { ...data.about.companyDetails, headquarters: v },
+                    },
+                  })
+                }
+                placeholder="Sector 85, Gurugram, Haryana 122004"
+              />
+              <InputField
+                label="Working Hours"
+                value={company.workingHours || ""}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      companyDetails: { ...data.about.companyDetails, workingHours: v },
+                    },
+                  })
+                }
+                placeholder="Mon - Sat: 9:00 AM - 7:30 PM"
+              />
+              <InputField
+                label="Direct Office Call"
+                value={company.phone || ""}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      companyDetails: { ...data.about.companyDetails, phone: v },
+                    },
+                  })
+                }
+                placeholder="+91 77430 00070"
+              />
+              <InputField
+                label="Official Office Email"
+                value={company.email || ""}
+                onChange={(v) =>
+                  setData({
+                    ...data,
+                    about: {
+                      ...data.about,
+                      companyDetails: { ...data.about.companyDetails, email: v },
+                    },
+                  })
+                }
+                placeholder="info@dsgroupofcompanies.com"
+              />
+            </div>
+          </SectionCard>
+
+          {/* Office & Company Photos Gallery (Multi-photo Showroom) */}
+          <SectionCard title="Office & Company Photos Gallery (Multi-Photo Showroom)" icon={ImageIcon}>
+            <div className="space-y-4">
+              <p className="text-xs text-slate-300">
+                Upload and manage multiple high-resolution photos of your corporate headquarters, executive boardroom, client lounges, and architectural reception. These photos are dynamically displayed in the office photo gallery on <strong>/about/company</strong>.
+              </p>
+
+              {/* Upload or Add Image URL Controls */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCropTarget({ type: "officePhoto" });
+                    setCropModalOpen(true);
+                  }}
+                  className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-950 bg-orange-400 hover:bg-amber-300 transition-colors flex items-center justify-center gap-2 shrink-0 shadow-md"
+                >
+                  <Upload className="w-4 h-4" />
+                  <span>Upload & Crop Office Photo</span>
+                </button>
+
+                <div className="flex-1 flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="Or paste office photo image URL (https://...)"
+                    value={newOfficeImageUrl}
+                    onChange={(e) => setNewOfficeImageUrl(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addOfficeImageUrl(); } }}
+                    className="flex-1 px-4 py-2.5 rounded-xl text-xs bg-[#111827] border border-slate-800 text-white placeholder-slate-500 outline-none focus:border-orange-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={addOfficeImageUrl}
+                    className="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-200 bg-slate-800 hover:bg-slate-700 transition-colors shrink-0"
+                  >
+                    + Add URL
+                  </button>
+                </div>
+              </div>
+
+              {/* Gallery Grid of Uploaded Office Photos */}
+              <div>
+                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">
+                  Current Office Photos ({(company.images || []).length}):
+                </div>
+                {(company.images || []).length === 0 ? (
+                  <div className="p-6 rounded-2xl bg-[#111827]/60 border border-slate-800 text-center text-xs text-slate-500">
+                    No custom office photos added yet. Default office images will be displayed on /about/company until you add custom photos.
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {(company.images || []).map((imgUrl, idx) => (
+                      <div
+                        key={idx}
+                        className="relative rounded-2xl overflow-hidden border border-slate-800 bg-[#111827] group shadow-lg aspect-[16/10]"
+                      >
+                        <img
+                          src={imgUrl}
+                          alt={`Office photo ${idx + 1}`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                        <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/60 text-orange-300 text-[10px] font-bold border border-white/10">
+                          Photo #{idx + 1}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => removeOfficeImage(idx)}
+                          className="absolute top-2 right-2 p-1.5 rounded-xl bg-red-600/90 text-white hover:bg-red-500 transition-colors shadow-lg"
+                          title="Delete Photo"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                        <div className="absolute bottom-2 left-2 right-2 truncate text-[11px] text-slate-300 font-mono">
+                          {imgUrl}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </SectionCard>
+
         </div>
-      </SectionCard>
+      )}
+
+      {/* ════════════════════════════════════════════════════════════
+          SUB-TAB 2: OWNER / FOUNDER DETAILS
+      ════════════════════════════════════════════════════════════ */}
+      {aboutSubTab === "owner" && (
+        <div className="space-y-6">
+
+          {/* Founder Executive Profile */}
+          <SectionCard title="Founder Profile & Photo" icon={UserCheck}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+              {/* Photo Box with Cropper button */}
+              <div className="space-y-3">
+                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                  Founder Photo
+                </label>
+                <div className="relative w-44 h-56 rounded-2xl overflow-hidden border-2 border-orange-400/40 bg-[#111827] shadow-xl">
+                  <img
+                    src={owner.photo || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"}
+                    alt="Owner Preview"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 transition-colors shadow-md cursor-pointer">
+                    {directUploading === "owner" ? (
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <span>Uploading Photo...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Upload Direct from Computer</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => {
+                            const f = e.target.files?.[0];
+                            if (f) handleDirectUpload(f, "owner");
+                          }}
+                        />
+                      </>
+                    )}
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCropTarget({ type: "owner" });
+                      setCropModalOpen(true);
+                    }}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/20 transition-colors shadow-xs cursor-pointer"
+                  >
+                    <span>✂️ Select &amp; Crop Photo</span>
+                  </button>
+                  <InputField
+                    label="Or Direct Image URL"
+                    value={owner.photo || ""}
+                    onChange={(v) =>
+                      setData({
+                        ...data,
+                        about: {
+                          ...data.about,
+                          ownerDetails: { ...data.about.ownerDetails, photo: v },
+                        },
+                      })
+                    }
+                  />
+                </div>
+              </div>
+
+              {/* Bio & Details */}
+              <div className="md:col-span-2 space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <InputField
+                    label="Founder Full Name"
+                    value={owner.name || ""}
+                    onChange={(v) =>
+                      setData({
+                        ...data,
+                        about: {
+                          ...data.about,
+                          ownerDetails: { ...data.about.ownerDetails, name: v },
+                        },
+                      })
+                    }
+                  />
+                  <InputField
+                    label="Official Designation"
+                    value={owner.designation || ""}
+                    onChange={(v) =>
+                      setData({
+                        ...data,
+                        about: {
+                          ...data.about,
+                          ownerDetails: { ...data.about.ownerDetails, designation: v },
+                        },
+                      })
+                    }
+                  />
+                  <InputField
+                    label="Experience Display"
+                    value={owner.experienceYears || ""}
+                    onChange={(v) =>
+                      setData({
+                        ...data,
+                        about: {
+                          ...data.about,
+                          ownerDetails: { ...data.about.ownerDetails, experienceYears: v },
+                        },
+                      })
+                    }
+                    placeholder="18+ Years"
+                  />
+                  <InputField
+                    label="WhatsApp Number (for direct client leads)"
+                    value={owner.whatsapp || ""}
+                    onChange={(v) =>
+                      setData({
+                        ...data,
+                        about: {
+                          ...data.about,
+                          ownerDetails: { ...data.about.ownerDetails, whatsapp: v },
+                        },
+                      })
+                    }
+                    placeholder="+91 77430 00070"
+                  />
+                </div>
+
+                <InputField
+                  label="Founder Vision Statement / Quote"
+                  rows={2}
+                  value={owner.quote || ""}
+                  onChange={(v) =>
+                    setData({
+                      ...data,
+                      about: {
+                        ...data.about,
+                        ownerDetails: { ...data.about.ownerDetails, quote: v },
+                      },
+                    })
+                  }
+                  placeholder="Enter quote..."
+                />
+
+                <InputField
+                  label="Executive Biography"
+                  rows={4}
+                  value={owner.bio || ""}
+                  onChange={(v) =>
+                    setData({
+                      ...data,
+                      about: {
+                        ...data.about,
+                        ownerDetails: { ...data.about.ownerDetails, bio: v },
+                      },
+                    })
+                  }
+                  placeholder="Detailed professional bio..."
+                />
+              </div>
+
+            </div>
+          </SectionCard>
+
+          {/* Honors & Recognitions */}
+          <SectionCard title="Honors, Recognitions & Affiliations" icon={Award}>
+            <div className="space-y-3">
+              {(owner.achievements || []).map((ach, idx) => (
+                <div key={idx} className="p-4 rounded-xl bg-[#111827]/80 border border-slate-800 flex items-start gap-4">
+                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <InputField
+                      label="Honor Title"
+                      value={ach.title || ""}
+                      onChange={(v) => {
+                        const achs = [...owner.achievements];
+                        achs[idx] = { ...achs[idx], title: v };
+                        setData({ ...data, about: { ...data.about, ownerDetails: { ...owner, achievements: achs } } });
+                      }}
+                    />
+                    <InputField
+                      label="Year"
+                      value={ach.year || ""}
+                      onChange={(v) => {
+                        const achs = [...owner.achievements];
+                        achs[idx] = { ...achs[idx], year: v };
+                        setData({ ...data, about: { ...data.about, ownerDetails: { ...owner, achievements: achs } } });
+                      }}
+                      placeholder="2024"
+                    />
+                    <InputField
+                      label="Description"
+                      value={ach.description || ""}
+                      onChange={(v) => {
+                        const achs = [...owner.achievements];
+                        achs[idx] = { ...achs[idx], description: v };
+                        setData({ ...data, about: { ...data.about, ownerDetails: { ...owner, achievements: achs } } });
+                      }}
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const achs = owner.achievements.filter((_, i) => i !== idx);
+                      setData({ ...data, about: { ...data.about, ownerDetails: { ...owner, achievements: achs } } });
+                    }}
+                    className="mt-6 p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={() => {
+                  const achs = [...(owner.achievements || []), { title: "", year: "2026", description: "" }];
+                  setData({ ...data, about: { ...data.about, ownerDetails: { ...owner, achievements: achs } } });
+                }}
+                className="flex items-center gap-2 text-xs text-orange-400 font-semibold py-2"
+              >
+                <Plus className="w-4 h-4" /> Add Honor / Award
+              </button>
+            </div>
+          </SectionCard>
+
+        </div>
+      )}
+
+      {/* ════════════════════════════════════════════════════════════
+          SUB-TAB 3: EMPLOYEE DIRECTORY (TEAM MEMBERS)
+      ════════════════════════════════════════════════════════════ */}
+      {aboutSubTab === "employees" && (
+        <div className="space-y-6">
+
+          {/* Employee Edit / Add Modal */}
+          {editingEmp && (
+            <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+              <div
+                className="w-full max-w-2xl rounded-3xl p-6 sm:p-8 space-y-5 shadow-2xl relative my-8"
+                style={{ background: "#091426", border: "1px solid rgba(255,121,0,0.3)" }}
+              >
+                <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+                  <h3 className="text-base font-bold text-white">
+                    {isAddingEmp ? "Add New Employee / Specialist" : "Edit Employee Details"}
+                  </h3>
+                  <button
+                    onClick={() => { setEditingEmp(null); setIsAddingEmp(false); }}
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-white"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <InputField
+                    label="Full Name"
+                    value={editingEmp.name || ""}
+                    onChange={(v) => setEditingEmp({ ...editingEmp, name: v })}
+                    placeholder="e.g. Priya Sharma"
+                    required
+                  />
+                  <InputField
+                    label="Designation / Post"
+                    value={editingEmp.designation || ""}
+                    onChange={(v) => setEditingEmp({ ...editingEmp, designation: v })}
+                    placeholder="Head of Sales & Client Relations"
+                  />
+                  <SelectField
+                    label="Department"
+                    value={editingEmp.department || "Residential"}
+                    onChange={(v) => setEditingEmp({ ...editingEmp, department: v })}
+                    options={[
+                      { label: "Leadership", value: "Leadership" },
+                      { label: "Residential", value: "Residential" },
+                      { label: "Commercial", value: "Commercial" },
+                      { label: "Architecture & Construction", value: "Architecture & Construction" },
+                      { label: "Legal & Liaison", value: "Legal & Liaison" },
+                      { label: "Marketing", value: "Marketing" },
+                      { label: "Operations", value: "Operations" },
+                    ]}
+                  />
+                  <InputField
+                    label="Experience"
+                    value={editingEmp.experience || ""}
+                    onChange={(v) => setEditingEmp({ ...editingEmp, experience: v })}
+                    placeholder="10+ Years"
+                  />
+                  <InputField
+                    label="Phone Number"
+                    value={editingEmp.phone || ""}
+                    onChange={(v) => setEditingEmp({ ...editingEmp, phone: v })}
+                    placeholder="+91 98123 45678"
+                  />
+                  <InputField
+                    label="Email Address"
+                    value={editingEmp.email || ""}
+                    onChange={(v) => setEditingEmp({ ...editingEmp, email: v })}
+                    placeholder="name@dsgroupofcompanies.com"
+                  />
+                  <div className="sm:col-span-2">
+                    <InputField
+                      label="LinkedIn Profile URL"
+                      value={editingEmp.linkedin || ""}
+                      onChange={(v) => setEditingEmp({ ...editingEmp, linkedin: v })}
+                      placeholder="https://linkedin.com/in/..."
+                    />
+                  </div>
+                </div>
+
+                {/* Photo upload & Crop for employee */}
+                <div className="p-4 rounded-xl bg-[#111827] border border-slate-800 space-y-3">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-800 border border-white/10 shrink-0">
+                      <img
+                        src={editingEmp.photo || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"}
+                        alt="Emp Preview"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 space-y-1">
+                      <div className="text-xs font-bold text-white">Employee Photo</div>
+                      <p className="text-[11px] text-slate-400">Upload directly from computer or crop</p>
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        <label className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 transition-colors shadow cursor-pointer inline-flex items-center gap-1.5">
+                          {directUploading === "editingEmp" ? (
+                            <>
+                              <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                              <span>Uploading...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Upload className="w-3.5 h-3.5" />
+                              <span>Upload from Computer</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => {
+                                  const f = e.target.files?.[0];
+                                  if (f) handleDirectUpload(f, "editingEmp");
+                                }}
+                              />
+                            </>
+                          )}
+                        </label>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCropTarget({ type: "editingEmp" });
+                            setCropModalOpen(true);
+                          }}
+                          className="px-3 py-2 rounded-xl text-xs font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/20 transition-colors shadow-xs cursor-pointer"
+                        >
+                          <span>✂️ Crop &amp; Zoom</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <InputField
+                    label="Or Direct Image URL"
+                    value={editingEmp.photo || ""}
+                    onChange={(v) => setEditingEmp({ ...editingEmp, photo: v })}
+                  />
+                </div>
+
+                <InputField
+                  label="Work Description & Bio"
+                  rows={3}
+                  value={editingEmp.bio || ""}
+                  onChange={(v) => setEditingEmp({ ...editingEmp, bio: v })}
+                  placeholder="Describe employee responsibilities, key projects, and portfolio focus..."
+                />
+
+                <InputField
+                  label="Skills / Specialties (comma-separated)"
+                  value={Array.isArray(editingEmp.skills) ? editingEmp.skills.join(", ") : (editingEmp.skills || "")}
+                  onChange={(v) => setEditingEmp({ ...editingEmp, skills: v.split(",").map((s) => s.trim()).filter(Boolean) })}
+                  placeholder="Luxury Portfolios, CRM Strategy, Valuation"
+                />
+
+                <InputField
+                  label="Key Projects Handled (comma-separated)"
+                  value={Array.isArray(editingEmp.projects) ? editingEmp.projects.join(", ") : (editingEmp.projects || "")}
+                  onChange={(v) => setEditingEmp({ ...editingEmp, projects: v.split(",").map((s) => s.trim()).filter(Boolean) })}
+                  placeholder="DS Imperial Heights Sector 85, Dwarka Expressway Commercial Plaza"
+                />
+
+                <InputField
+                  label="Certifications & Accreditations (comma-separated)"
+                  value={Array.isArray(editingEmp.certifications) ? editingEmp.certifications.join(", ") : (editingEmp.certifications || "")}
+                  onChange={(v) => setEditingEmp({ ...editingEmp, certifications: v.split(",").map((s) => s.trim()).filter(Boolean) })}
+                  placeholder="HRERA Certified Professional, Council of Architecture"
+                />
+
+                <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                  <button
+                    onClick={() => { setEditingEmp(null); setIsAddingEmp(false); }}
+                    className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={saveEmployee}
+                    className="px-6 py-2.5 rounded-xl text-xs font-bold text-slate-950 uppercase tracking-wider"
+                    style={{ background: "linear-gradient(135deg, #FF7900, #F16E00)" }}
+                  >
+                    Apply Employee Changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Top Bar: Add Employee */}
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-bold text-white">
+              Team Directory ({employees.length} Members)
+            </h3>
+            <button
+              onClick={() => {
+                setEditingEmp({
+                  id: `emp-${Date.now()}`,
+                  name: "",
+                  designation: "",
+                  department: "Residential",
+                  photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+                  bio: "",
+                  experience: "5+ Years",
+                  skills: [],
+                  priority: employees.length + 1,
+                });
+                setIsAddingEmp(true);
+              }}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-slate-950 uppercase tracking-wider transition-all"
+              style={{ background: "linear-gradient(135deg, #FF7900, #F16E00)", boxShadow: "0 4px 15px rgba(255,121,0,0.2)" }}
+            >
+              <Plus className="w-4 h-4" /> Add New Employee
+            </button>
+          </div>
+
+          {/* Employee Cards List */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {employees.map((emp, idx) => (
+              <div
+                key={emp.id || idx}
+                className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800/80 flex items-start gap-4 hover:border-orange-400/30 transition-all shadow-lg"
+              >
+                <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-800 border border-white/10 shrink-0">
+                  <img
+                    src={emp.photo || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"}
+                    alt={emp.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h4 className="text-sm font-bold text-white truncate">{emp.name}</h4>
+                      <p className="text-xs font-semibold text-slate-400 truncate">{emp.designation}</p>
+                    </div>
+                    <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase bg-orange-500/15 text-orange-300 border border-orange-500/30 shrink-0">
+                      {emp.department}
+                    </span>
+                  </div>
+
+                  {emp.bio && (
+                    <p className="text-[11px] text-slate-300 mt-2 line-clamp-2 leading-relaxed">
+                      {emp.bio}
+                    </p>
+                  )}
+
+                  <div className="flex items-center gap-3 mt-3 pt-3 border-t border-slate-800 text-[11px] text-slate-400">
+                    {emp.phone && <span className="truncate">📞 {emp.phone}</span>}
+                    <div className="ml-auto flex items-center gap-1 shrink-0">
+                      <button
+                        onClick={() => {
+                          setEditingEmp({ ...emp });
+                          setIsAddingEmp(false);
+                        }}
+                        className="p-1.5 rounded-lg text-blue-400 hover:bg-blue-500/10"
+                        title="Edit Employee"
+                      >
+                        <Pencil className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => deleteEmployee(emp.id)}
+                        className="p-1.5 rounded-lg text-red-400 hover:bg-red-500/10"
+                        title="Delete Employee"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {employees.length === 0 && (
+            <div className="text-center py-12 rounded-2xl bg-slate-900/50 border border-slate-800 text-slate-500 text-xs">
+              No employees added yet. Click &quot;Add New Employee&quot; above to create team profiles.
+            </div>
+          )}
+
+        </div>
+      )}
+
     </div>
   );
 }
+
 
 // ─── SERVICES PANEL ─────────────────────────────────────────────────────────
 
@@ -620,11 +2166,11 @@ function ServicesPanel({ showToast }) {
         <div><h2 className="text-2xl font-bold text-white">Services</h2><p className="text-sm text-slate-400 mt-1">{services.length} services configured</p></div>
         <button onClick={() => { setEditingSvc({ ...EMPTY_SERVICE, id: `service-${Date.now()}` }); setIsAdding(true); }}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white"
-          style={{ background: "linear-gradient(135deg, #C9A96E, #b8933a)" }}>
+          style={{ background: "linear-gradient(135deg, #FF7900, #F16E00)" }}>
           <Plus className="w-4 h-4" /> Add Service
         </button>
       </div>
-      {loading ? <div className="text-slate-400 text-sm py-8 text-center"><RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-amber-400" />Loading...</div> : (
+      {loading ? <div className="text-slate-400 text-sm py-8 text-center"><RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-orange-400" />Loading...</div> : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {services.map((svc) => (
             <div key={svc.id} className="p-5 rounded-2xl" style={{ background: "rgba(10,22,40,0.7)", border: "1px solid rgba(255,255,255,0.07)" }}>
@@ -916,7 +2462,7 @@ function ValuablePropertiesPanel({ showToast }) {
             <p className="text-xs text-slate-400">{editingProp.projectName || "New Project"}</p>
           </div>
           {editingProp.slug && !isAdding && (
-            <a href={`/valuable-properties/${editingProp.slug}`} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-400 bg-amber-400/10 border border-amber-400/20 hover:bg-amber-400/20 transition-all">
+            <a href={`/valuable-properties/${editingProp.slug}`} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-orange-400 bg-orange-400/10 border border-orange-400/20 hover:bg-orange-400/20 transition-all">
               <ExternalLink className="w-3.5 h-3.5" /> Preview Page
             </a>
           )}
@@ -994,7 +2540,7 @@ function ValuablePropertiesPanel({ showToast }) {
                       <button onClick={() => { const gal = editingProp.gallery.filter((_, i) => i !== idx); setEditingProp({ ...editingProp, gallery: gal.length ? gal : [""] }); }} className="p-2 rounded-lg bg-red-500/10 text-red-400 shrink-0"><Trash2 className="w-4 h-4" /></button>
                     </div>
                   ))}
-                  <button onClick={() => setEditingProp({ ...editingProp, gallery: [...(editingProp.gallery || []), ""] })} className="flex items-center gap-2 text-xs text-amber-400 font-semibold py-1">
+                  <button onClick={() => setEditingProp({ ...editingProp, gallery: [...(editingProp.gallery || []), ""] })} className="flex items-center gap-2 text-xs text-orange-400 font-semibold py-1">
                     <Plus className="w-4 h-4" /> Add Gallery Image
                   </button>
                 </div>
@@ -1016,7 +2562,7 @@ function ValuablePropertiesPanel({ showToast }) {
                       <button onClick={() => { const am = editingProp.amenities.filter((_, i) => i !== idx); setEditingProp({ ...editingProp, amenities: am.length ? am : [""] }); }} className="p-2 rounded-lg bg-red-500/10 text-red-400 shrink-0"><Trash2 className="w-4 h-4" /></button>
                     </div>
                   ))}
-                  <button onClick={() => setEditingProp({ ...editingProp, amenities: [...(editingProp.amenities || []), ""] })} className="flex items-center gap-2 text-xs text-amber-400 font-semibold py-1">
+                  <button onClick={() => setEditingProp({ ...editingProp, amenities: [...(editingProp.amenities || []), ""] })} className="flex items-center gap-2 text-xs text-orange-400 font-semibold py-1">
                     <Plus className="w-4 h-4" /> Add Amenity
                   </button>
                 </div>
@@ -1032,7 +2578,7 @@ function ValuablePropertiesPanel({ showToast }) {
                       <button onClick={() => { const ft = editingProp.features.filter((_, i) => i !== idx); setEditingProp({ ...editingProp, features: ft.length ? ft : [""] }); }} className="p-2 rounded-lg bg-red-500/10 text-red-400 shrink-0"><Trash2 className="w-4 h-4" /></button>
                     </div>
                   ))}
-                  <button onClick={() => setEditingProp({ ...editingProp, features: [...(editingProp.features || []), ""] })} className="flex items-center gap-2 text-xs text-amber-400 font-semibold py-1">
+                  <button onClick={() => setEditingProp({ ...editingProp, features: [...(editingProp.features || []), ""] })} className="flex items-center gap-2 text-xs text-orange-400 font-semibold py-1">
                     <Plus className="w-4 h-4" /> Add Highlight Feature
                   </button>
                 </div>
@@ -1059,13 +2605,13 @@ function ValuablePropertiesPanel({ showToast }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <div className="flex items-center gap-2">
-            <Sparkles className="w-6 h-6 text-amber-400" />
+            <Sparkles className="w-6 h-6 text-orange-400" />
             <h2 className="text-2xl font-bold text-white">Valuable Properties</h2>
           </div>
           <p className="text-sm text-slate-400 mt-1">Independent module for Hero Section Featured Popups & High-Value Listings ({properties.length} items)</p>
         </div>
         <button onClick={startAdd} className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white"
-          style={{ background: "linear-gradient(135deg, #C9A96E, #b8933a)", boxShadow: "0 4px 15px rgba(201,169,110,0.2)" }}>
+          style={{ background: "linear-gradient(135deg, #FF7900, #F16E00)", boxShadow: "0 4px 15px rgba(255,121,0,0.2)" }}>
           <Plus className="w-4 h-4" /> Add Valuable Property
         </button>
       </div>
@@ -1079,7 +2625,7 @@ function ValuablePropertiesPanel({ showToast }) {
           {["All", "Published", "Unpublished"].map((st) => (
             <button key={st} onClick={() => setFilterPublish(st)}
               className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${filterPublish === st ? "text-white" : "text-slate-400 hover:text-white"}`}
-              style={{ background: filterPublish === st ? "linear-gradient(135deg, #C9A96E, #b8933a)" : "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+              style={{ background: filterPublish === st ? "linear-gradient(135deg, #FF7900, #F16E00)" : "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
               {st}
             </button>
           ))}
@@ -1087,12 +2633,12 @@ function ValuablePropertiesPanel({ showToast }) {
       </div>
 
       {loading ? (
-        <div className="text-slate-400 text-sm py-12 text-center"><RefreshCw className="w-6 h-6 animate-spin mx-auto mb-3 text-amber-400" />Loading Valuable Properties...</div>
+        <div className="text-slate-400 text-sm py-12 text-center"><RefreshCw className="w-6 h-6 animate-spin mx-auto mb-3 text-orange-400" />Loading Valuable Properties...</div>
       ) : (
         <div className="grid grid-cols-1 gap-4">
           {filtered.map((prop) => (
-            <div key={prop._id} className="flex items-center gap-4 p-4 rounded-2xl transition-all hover:border-amber-400/30"
-              style={{ background: "rgba(10,22,40,0.7)", border: "1px solid rgba(201,169,110,0.15)" }}>
+            <div key={prop._id} className="flex items-center gap-4 p-4 rounded-2xl transition-all hover:border-orange-400/30"
+              style={{ background: "rgba(10,22,40,0.7)", border: "1px solid rgba(255,121,0,0.15)" }}>
               {prop.thumbnail || prop.heroBanner ? (
                 <img src={prop.thumbnail || prop.heroBanner} alt={prop.projectName} className="w-24 h-18 rounded-xl object-cover shrink-0" />
               ) : (
@@ -1109,7 +2655,7 @@ function ValuablePropertiesPanel({ showToast }) {
                 {prop.shortDescription && <p className="text-xs text-slate-300 mt-1 line-clamp-1 italic">{prop.shortDescription}</p>}
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <a href={`/valuable-properties/${prop.slug}`} target="_blank" rel="noreferrer" className="p-2 rounded-lg text-amber-400 hover:bg-amber-500/10 transition-colors" title="Preview Page">
+                <a href={`/valuable-properties/${prop.slug}`} target="_blank" rel="noreferrer" className="p-2 rounded-lg text-orange-400 hover:bg-orange-500/10 transition-colors" title="Preview Page">
                   <ExternalLink className="w-4 h-4" />
                 </a>
                 <button onClick={() => handleDuplicate(prop)} className="p-2 rounded-lg text-indigo-400 hover:bg-indigo-500/10 transition-colors" title="Duplicate">
@@ -1167,9 +2713,9 @@ function OverviewPanel({ showToast, adminEmail }) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         {stats.map(({ label, value, icon: Icon }) => (
-          <div key={label} className="p-5 rounded-2xl" style={{ background: "rgba(10,22,40,0.7)", border: "1px solid rgba(201,169,110,0.15)" }}>
+          <div key={label} className="p-5 rounded-2xl" style={{ background: "rgba(10,22,40,0.7)", border: "1px solid rgba(255,121,0,0.15)" }}>
             <div className="flex items-center gap-3 mb-2">
-              <Icon className="w-5 h-5 text-amber-400" />
+              <Icon className="w-5 h-5 text-orange-400" />
               <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{label}</span>
             </div>
             <p className="text-sm font-semibold text-white">{value}</p>
@@ -1184,7 +2730,7 @@ function OverviewPanel({ showToast, adminEmail }) {
         </p>
         <button onClick={handleSeed} disabled={seeding}
           className="flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-white"
-          style={{ background: seeding ? "rgba(201,169,110,0.5)" : "linear-gradient(135deg, #1e40af, #3b82f6)", boxShadow: "0 4px 15px rgba(30,64,175,0.3)" }}>
+          style={{ background: seeding ? "rgba(255,121,0,0.5)" : "linear-gradient(135deg, #1e40af, #3b82f6)", boxShadow: "0 4px 15px rgba(30,64,175,0.3)" }}>
           {seeding ? <RefreshCw className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
           {seeding ? "Seeding..." : "Seed Static Data to MongoDB"}
         </button>
@@ -1193,9 +2739,9 @@ function OverviewPanel({ showToast, adminEmail }) {
       <SectionCard title="Quick Navigation" icon={LayoutDashboard}>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {NAV_ITEMS.filter((n) => n.id !== "overview").map(({ id, label, icon: Icon }) => (
-            <div key={id} className="p-4 rounded-xl cursor-pointer hover:border-amber-400/30 transition-all"
+            <div key={id} className="p-4 rounded-xl cursor-pointer hover:border-orange-400/30 transition-all"
               style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-              <Icon className="w-5 h-5 text-amber-400 mb-2" />
+              <Icon className="w-5 h-5 text-orange-400 mb-2" />
               <p className="text-xs font-semibold text-white">{label}</p>
             </div>
           ))}
@@ -1301,7 +2847,7 @@ function LeadsPanel({ showToast }) {
         <div>
           <h2 className="text-xl font-extrabold text-white flex items-center gap-2">
             <span>📋 Client Enquiries & Leads</span>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30">
               {totalCount} Total
             </span>
           </h2>
@@ -1315,7 +2861,7 @@ function LeadsPanel({ showToast }) {
           disabled={loading}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 transition-all self-start sm:self-auto"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-amber-400" : ""}`} />
+          <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-orange-400" : ""}`} />
           <span>Refresh Leads</span>
         </button>
       </div>
@@ -1326,9 +2872,9 @@ function LeadsPanel({ showToast }) {
           <div className="text-2xl font-black text-white">{totalCount}</div>
           <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mt-0.5">Total Leads</div>
         </div>
-        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30">
-          <div className="text-2xl font-black text-amber-400">{newCount}</div>
-          <div className="text-[11px] font-bold uppercase tracking-wider text-amber-400/80 mt-0.5">🔥 New Leads</div>
+        <div className="p-4 rounded-2xl bg-orange-500/10 border border-orange-500/30">
+          <div className="text-2xl font-black text-orange-400">{newCount}</div>
+          <div className="text-[11px] font-bold uppercase tracking-wider text-orange-400/80 mt-0.5">🔥 New Leads</div>
         </div>
         <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/30">
           <div className="text-2xl font-black text-blue-400">{contactedCount}</div>
@@ -1348,7 +2894,7 @@ function LeadsPanel({ showToast }) {
             placeholder="Search by client name, mobile, email, category, budget..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl text-xs bg-slate-950 border border-slate-800 text-white placeholder-slate-500 outline-none focus:border-amber-400"
+            className="w-full px-4 py-2.5 rounded-xl text-xs bg-[#111827] border border-slate-800 text-white placeholder-slate-500 outline-none focus:border-orange-400"
           />
         </div>
 
@@ -1359,8 +2905,8 @@ function LeadsPanel({ showToast }) {
               onClick={() => setStatusFilter(st)}
               className={`px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
                 statusFilter === st
-                  ? "bg-amber-500 text-slate-950 font-black"
-                  : "bg-slate-950 text-slate-400 border border-slate-800 hover:text-white"
+                  ? "bg-orange-500 text-slate-950 font-black"
+                  : "bg-[#111827] text-slate-400 border border-slate-800 hover:text-white"
               }`}
             >
               {st}
@@ -1372,7 +2918,7 @@ function LeadsPanel({ showToast }) {
       {/* Leads List */}
       {loading ? (
         <div className="py-16 text-center space-y-3">
-          <RefreshCw className="w-8 h-8 animate-spin text-amber-400 mx-auto" />
+          <RefreshCw className="w-8 h-8 animate-spin text-orange-400 mx-auto" />
           <p className="text-xs text-slate-400">Loading client leads from MongoDB...</p>
         </div>
       ) : filteredLeads.length === 0 ? (
@@ -1397,7 +2943,7 @@ function LeadsPanel({ showToast }) {
             return (
               <div
                 key={lead._id}
-                className="rounded-2xl p-5 bg-slate-900/90 border border-slate-800/80 hover:border-amber-500/30 transition-all space-y-4 shadow-lg"
+                className="rounded-2xl p-5 bg-slate-900/90 border border-slate-800/80 hover:border-orange-500/30 transition-all space-y-4 shadow-lg"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
                   <div className="flex items-center gap-3">
@@ -1427,10 +2973,10 @@ function LeadsPanel({ showToast }) {
                           ? "bg-blue-500/20 text-blue-400 border-blue-500/40"
                           : lead.status === "In Progress"
                           ? "bg-purple-500/20 text-purple-400 border-purple-500/40"
-                          : "bg-amber-500/20 text-amber-400 border-amber-500/40"
+                          : "bg-orange-500/20 text-orange-400 border-orange-500/40"
                       }`}
                     >
-                      <option value="New" className="bg-slate-900 text-amber-400">🔥 New Lead</option>
+                      <option value="New" className="bg-slate-900 text-orange-400">🔥 New Lead</option>
                       <option value="Contacted" className="bg-slate-900 text-blue-400">📞 Contacted</option>
                       <option value="In Progress" className="bg-slate-900 text-purple-400">⏳ In Progress</option>
                       <option value="Closed" className="bg-slate-900 text-emerald-400">✅ Closed</option>
@@ -1448,7 +2994,7 @@ function LeadsPanel({ showToast }) {
 
                 {/* Grid Details */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                  <div className="p-3 rounded-xl bg-[#111827] border border-slate-800">
                     <span className="text-[10px] uppercase font-bold text-slate-500 block mb-1">Contact Phone</span>
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-emerald-400">{lead.phone}</span>
@@ -1473,27 +3019,27 @@ function LeadsPanel({ showToast }) {
                     </div>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                  <div className="p-3 rounded-xl bg-[#111827] border border-slate-800">
                     <span className="text-[10px] uppercase font-bold text-slate-500 block mb-1">Email Address</span>
                     <span className="font-semibold text-blue-400 truncate block">
                       {lead.email || "Not Provided"}
                     </span>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                  <div className="p-3 rounded-xl bg-[#111827] border border-slate-800">
                     <span className="text-[10px] uppercase font-bold text-slate-500 block mb-1">Category Interest</span>
-                    <span className="font-bold text-amber-400">{lead.category}</span>
+                    <span className="font-bold text-orange-400">{lead.category}</span>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
-                    <span className="text-[10px] uppercase font-bold text-amber-400/80 block mb-1">Budget Range</span>
-                    <span className="font-extrabold text-amber-400">{lead.budget}</span>
+                  <div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/30">
+                    <span className="text-[10px] uppercase font-bold text-orange-400/80 block mb-1">Budget Range</span>
+                    <span className="font-extrabold text-orange-400">{lead.budget}</span>
                   </div>
                 </div>
 
                 {/* Message / Requirements */}
                 {lead.message && (
-                  <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800/80 text-xs">
+                  <div className="p-3 rounded-xl bg-[#111827]/70 border border-slate-800/80 text-xs">
                     <span className="text-[10px] uppercase font-bold text-slate-500 block mb-1">Requirements / Message</span>
                     <p className="text-slate-300 leading-relaxed">{lead.message}</p>
                   </div>
@@ -1634,7 +3180,7 @@ function BlogsPanel({ showToast }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2.5">
-            <BookOpen className="w-5 h-5 text-amber-400" />
+            <BookOpen className="w-5 h-5 text-orange-400" />
             <span>Blogs &amp; Real Estate Research</span>
           </h2>
           <p className="text-xs text-slate-400 mt-1">
@@ -1648,7 +3194,7 @@ function BlogsPanel({ showToast }) {
               setEditingBlog({ ...emptyBlog, id: `blog-${Date.now()}` });
               setIsCreating(true);
             }}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-lg"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-950 bg-orange-400 hover:bg-amber-300 transition-all shadow-lg"
           >
             <Plus className="w-4 h-4" />
             <span>Write New Blog</span>
@@ -1665,7 +3211,7 @@ function BlogsPanel({ showToast }) {
                 {isCreating ? "Create New Blog Post" : `Editing: ${editingBlog.title || "Untitled"}`}
               </h3>
               <p className="text-xs text-slate-400">
-                This post will appear live on <span className="text-amber-400">/blog</span> and <span className="text-amber-400">/blog/{editingBlog.slug || "[slug]"}</span>
+                This post will appear live on <span className="text-orange-400">/blog</span> and <span className="text-orange-400">/blog/{editingBlog.slug || "[slug]"}</span>
               </p>
             </div>
             <button
@@ -1783,7 +3329,7 @@ function BlogsPanel({ showToast }) {
             {/* Structured Content Sections */}
             <div className="pt-4 border-t border-slate-800">
               <div className="flex items-center justify-between mb-4">
-                <label className="text-xs font-bold uppercase tracking-wider text-amber-400">
+                <label className="text-xs font-bold uppercase tracking-wider text-orange-400">
                   Article Content Sections (Headings &amp; Paragraphs)
                 </label>
                 <button
@@ -1791,16 +3337,16 @@ function BlogsPanel({ showToast }) {
                   onClick={addContentSection}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
                 >
-                  <Plus className="w-3.5 h-3.5 text-amber-400" />
+                  <Plus className="w-3.5 h-3.5 text-orange-400" />
                   <span>Add Section</span>
                 </button>
               </div>
 
               <div className="space-y-4">
                 {(editingBlog.content || []).map((sec, idx) => (
-                  <div key={idx} className="p-4 rounded-xl border border-slate-800/80 bg-slate-950/60 space-y-3">
+                  <div key={idx} className="p-4 rounded-xl border border-slate-800/80 bg-[#111827]/60 space-y-3">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-[11px] font-bold text-amber-400 uppercase">Section {idx + 1}</span>
+                      <span className="text-[11px] font-bold text-orange-400 uppercase">Section {idx + 1}</span>
                       <button
                         type="button"
                         onClick={() => removeContentSection(idx)}
@@ -1875,7 +3421,7 @@ function BlogsPanel({ showToast }) {
       {/* Blogs Table / Cards List */}
       {loading ? (
         <div className="text-center py-16 text-slate-500 text-xs flex items-center justify-center gap-2">
-          <RefreshCw className="w-4 h-4 animate-spin text-amber-400" />
+          <RefreshCw className="w-4 h-4 animate-spin text-orange-400" />
           <span>Loading articles from database...</span>
         </div>
       ) : filteredBlogs.length === 0 ? (
@@ -1893,13 +3439,13 @@ function BlogsPanel({ showToast }) {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-400/10 text-amber-400 border border-amber-400/20">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-orange-400/10 text-orange-400 border border-orange-400/20">
                     {blog.category}
                   </span>
                   <span className="text-[10px] text-slate-500">{blog.publishedDate || "Recently Published"}</span>
                 </div>
 
-                <h4 className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-2 mb-2 font-outfit">
+                <h4 className="text-sm font-bold text-white group-hover:text-orange-300 transition-colors line-clamp-2 mb-2 font-outfit">
                   {blog.title}
                 </h4>
 
@@ -1921,7 +3467,7 @@ function BlogsPanel({ showToast }) {
                   href={`/blog/${blog.slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[11px] font-semibold text-slate-400 hover:text-amber-400 transition-colors flex items-center gap-1"
+                  className="text-[11px] font-semibold text-slate-400 hover:text-orange-400 transition-colors flex items-center gap-1"
                 >
                   <Eye className="w-3.5 h-3.5" />
                   <span>Preview Live</span>
@@ -1933,7 +3479,7 @@ function BlogsPanel({ showToast }) {
                       setEditingBlog(blog);
                       setIsCreating(false);
                     }}
-                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-amber-400/20 hover:text-amber-400 text-slate-300 transition-colors"
+                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-orange-400/20 hover:text-orange-400 text-slate-300 transition-colors"
                     title="Edit Blog"
                   >
                     <Pencil className="w-3.5 h-3.5" />
@@ -1990,7 +3536,7 @@ export default function AdminDashboard({ adminEmail }) {
   };
 
   return (
-    <div className="min-h-screen flex" style={{ background: "#050d1a", fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
+    <div className="min-h-screen flex" style={{ background: "#111827", fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
       {/* Toast */}
       {toast && <Toast key={toast.key} msg={toast.msg} type={toast.type} onClose={() => setToast(null)} />}
 
@@ -2002,13 +3548,13 @@ export default function AdminDashboard({ adminEmail }) {
         {/* Logo */}
         <div className="p-5 border-b border-slate-900 flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-            style={{ background: "linear-gradient(135deg, #1e40af, #C9A96E)" }}>
+            style={{ background: "linear-gradient(135deg, #1e40af, #FF7900)" }}>
             <Building2 className="w-5 h-5 text-white" />
           </div>
           {sidebarOpen && (
             <div className="overflow-hidden">
               <p className="text-xs font-extrabold text-white tracking-tight leading-tight">DS GROUP</p>
-              <p className="text-[9px] font-semibold text-amber-400 uppercase tracking-wider">Admin Panel</p>
+              <p className="text-[9px] font-semibold text-orange-400 uppercase tracking-wider">Admin Panel</p>
             </div>
           )}
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="ml-auto text-slate-600 hover:text-slate-400 transition-colors shrink-0">
@@ -2024,12 +3570,12 @@ export default function AdminDashboard({ adminEmail }) {
               onClick={() => setActiveTab(id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-200 ${activeTab === id ? "text-white" : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
                 }`}
-              style={activeTab === id ? { background: "linear-gradient(135deg, rgba(201,169,110,0.15), rgba(30,64,175,0.15))", border: "1px solid rgba(201,169,110,0.2)" } : {}}
+              style={activeTab === id ? { background: "linear-gradient(135deg, rgba(255,121,0,0.15), rgba(30,64,175,0.15))", border: "1px solid rgba(255,121,0,0.2)" } : {}}
               title={!sidebarOpen ? label : undefined}
             >
-              <Icon className={`w-4 h-4 shrink-0 ${activeTab === id ? "text-amber-400" : ""}`} />
+              <Icon className={`w-4 h-4 shrink-0 ${activeTab === id ? "text-orange-400" : ""}`} />
               {sidebarOpen && <span className="text-xs font-semibold truncate">{label}</span>}
-              {sidebarOpen && activeTab === id && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-amber-400" />}
+              {sidebarOpen && activeTab === id && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-orange-400" />}
             </button>
           ))}
         </nav>

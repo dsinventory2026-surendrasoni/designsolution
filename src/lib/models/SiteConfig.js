@@ -17,6 +17,29 @@ const ServiceSchema = new mongoose.Schema({
   fullDescription: String,
 });
 
+const AchievementSchema = new mongoose.Schema({
+  title: String,
+  year: String,
+  description: String,
+});
+
+const EmployeeSchema = new mongoose.Schema({
+  id: String,
+  name: String,
+  designation: String,
+  department: { type: String, default: "Leadership" },
+  photo: String,
+  bio: String,
+  experience: String,
+  phone: String,
+  email: String,
+  linkedin: String,
+  skills: [String],
+  projects: [String],
+  certifications: [String],
+  priority: { type: Number, default: 1 },
+});
+
 
 const SiteConfigSchema = new mongoose.Schema(
   {
@@ -88,6 +111,39 @@ const SiteConfigSchema = new mongoose.Schema(
 
     // ─── SERVICES ────────────────────────────────────
     services: [ServiceSchema],
+
+    // ─── ABOUT US PAGE (3 DROP-DOWNS & SEO KEYWORDS) ─
+    about: {
+      companyDetails: {
+        story: { type: String, default: "" },
+        mission: { type: String, default: "" },
+        vision: { type: String, default: "" },
+        establishedYear: { type: Number, default: 2008 },
+        headquarters: { type: String, default: "Sector 85, Gurugram, Haryana" },
+        reraRegistration: { type: String, default: "HRERA-PKL-GGM-1234-2024" },
+        cinNumber: { type: String, default: "U70109HR2014PTC053210" },
+        highlights: [{ title: String, description: String }],
+        coreValues: [{ title: String, description: String }],
+        images: [String],
+        seoKeywords: [String],
+        metaTitle: { type: String, default: "About DS Group of Companies | Real Estate Developer Sector 85 Gurgaon" },
+        metaDescription: { type: String, default: "Discover DS Group of Companies — Premier real estate developer, construction firm & property consultants in Sector 85 Gurugram. Founded by Surendra Soni." },
+      },
+      ownerDetails: {
+        name: { type: String, default: "Surendra Soni" },
+        designation: { type: String, default: "Founder & Managing Director" },
+        photo: { type: String, default: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop" },
+        bio: { type: String, default: "" },
+        quote: { type: String, default: "" },
+        experienceYears: { type: String, default: "18+ Years" },
+        phone: { type: String, default: "+91 77430 00070" },
+        email: { type: String, default: "surendra@dsgroupofcompanies.com" },
+        whatsapp: { type: String, default: "+91 77430 00070" },
+        linkedin: { type: String, default: "https://linkedin.com/in/surendra-soni" },
+        achievements: [AchievementSchema],
+      },
+      employees: [EmployeeSchema],
+    },
 
   },
   { timestamps: true }

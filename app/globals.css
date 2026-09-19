@@ -1,24 +1,38 @@
 @import "tailwindcss";
 
 /* =====================================================
-   DS GROUP PREMIUM DESIGN SYSTEM
-   Deep midnight navy + Champagne gold + Off-white
+   DS GROUP — ORANGE VIRTUAL CONNECT DESIGN SYSTEM
+   Primary: #FF7900  |  Dark: #111827 / #1F2937
    ===================================================== */
 
 @layer base {
   :root {
-    --navy-deepest: #030810;
-    --navy-deep: #060D1F;
-    --navy-mid: #0B1629;
-    --navy-light: #0F1E3D;
-    --navy-border: #1A2E50;
-    --champagne: #C9A96E;
-    --champagne-light: #E8C98A;
-    --champagne-dim: #A8845A;
-    --offwhite: #F5F3EE;
-    --offwhite-mid: #EDE9E1;
-    --slate-text: #94A3B8;
-    --white-soft: #F0EEE9;
+    /* ── Dark Backgrounds ── */
+    --navy-deepest: #0D1117;
+    --navy-deep:    #111827;
+    --navy-mid:     #1F2937;
+    --navy-light:   #374151;
+    --navy-border:  #374151;
+
+    /* ── Orange Brand Colors (replaces champagne/gold) ── */
+    --champagne:       #FF7900;
+    --champagne-light: #FF9A3C;
+    --champagne-dim:   #F16E00;
+
+    /* ── Neutral Light ── */
+    --offwhite:     #F8FAFC;
+    --offwhite-mid: #F1F5F9;
+    --slate-text:   #6B7280;
+    --white-soft:   #FFFFFF;
+
+    /* ── Orange Virtual Connect Explicit Tokens ── */
+    --oc-orange:        #FF7900;
+    --oc-orange-hover:  #F16E00;
+    --oc-dark:          #111827;
+    --oc-dark-2:        #1F2937;
+    --oc-border:        #374151;
+    --oc-text:          #111827;
+    --oc-text-muted:    #6B7280;
   }
 
   html {
@@ -26,8 +40,8 @@
   }
 
   body {
-    background-color: var(--offwhite);
-    color: #0f172a;
+    background-color: #FFFFFF;
+    color: #111827;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -57,7 +71,7 @@
 }
 
 .champagne-gradient-text {
-  background: linear-gradient(135deg, #E8C98A 0%, #C9A96E 50%, #A8845A 100%);
+  background: linear-gradient(135deg, #FF9A3C 0%, #FF7900 50%, #F16E00 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -79,31 +93,31 @@
    GLASSMORPHISM UTILITIES
    ===================================================== */
 .glass-nav {
-  background: rgba(6, 13, 31, 0.94);
+  background: rgba(17, 24, 39, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(201, 169, 110, 0.12);
+  border-bottom: 1px solid rgba(255, 121, 0, 0.15);
 }
 
 .glass-dark {
-  background: rgba(11, 22, 41, 0.88);
+  background: rgba(31, 41, 55, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(201, 169, 110, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #E5E7EB;
 }
 
 .glass-hero-panel {
-  background: rgba(6, 13, 31, 0.85);
+  background: rgba(17, 24, 39, 0.88);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(201, 169, 110, 0.18);
+  border: 1px solid rgba(255, 121, 0, 0.2);
 }
 
 /* =====================================================
@@ -121,7 +135,7 @@
 }
 
 /* =====================================================
-   CHAMPAGNE DIVIDER LINE
+   ORANGE DIVIDER LINE
    ===================================================== */
 .champagne-line {
   height: 1px;
@@ -140,16 +154,16 @@
    ===================================================== */
 .btn-champagne {
   background: linear-gradient(135deg, var(--champagne-light) 0%, var(--champagne) 60%, var(--champagne-dim) 100%);
-  color: #030810;
-  font-weight: 700;
+  color: #111827;
+  font-weight: 800;
   letter-spacing: 0.04em;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 24px rgba(201, 169, 110, 0.25);
+  box-shadow: 0 4px 24px rgba(255, 121, 0, 0.3);
 }
 
 .btn-champagne:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(201, 169, 110, 0.4);
+  box-shadow: 0 8px 32px rgba(255, 121, 0, 0.5);
 }
 
 .btn-champagne:active {
@@ -159,25 +173,25 @@
 .btn-ghost-champagne {
   background: transparent;
   color: var(--champagne);
-  border: 1px solid rgba(201, 169, 110, 0.4);
+  border: 1px solid rgba(255, 121, 0, 0.4);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-ghost-champagne:hover {
-  background: rgba(201, 169, 110, 0.08);
+  background: rgba(255, 121, 0, 0.1);
   border-color: var(--champagne);
 }
 
 .btn-navy {
   background: var(--navy-mid);
-  color: #F5F3EE;
+  color: #f9fafb;
   border: 1px solid var(--navy-border);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-navy:hover {
   background: var(--navy-light);
-  border-color: rgba(201, 169, 110, 0.3);
+  border-color: rgba(255, 121, 0, 0.4);
   transform: translateY(-1px);
 }
 
@@ -185,32 +199,32 @@
    CARD STYLES
    ===================================================== */
 .card-property {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
   border-radius: 16px;
   overflow: hidden;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .card-property:hover {
-  border-color: rgba(201, 169, 110, 0.25);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(201, 169, 110, 0.15);
+  border-color: rgba(255, 121, 0, 0.35);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 121, 0, 0.2);
   transform: translateY(-4px);
 }
 
 .card-service {
-  background: var(--navy-mid);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #F8FAFC;
+  border: 1px solid #E5E7EB;
   border-radius: 16px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-service:hover {
-  background: var(--navy-light);
-  border-color: rgba(201, 169, 110, 0.25);
+  background: #FFFFFF;
+  border-color: rgba(255, 121, 0, 0.3);
   transform: translateY(-3px);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 121, 0, 0.15);
 }
 
 /* =====================================================
@@ -278,11 +292,11 @@
 
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.4);
+    box-shadow: 0 0 0 0 rgba(255, 121, 0, 0.4);
   }
 
   50% {
-    box-shadow: 0 0 0 8px rgba(201, 169, 110, 0);
+    box-shadow: 0 0 0 8px rgba(255, 121, 0, 0);
   }
 }
 
@@ -381,7 +395,7 @@
 }
 
 .animate-shimmer {
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(201, 169, 110, 0.15) 50%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 121, 0, 0.18) 50%, rgba(255, 255, 255, 0) 100%);
   background-size: 200% 100%;
   animation: shimmerSlide 2.5s infinite;
 }
@@ -410,8 +424,8 @@
    SELECTION
    ===================================================== */
 ::selection {
-  background: rgba(201, 169, 110, 0.25);
-  color: #030810;
+  background: rgba(255, 121, 0, 0.2);
+  color: #111827;
 }
 
 /* =====================================================
@@ -423,8 +437,8 @@
   gap: 8px;
   padding: 6px 16px;
   border-radius: 100px;
-  background: rgba(201, 169, 110, 0.1);
-  border: 1px solid rgba(201, 169, 110, 0.25);
+  background: rgba(255, 121, 0, 0.12);
+  border: 1px solid rgba(255, 121, 0, 0.3);
   color: var(--champagne);
   font-size: 11px;
   font-weight: 700;
@@ -433,36 +447,36 @@
 }
 
 .eyebrow-label-dark {
-  background: rgba(201, 169, 110, 0.08);
-  border-color: rgba(201, 169, 110, 0.2);
+  background: rgba(255, 121, 0, 0.1);
+  border-color: rgba(255, 121, 0, 0.25);
   color: var(--champagne);
 }
 
 .eyebrow-label-light {
-  background: rgba(6, 13, 31, 0.06);
-  border-color: rgba(6, 13, 31, 0.12);
-  color: var(--navy-mid);
+  background: rgba(255, 121, 0, 0.08);
+  border: 1px solid rgba(255, 121, 0, 0.2);
+  color: #F16E00;
 }
 
 /* =====================================================
    INPUT STYLES
    ===================================================== */
 .input-dark {
-  background: rgba(11, 22, 41, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #F5F3EE;
+  background: #F8FAFC;
+  border: 1px solid #E5E7EB;
+  color: #111827;
   border-radius: 10px;
   transition: all 0.2s ease;
 }
 
 .input-dark:focus {
   outline: none;
-  border-color: rgba(201, 169, 110, 0.5);
-  box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.08);
+  border-color: rgba(255, 121, 0, 0.6);
+  box-shadow: 0 0 0 3px rgba(255, 121, 0, 0.08);
 }
 
 .input-dark::placeholder {
-  color: rgba(148, 163, 184, 0.5);
+  color: #9CA3AF;
 }
 
 /* =====================================================
@@ -494,9 +508,9 @@
 }
 
 .badge-new-launch {
-  background: rgba(201, 169, 110, 0.15);
+  background: rgba(255, 121, 0, 0.15);
   color: var(--champagne);
-  border: 1px solid rgba(201, 169, 110, 0.3);
+  border: 1px solid rgba(255, 121, 0, 0.35);
 }
 
 .badge-under-construction {
@@ -509,7 +523,7 @@
    MOBILE MENU OVERLAY
    ===================================================== */
 .mobile-menu-overlay {
-  background: rgba(3, 8, 16, 0.98);
+  background: rgba(17, 24, 39, 0.98);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
 }

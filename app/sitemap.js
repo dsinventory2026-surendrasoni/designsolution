@@ -28,11 +28,12 @@ const DEFAULT_BASELINE_DATE = new Date("2026-09-01T00:00:00.000Z");
 // Genuine modification dates for known static pages based on repository git history
 const STATIC_ROUTE_DATES = {
   "/": new Date("2026-09-03T11:34:02.000Z"),
+  "/about": new Date("2026-09-19T07:00:00.000Z"),
+  "/about/company": new Date("2026-09-19T07:00:00.000Z"),
+  "/about/owner": new Date("2026-09-19T07:00:00.000Z"),
+  "/about/team": new Date("2026-09-19T07:00:00.000Z"),
   "/blog": new Date("2026-09-14T11:36:18.000Z"),
   "/enquire": new Date("2026-07-29T07:00:15.000Z"),
-  "/prelaunch": new Date("2026-09-07T11:54:40.000Z"),
-  "/prelaunch/ninezero": new Date("2026-09-07T11:54:40.000Z"),
-  "/reviews": new Date("2026-09-14T11:36:18.000Z"),
   "/valuable-properties": new Date("2026-09-07T11:54:40.000Z"),
 };
 
@@ -188,22 +189,13 @@ export default async function sitemap() {
         priority: 0.9,
       });
     } else if (
-      route === "/enquire" ||
-      route === "/prelaunch" ||
-      route.startsWith("/prelaunch/")
+      route === "/enquire"
     ) {
       addEntry({
         url: `${SITE_URL}${route}`,
         lastModified: mtime,
         changeFrequency: "weekly",
         priority: 0.9,
-      });
-    } else if (route === "/reviews") {
-      addEntry({
-        url: `${SITE_URL}/reviews`,
-        lastModified: mtime,
-        changeFrequency: "weekly",
-        priority: 0.85,
       });
     } else if (
       route === "/residential" ||
@@ -231,12 +223,10 @@ export default async function sitemap() {
   // Ensure core static routes are always present as fallback
   const coreFallbackRoutes = [
     { url: SITE_URL, changeFrequency: "daily", priority: 1.0 },
+    { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.85 },
     { url: `${SITE_URL}/enquire`, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${SITE_URL}/prelaunch`, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${SITE_URL}/prelaunch/ninezero`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/blog`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/valuable-properties`, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${SITE_URL}/reviews`, changeFrequency: "weekly", priority: 0.85 },
   ];
 
   for (const item of coreFallbackRoutes) {

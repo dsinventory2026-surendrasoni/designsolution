@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Breadcrumbs — Visible semantic breadcrumb navigation component
  *
  * Renders both the visible UI breadcrumb trail AND can be paired
@@ -22,7 +22,7 @@ export default function Breadcrumbs({ items = [], theme = "dark" }) {
   if (!items || items.length === 0) return null;
 
   const textColor = theme === "dark" ? "text-slate-400" : "text-slate-500";
-  const activeColor = theme === "dark" ? "text-amber-400" : "text-amber-600";
+  const activeColor = theme === "dark" ? "text-orange-400" : "text-orange-500";
   const linkHover = theme === "dark" ? "hover:text-white" : "hover:text-slate-900";
   const separatorColor = theme === "dark" ? "text-slate-600" : "text-slate-300";
 

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Lead from "@/lib/models/Lead";
 import nodemailer from "nodemailer";
@@ -31,7 +31,7 @@ async function sendNotificationEmail(leadData) {
 
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; background-color: #ffffff;">
-        <div style="text-align: center; border-b: 2px solid #C9A96E; padding-bottom: 16px; margin-bottom: 20px;">
+        <div style="text-align: center; border-b: 2px solid #FF7900; padding-bottom: 16px; margin-bottom: 20px;">
           <h2 style="color: #0b1629; margin: 0; font-size: 22px;">🏢 DS Group — New Lead Enquiry</h2>
           <p style="color: #64748b; font-size: 13px; margin-top: 4px;">Received from website enquiry form</p>
         </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { siteConfig as staticSiteConfig } from "@/data/siteConfig";
 import { propertyCategories as staticPropertyCategories } from "@/data/propertiesData";
@@ -22,23 +22,23 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
   };
 
   return (
-    <footer className="bg-slate-950 text-slate-400 border-t border-slate-800 pt-16 pb-12 relative">
+    <footer className="bg-[#111827] text-slate-400 border-t border-[#374151] pt-16 pb-12 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Main Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-800">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-[#374151]">
 
           {/* Col 1: Brand Summary (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-amber-500 flex items-center justify-center text-white shadow-lg">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-600 via-orange-500 to-orange-400 flex items-center justify-center text-white shadow-lg">
                 <Building className="w-6 h-6 stroke-[2.2]" />
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold tracking-tight text-white font-outfit">
                   {siteConfig.brand.name}
                 </span>
-                <span className="text-[10px] tracking-widest text-amber-400 font-semibold uppercase">
+                <span className="text-[10px] tracking-widest text-orange-400 font-semibold uppercase">
                   {siteConfig.brand.tagline}
                 </span>
               </div>
@@ -65,15 +65,14 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
           <div className="lg:col-span-2 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">Explore</h4>
             <ul className="space-y-2 text-xs font-medium">
-              <li><a href="/#hero" className="hover:text-amber-400 transition-colors">Home</a></li>
-              <li><a href="/valuable-properties" className="hover:text-amber-400 transition-colors">Valuable Properties</a></li>
-              <li><a href="/#portfolio" className="hover:text-amber-400 transition-colors">Featured Projects</a></li>
-              <li><a href="/#services" className="hover:text-amber-400 transition-colors">Our Services</a></li>
-              <li><a href="/blog" className="hover:text-amber-400 transition-colors">Research &amp; Blog</a></li>
-              <li><a href="/prelaunch" className="hover:text-amber-400 transition-colors">Prelaunch Deals</a></li>
-              <li><a href="/#about" className="hover:text-amber-400 transition-colors">About DS Group</a></li>
-              <li><a href="/enquire" className="hover:text-amber-400 transition-colors">Enquire Now</a></li>
-              <li><a href="/reviews" className="hover:text-amber-400 transition-colors">Google Reviews</a></li>
+              <li><a href="/#hero" className="hover:text-orange-400 transition-colors">Home</a></li>
+              <li><a href="/valuable-properties" className="hover:text-orange-400 transition-colors">Valuable Properties</a></li>
+              <li><a href="/#portfolio" className="hover:text-orange-400 transition-colors">Featured Projects</a></li>
+              <li><a href="/#services" className="hover:text-orange-400 transition-colors">Our Services</a></li>
+              <li><a href="/blog" className="hover:text-orange-400 transition-colors">Research &amp; Blog</a></li>
+              <li><a href="/about" className="hover:text-orange-400 transition-colors">About DS Group</a></li>
+              <li><a href="/about#team" className="hover:text-orange-400 transition-colors">Our Team</a></li>
+              <li><a href="/enquire" className="hover:text-orange-400 transition-colors">Enquire Now</a></li>
             </ul>
           </div>
 
@@ -82,26 +81,26 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">Top Projects & Guides</h4>
             <ul className="space-y-2 text-xs font-medium">
               <li>
-                <a href="/blog/godrej-air-sector-85-gurgaon-review-2026" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                <a href="/blog/godrej-air-sector-85-gurgaon-review-2026" className="hover:text-orange-400 transition-colors flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
                   <span>Godrej Air Sector 85 Review</span>
                 </a>
               </li>
               <li>
-                <a href="/blog/2-bhk-and-3-bhk-flats-in-sector-85-gurgaon-godrej-air-ss-the-leaf-ss-linden-pyramid-heights-more" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                <a href="/blog/2-bhk-and-3-bhk-flats-in-sector-85-gurgaon-godrej-air-ss-the-leaf-ss-linden-pyramid-heights-more" className="hover:text-orange-400 transition-colors flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
                   <span>Sector 85 Luxury Flats Guide</span>
                 </a>
               </li>
               <li>
-                <a href="/blog/vatika-horizon-82-sector-82a-gurgaon-premium-residential-plots-investment-opportunity" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                <a href="/blog/vatika-horizon-82-sector-82a-gurgaon-premium-residential-plots-investment-opportunity" className="hover:text-orange-400 transition-colors flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
                   <span>Vatika Horizon 82 Plots</span>
                 </a>
               </li>
               <li>
-                <a href="/blog/best-sectors-to-invest-in-gurgaon-in-2026" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                <a href="/blog/best-sectors-to-invest-in-gurgaon-in-2026" className="hover:text-orange-400 transition-colors flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
                   <span>Top Gurgaon Sectors 2026</span>
                 </a>
               </li>
@@ -110,7 +109,7 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
                   <a
                     href="/#portfolio"
                     onClick={() => handleCategoryClick(cat)}
-                    className="hover:text-amber-400 transition-colors flex items-center gap-1.5"
+                    className="hover:text-orange-400 transition-colors flex items-center gap-1.5"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                     <span>{cat} Properties Gurgaon</span>
@@ -125,19 +124,21 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">Corporate Head Office</h4>
             <div className="space-y-2.5 text-xs">
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-orange-400 shrink-0 mt-0.5" />
                 <span className="text-slate-300">
-                  {siteConfig.contact.address.plot}, {siteConfig.contact.address.tower}, {siteConfig.contact.address.floor}, {siteConfig.contact.address.city}, Haryana - {siteConfig.contact.address.pincode}
+                  {siteConfig?.contact?.address?.plot
+                    ? `${siteConfig.contact.address.plot}, ${siteConfig.contact.address.tower}, ${siteConfig.contact.address.floor}, ${siteConfig.contact.address.city}, Haryana - ${siteConfig.contact.address.pincode}`
+                    : `${siteConfig?.contact?.addressPlot || "Plot Sector 85"}, ${siteConfig?.contact?.addressTower || "Tower 7"}, ${siteConfig?.contact?.addressFloor || "3rd Floor"}, ${siteConfig?.contact?.addressCity || "Gurugram"}, Haryana - ${siteConfig?.contact?.addressPincode || "122004"}`}
                 </span>
               </div>
 
               <div className="flex items-center gap-2">
-                <PhoneCall className="w-4 h-4 text-amber-400 shrink-0" />
+                <PhoneCall className="w-4 h-4 text-orange-400 shrink-0" />
                 <span className="text-slate-300 font-semibold">{siteConfig.contact.phonePrimary}</span>
               </div>
 
               <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-amber-400 shrink-0" />
+                <Mail className="w-4 h-4 text-orange-400 shrink-0" />
                 <span className="text-slate-300">{siteConfig.contact.emailPrimary}</span>
               </div>
             </div>
@@ -148,7 +149,7 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
                 href={siteConfig.socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-pink-500 transition-colors"
+                className="p-2 rounded-lg bg-[#1F2937] border border-[#374151] text-slate-400 hover:text-white transition-colors text-xs"
                 title="Instagram"
               >
                 Instagram
@@ -171,12 +172,21 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
               >
                 X
               </a>
+              <a
+                href={siteConfig.socialLinks.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-red-500 transition-colors"
+                title="YouTube"
+              >
+                YouTube
+              </a>
             </div>
           </div>
         </div>
 
         {/* Local SEO Keyword Matrix / Micro-Market Corridor Strip */}
-        <div className="py-6 border-b border-slate-800/80 text-[11px] text-slate-400 leading-relaxed">
+        <div className="py-6 border-b border-[#374151]/80 text-[11px] text-slate-400 leading-relaxed">
           <span className="font-bold text-slate-300 uppercase tracking-wider block mb-1">Key Real Estate Search Corridors in Gurugram:</span>
           <p>
             Sector 85 Gurgaon • Sector 84 Gurugram • Sector 83 Gurgaon • Sector 86 Gurgaon • Sector 88 New Gurgaon • Dwarka Expressway Real Estate • Golf Course Extension Road • Godrej Air Sector 85 • Pyramid Heights Sector 85 • SS The Leaf Sector 85 • Luxury Property in Sector 85 Gurgaon • Commercial Office Space Gurgaon • Residential Plots Sector 85 • Turnkey Villa Construction Gurgaon • DS Group Properties.
@@ -196,7 +206,7 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
           {/* Back to Top */}
           <button
             onClick={scrollToTop}
-            className="p-2.5 rounded-full bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-amber-500 hover:text-slate-950 transition-colors shadow"
+            className="p-2.5 rounded-full bg-[#1F2937] border border-[#374151] text-slate-400 hover:bg-orange-500 hover:text-white hover:border-orange-500 transition-colors shadow"
             title="Back to Top"
           >
             <ArrowUp className="w-4 h-4" />

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import {
@@ -45,7 +45,7 @@ export default function Sector85Overview({ onOpenContactModal, siteConfig }) {
       price: "₹1.60 Cr - ₹3.20 Cr",
       specs: "3 & 4 BHK Penthouses & Flats",
       highlight: "9-acre landscaped expanse, 360-degree panoramic views, infinity pool, and golf putting green.",
-      badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/30",
+      badgeColor: "bg-orange-500/10 text-orange-400 border-orange-500/30",
     },
     {
       name: "Orris Aster Court Sector 85",
@@ -63,7 +63,7 @@ export default function Sector85Overview({ onOpenContactModal, siteConfig }) {
       price: "₹1.25 Cr - ₹2.10 Cr",
       specs: "3 & 4 BHK Luxury Suites",
       highlight: "Engineered with Italian marble, double-glazed acoustic facades, VRV air conditioning, and EV docks.",
-      badgeColor: "bg-amber-400/20 text-amber-300 border-amber-400/40",
+      badgeColor: "bg-orange-400/20 text-orange-300 border-orange-400/40",
     },
   ];
 
@@ -91,14 +91,14 @@ export default function Sector85Overview({ onOpenContactModal, siteConfig }) {
   ];
 
   return (
-    <section id="sector85-guide" className="py-24 sm:py-32 bg-slate-950 text-white relative overflow-hidden grain-overlay border-t border-slate-800/80">
+    <section id="sector85-guide" className="py-24 sm:py-32 bg-[#111827] text-white relative overflow-hidden grain-overlay border-t border-slate-800/80">
       {/* Background Ambience Glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-orange-500/5 rounded-full blur-[140px] pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="max-w-3xl text-center mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-widest mb-4">
             <MapPin className="w-3.5 h-3.5" />
             <span>Prime Real Estate Hotspot</span>
           </div>
@@ -130,7 +130,7 @@ export default function Sector85Overview({ onOpenContactModal, siteConfig }) {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all ${
                   isActive
-                    ? "bg-amber-400 text-slate-950 shadow-xl shadow-amber-400/20 scale-105"
+                    ? "bg-orange-400 text-slate-950 shadow-xl shadow-amber-400/20 scale-105"
                     : "bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-slate-700"
                 }`}
               >
@@ -146,7 +146,7 @@ export default function Sector85Overview({ onOpenContactModal, siteConfig }) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch animate-fade-up">
             <div className="lg:col-span-7 space-y-6 rounded-3xl p-8 sm:p-10 bg-slate-900/80 border border-slate-800 shadow-2xl flex flex-col justify-between">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-amber-400 block mb-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-orange-400 block mb-2">
                   Market Dynamics & Real Estate Trends
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-bold font-outfit text-white leading-snug">
@@ -156,21 +156,21 @@ export default function Sector85Overview({ onOpenContactModal, siteConfig }) {
                   Sector 85 in New Gurugram has emerged as one of the most lucrative real estate investment corridors in Delhi NCR. With wide 60-meter and 84-meter sector arterial roads, underground utility cabling, planned green belts, and immediate access to the Dwarka Expressway, property values here have recorded consistent double-digit annual appreciation.
                 </p>
                 <p className="mt-3 text-sm text-slate-300 leading-relaxed font-normal">
-                  Whether you are looking for ready-to-move luxury apartments in <span className="text-amber-400 font-semibold">Godrej Air</span> or <span className="text-amber-400 font-semibold">Orris Aster Court</span>, high-return mid-segment flats in <span className="text-amber-400 font-semibold">Pyramid Heights</span>, or custom construction with <span className="text-amber-400 font-semibold">DS Group</span>, Sector 85 offers complete urban convenience with zero compromise on luxury.
+                  Whether you are looking for ready-to-move luxury apartments in <span className="text-orange-400 font-semibold">Godrej Air</span> or <span className="text-orange-400 font-semibold">Orris Aster Court</span>, high-return mid-segment flats in <span className="text-orange-400 font-semibold">Pyramid Heights</span>, or custom construction with <span className="text-orange-400 font-semibold">DS Group</span>, Sector 85 offers complete urban convenience with zero compromise on luxury.
                 </p>
               </div>
 
               {/* Key Stat Badges */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-6 border-t border-slate-800">
-                <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-2xl font-extrabold text-amber-400 block font-outfit">18%+</span>
+                <div className="p-4 rounded-2xl bg-[#111827]/60 border border-slate-800">
+                  <span className="text-2xl font-extrabold text-orange-400 block font-outfit">18%+</span>
                   <span className="text-[11px] text-slate-400 font-medium">Annual Capital Growth</span>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
+                <div className="p-4 rounded-2xl bg-[#111827]/60 border border-slate-800">
                   <span className="text-2xl font-extrabold text-emerald-400 block font-outfit">4.5% - 6%</span>
                   <span className="text-[11px] text-slate-400 font-medium">Rental Yield Average</span>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800 col-span-2 sm:col-span-1">
+                <div className="p-4 rounded-2xl bg-[#111827]/60 border border-slate-800 col-span-2 sm:col-span-1">
                   <span className="text-2xl font-extrabold text-blue-400 block font-outfit">100%</span>
                   <span className="text-[11px] text-slate-400 font-medium">RERA & Title Clear</span>
                 </div>
@@ -178,9 +178,9 @@ export default function Sector85Overview({ onOpenContactModal, siteConfig }) {
             </div>
 
             {/* Right Column: Why DS Group in Sector 85 */}
-            <div className="lg:col-span-5 rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-slate-900 to-slate-950 border border-amber-500/20 shadow-2xl flex flex-col justify-between">
+            <div className="lg:col-span-5 rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-slate-900 to-[#111827] border border-orange-500/20 shadow-2xl flex flex-col justify-between">
               <div>
-                <div className="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">
+                <div className="flex items-center gap-2 text-xs font-bold text-orange-400 uppercase tracking-wider mb-2">
                   <Award className="w-4 h-4" />
                   <span>#1 Local Property Authority</span>
                 </div>
@@ -229,17 +229,17 @@ export default function Sector85Overview({ onOpenContactModal, siteConfig }) {
               {projectsInSector85.map((proj, idx) => (
                 <div
                   key={idx}
-                  className="rounded-3xl p-6 bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 transition-all duration-300 flex flex-col justify-between group shadow-xl"
+                  className="rounded-3xl p-6 bg-slate-900/90 border border-slate-800 hover:border-orange-500/40 transition-all duration-300 flex flex-col justify-between group shadow-xl"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
                       <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${proj.badgeColor}`}>
                         {proj.tag}
                       </span>
-                      <span className="text-xs font-bold text-amber-400 font-outfit">{proj.price}</span>
+                      <span className="text-xs font-bold text-orange-400 font-outfit">{proj.price}</span>
                     </div>
 
-                    <h4 className="text-lg font-bold font-outfit text-white group-hover:text-amber-400 transition-colors">
+                    <h4 className="text-lg font-bold font-outfit text-white group-hover:text-orange-400 transition-colors">
                       {proj.name}
                     </h4>
                     <p className="text-xs text-slate-400 mt-0.5 font-medium">{proj.specs} • {proj.type}</p>
@@ -255,7 +255,7 @@ export default function Sector85Overview({ onOpenContactModal, siteConfig }) {
                       href={`https://wa.me/917743000070?text=Hi%20DS%20Group,%20I%20would%20like%20details%20and%20pricing%20for%20${encodeURIComponent(proj.name)}.`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:text-amber-300"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-400 hover:text-orange-300"
                     >
                       <span>Inquire Now</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -265,13 +265,13 @@ export default function Sector85Overview({ onOpenContactModal, siteConfig }) {
               ))}
             </div>
 
-            <div className="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-center max-w-2xl mx-auto">
+            <div className="p-6 rounded-2xl bg-orange-500/10 border border-orange-500/20 text-center max-w-2xl mx-auto">
               <p className="text-xs text-slate-300">
                 Looking for exclusive floor plans, resale units, or prelaunch deals in Sector 85 Gurgaon?
               </p>
               <button
                 onClick={onOpenContactModal}
-                className="mt-3 px-6 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold uppercase tracking-wider transition-all"
+                className="mt-3 px-6 py-2.5 rounded-xl bg-orange-400 hover:bg-amber-300 text-slate-950 text-xs font-bold uppercase tracking-wider transition-all"
               >
                 Request Complete Project Brochure & Price List
               </button>
@@ -295,7 +295,7 @@ export default function Sector85Overview({ onOpenContactModal, siteConfig }) {
                   <div key={idx} className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
                     <div className="flex items-center justify-between">
                       <h4 className="text-xs font-bold text-white">{point.title}</h4>
-                      <span className="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+                      <span className="text-[10px] font-bold text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded-full border border-orange-500/20">
                         {point.time}
                       </span>
                     </div>

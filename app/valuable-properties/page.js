@@ -105,32 +105,41 @@ export default async function ValuablePropertiesPage() {
   const properties = await getValuableProperties();
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-amber-500 selection:text-slate-950">
+    <div
+      className="min-h-screen text-[#111827] selection:bg-[#FF7900] selection:text-white relative overflow-hidden"
+      style={{
+        background: "linear-gradient(180deg, #FFFBF8 0%, #FFF4ED 50%, #FFFBF8 100%)",
+      }}
+    >
+      {/* Subtle Warm Orange Glow Highlights */}
+      <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-[#FF7900]/[0.05] rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#FF7900]/[0.04] rounded-full blur-3xl pointer-events-none -z-10" />
+
       <Navbar />
 
-      <main className="pt-32 pb-24">
+      <main className="pt-32 pb-24 relative z-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-xs text-slate-400 mb-10">
-            <Link href="/" className="hover:text-amber-400 transition-colors">Home</Link>
+          <nav className="flex items-center gap-2 text-xs text-slate-500 mb-10">
+            <Link href="/" className="hover:text-[#FF7900] transition-colors">Home</Link>
             <span>/</span>
-            <span className="text-amber-400 font-semibold">Valuable Properties</span>
+            <span className="text-[#FF7900] font-semibold">Valuable Properties</span>
           </nav>
 
           {/* Header */}
           <div className="max-w-3xl mb-14">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-[#FF7900] text-xs font-bold uppercase tracking-wider mb-4">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Curated Luxury Real Estate</span>
             </div>
             <h1
-              className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4"
+              className="text-3xl sm:text-5xl font-extrabold text-[#111827] tracking-tight leading-tight mb-4"
               style={{ fontFamily: "var(--font-outfit)" }}
             >
               Valuable Properties in Sector 85 Gurgaon
             </h1>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
               Explore hand-selected prime residential and commercial investment opportunities in New Gurgaon. 100% HRERA verified with complete legal due diligence by DS Group of Companies.
             </p>
           </div>
@@ -140,10 +149,10 @@ export default async function ValuablePropertiesPage() {
             {properties.map((property) => (
               <article
                 key={property.id || property.slug}
-                className="rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-amber-400/50 transition-all group shadow-xl hover:-translate-y-1 flex flex-col"
+                className="rounded-3xl overflow-hidden bg-white border border-[#E5E7EB] hover:border-[#FF7900]/50 transition-all group shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col"
               >
                 {/* Image */}
-                <div className="aspect-[16/10] w-full overflow-hidden bg-slate-800 relative">
+                <div className="aspect-[16/10] w-full overflow-hidden bg-slate-100 relative">
                   {property.thumbnail ? (
                     <img
                       src={property.thumbnail}
@@ -151,34 +160,34 @@ export default async function ValuablePropertiesPage() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-slate-900 text-slate-600">
+                    <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
                       <Building2 className="w-12 h-12" />
                     </div>
                   )}
 
                   {/* Status Badge */}
-                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-[11px] font-bold uppercase tracking-wider shadow">
+                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#FF7900] text-white text-[11px] font-bold uppercase tracking-wider shadow">
                     {property.status}
                   </span>
 
                   {/* Property Type Badge */}
-                  <span className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-amber-400 border border-amber-400/30 text-[11px] font-semibold">
+                  <span className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-[#FF7900] border border-orange-200 text-[11px] font-semibold">
                     {property.propertyType}
                   </span>
                 </div>
 
                 {/* Card Content */}
-                <div className="p-6 flex flex-col flex-1 justify-between">
+                <div className="p-6 flex flex-col flex-1 justify-between bg-white">
                   <div>
                     {/* Location */}
-                    <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
-                      <MapPin className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-2">
+                      <MapPin className="w-3.5 h-3.5 text-[#FF7900] flex-shrink-0" />
                       <span className="truncate">{property.location}</span>
                     </div>
 
                     {/* Title */}
                     <h2
-                      className="text-lg sm:text-xl font-bold text-white group-hover:text-amber-300 transition-colors mb-2 leading-snug"
+                      className="text-lg sm:text-xl font-bold text-[#111827] group-hover:text-[#FF7900] transition-colors mb-2 leading-snug"
                       style={{ fontFamily: "var(--font-outfit)" }}
                     >
                       {property.projectName}
@@ -186,28 +195,28 @@ export default async function ValuablePropertiesPage() {
 
                     {/* Short Description */}
                     {property.shortDescription && (
-                      <p className="text-xs text-slate-400 line-clamp-2 mb-4">
+                      <p className="text-xs text-slate-600 line-clamp-2 mb-4">
                         {property.shortDescription}
                       </p>
                     )}
 
                     {/* Features row */}
-                    <div className="flex items-center gap-4 py-3 border-t border-b border-slate-800/80 text-xs text-slate-300 mb-4">
+                    <div className="flex items-center gap-4 py-3 border-t border-b border-[#E5E7EB] text-xs text-slate-600 mb-4">
                       {property.bedrooms && (
                         <div className="flex items-center gap-1.5">
-                          <BedDouble className="w-3.5 h-3.5 text-amber-400" />
+                          <BedDouble className="w-3.5 h-3.5 text-[#FF7900]" />
                           <span>{property.bedrooms}</span>
                         </div>
                       )}
                       {property.bathrooms && (
                         <div className="flex items-center gap-1.5">
-                          <Bath className="w-3.5 h-3.5 text-amber-400" />
+                          <Bath className="w-3.5 h-3.5 text-[#FF7900]" />
                           <span>{property.bathrooms} Baths</span>
                         </div>
                       )}
                       {property.area && (
                         <div className="flex items-center gap-1.5">
-                          <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
+                          <Maximize2 className="w-3.5 h-3.5 text-[#FF7900]" />
                           <span>{property.area}</span>
                         </div>
                       )}
@@ -217,15 +226,15 @@ export default async function ValuablePropertiesPage() {
                   {/* Price & CTA */}
                   <div className="flex items-center justify-between pt-2">
                     <div>
-                      <span className="text-[10px] uppercase text-slate-400 font-medium block">Price</span>
-                      <div className="text-base font-extrabold text-amber-400">
+                      <span className="text-[10px] uppercase text-slate-500 font-medium block">Price</span>
+                      <div className="text-base font-extrabold text-[#FF7900]">
                         {property.price}
                       </div>
                     </div>
 
                     <Link
                       href={`/valuable-properties/${property.slug}`}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-400 text-slate-950 text-xs font-bold hover:bg-amber-300 transition-colors shadow-lg shadow-amber-400/10"
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#FF7900] text-white text-xs font-bold hover:bg-[#F16E00] transition-colors shadow-sm"
                     >
                       <span>View Details</span>
                       <ArrowRight className="w-3.5 h-3.5" />

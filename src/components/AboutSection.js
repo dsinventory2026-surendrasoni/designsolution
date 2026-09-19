@@ -66,30 +66,28 @@ export default function AboutSection({ siteConfig: propSiteConfig }) {
             {/* Mission & Vision Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div
-                className="p-6 rounded-2xl text-white shadow-xl flex flex-col justify-between"
-                style={{ background: "var(--navy-mid)", border: "1px solid rgba(255,255,255,0.06)" }}
+                className="p-6 rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] shadow-sm flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 text-[#FF7900] flex items-center justify-center mb-4">
                     <Target className="w-5 h-5" />
                   </div>
-                  <h4 className="text-base font-bold text-white font-outfit">Our Mission</h4>
-                  <p className="mt-2 text-xs text-slate-400 leading-relaxed">
+                  <h4 className="text-base font-bold text-[#111827] font-outfit">Our Mission</h4>
+                  <p className="mt-2 text-xs text-slate-600 leading-relaxed">
                     To build world-class, enduring real estate assets that elevate lifestyles, maximize investor returns, and set benchmark standards in structural engineering.
                   </p>
                 </div>
               </div>
 
               <div
-                className="p-6 rounded-2xl text-white shadow-xl flex flex-col justify-between"
-                style={{ background: "var(--navy-mid)", border: "1px solid rgba(255,255,255,0.06)" }}
+                className="p-6 rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] shadow-sm flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 text-[#FF7900] flex items-center justify-center mb-4">
                     <Eye className="w-5 h-5" />
                   </div>
-                  <h4 className="text-base font-bold text-white font-outfit">Our Vision</h4>
-                  <p className="mt-2 text-xs text-slate-400 leading-relaxed">
+                  <h4 className="text-base font-bold text-[#111827] font-outfit">Our Vision</h4>
+                  <p className="mt-2 text-xs text-slate-600 leading-relaxed">
                     To be the most trusted and customer-revered real estate group, recognized for innovation, environmental sustainability, and timely delivery.
                   </p>
                 </div>
@@ -102,7 +100,7 @@ export default function AboutSection({ siteConfig: propSiteConfig }) {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {["100% Clear Titles", "RERA Approved", "Architectural Mastery", "Grade-A Materials", "Timely Handover", "Client Transparency"].map((val, idx) => (
                   <div key={idx} className="flex items-center gap-2 text-xs font-semibold text-slate-800">
-                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-orange-500 shrink-0" />
                     <span>{val}</span>
                   </div>
                 ))}
@@ -116,11 +114,11 @@ export default function AboutSection({ siteConfig: propSiteConfig }) {
               className="relative p-7 sm:p-8 rounded-3xl text-white shadow-2xl space-y-6 grain-overlay overflow-hidden"
               style={{
                 background: "var(--navy-deep)",
-                border: "1px solid rgba(201,169,110,0.25)"
+                border: "1px solid rgba(255,121,0,0.25)"
               }}
             >
               {/* Decorative Quotation Accent */}
-              <div className="absolute top-4 right-4 text-amber-500/10 pointer-events-none">
+              <div className="absolute top-4 right-4 text-orange-500/10 pointer-events-none">
                 <Quote className="w-24 h-24 stroke-[1]" />
               </div>
 
@@ -129,19 +127,19 @@ export default function AboutSection({ siteConfig: propSiteConfig }) {
                 <img
                   src={owner.photo}
                   alt={owner.name}
-                  className="w-20 h-20 rounded-2xl object-cover border-2 border-amber-400/80 shadow-lg"
+                  className="w-20 h-20 rounded-2xl object-cover border-2 border-orange-400/80 shadow-lg"
                 />
                 <div>
                   <h4 className="text-xl font-bold font-outfit text-white">{owner.name}</h4>
-                  <p className="text-xs font-semibold text-amber-400 tracking-wide uppercase mt-0.5">{owner.designation}</p>
-                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-500/10 text-[10px] font-semibold text-amber-300 mt-1 border border-amber-500/20">
+                  <p className="text-xs font-semibold text-orange-400 tracking-wide uppercase mt-0.5">{owner.designation}</p>
+                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-orange-500/10 text-[10px] font-semibold text-orange-300 mt-1 border border-orange-500/20">
                     DS Group Founder
                   </span>
                 </div>
               </div>
 
               {/* Founder Quote */}
-              <blockquote className="text-xs sm:text-sm text-slate-200 italic leading-relaxed border-l-2 border-amber-400 pl-4 py-1 relative z-10">
+              <blockquote className="text-xs sm:text-sm text-slate-200 italic leading-relaxed border-l-2 border-orange-400 pl-4 py-1 relative z-10">
                 "{owner.quote}"
               </blockquote>
 
@@ -158,7 +156,7 @@ export default function AboutSection({ siteConfig: propSiteConfig }) {
                     className="p-3.5 rounded-xl"
                     style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
                   >
-                    <span className="text-xl font-extrabold text-amber-400 font-outfit block">{stat.value}</span>
+                    <span className="text-xl font-extrabold text-orange-400 font-outfit block">{stat.value}</span>
                     <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">{stat.label}</span>
                   </div>
                 ))}

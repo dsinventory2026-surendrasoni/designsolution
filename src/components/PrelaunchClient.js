@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -104,18 +104,18 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#030810] text-slate-100 selection:bg-amber-500 selection:text-slate-950 font-sans">
+    <div className="min-h-screen flex flex-col bg-[#0D1117] text-slate-100 selection:bg-orange-500 selection:text-slate-950 font-sans">
       <Navbar siteConfig={siteConfig} />
 
       {/* ─── STICKY TOP PRE-LAUNCH BANNER STRIP ─── */}
-      <div className="pt-20 sm:pt-24 bg-gradient-to-r from-amber-500/10 via-amber-500/20 to-amber-500/10 border-b border-amber-500/20 py-2.5 px-4 text-center">
+      <div className="pt-20 sm:pt-24 bg-gradient-to-r from-amber-500/10 via-amber-500/20 to-amber-500/10 border-b border-orange-500/20 py-2.5 px-4 text-center">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-xs">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold tracking-wider text-[11px] uppercase border border-amber-500/40 animate-pulse">
-            <Flame className="w-3.5 h-3.5 text-amber-400" /> Pre-Launch EOIs Open
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300 font-bold tracking-wider text-[11px] uppercase border border-orange-500/40 animate-pulse">
+            <Flame className="w-3.5 h-3.5 text-orange-400" /> Pre-Launch EOIs Open
           </span>
           <span className="text-slate-300 font-medium hidden sm:inline">|</span>
           <span className="text-slate-200 font-medium">
-            Special Pre-Launch Price: <strong className="text-amber-400 font-bold">₹2.5 Cr Onwards</strong>
+            Special Pre-Launch Price: <strong className="text-orange-400 font-bold">₹2.5 Cr Onwards</strong>
           </span>
           <span className="text-slate-400 text-[11px]">(vs Launch Price ₹2.75 Cr++)</span>
           <span className="text-slate-300 font-medium hidden md:inline">|</span>
@@ -128,7 +128,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
         <div className="pt-8 sm:pt-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full flex items-center justify-between gap-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-amber-400 transition-colors py-2 px-3.5 rounded-xl bg-white/5 border border-white/10"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-orange-400 transition-colors py-2 px-3.5 rounded-xl bg-white/5 border border-white/10"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Home</span>
@@ -136,7 +136,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
 
           <button
             onClick={handleCopyLink}
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-300 hover:text-white py-2 px-3.5 rounded-xl bg-white/5 border border-white/10 hover:border-amber-500/40 transition-all"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-300 hover:text-white py-2 px-3.5 rounded-xl bg-white/5 border border-white/10 hover:border-orange-500/40 transition-all"
           >
             {copiedLink ? (
               <>
@@ -145,7 +145,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
               </>
             ) : (
               <>
-                <Share2 className="w-4 h-4 text-amber-400" />
+                <Share2 className="w-4 h-4 text-orange-400" />
                 <span>Share Project</span>
               </>
             )}
@@ -165,9 +165,9 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/80 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                    <span className="text-xs font-semibold px-3 py-1 rounded-lg bg-black/60 backdrop-blur-md text-amber-300 border border-white/10">
+                    <span className="text-xs font-semibold px-3 py-1 rounded-lg bg-black/60 backdrop-blur-md text-orange-300 border border-white/10">
                       NINEZERO | Sector 90, Gurugram
                     </span>
                   </div>
@@ -176,7 +176,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
 
               {/* Text Side */}
               <div className="lg:col-span-6 space-y-6 order-1 lg:order-2">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-widest">
                   <Building2 className="w-3.5 h-3.5" />
                   <span>Project Overview</span>
                 </div>
@@ -196,19 +196,19 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                 {/* 4 Visual Statistics */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-white/10">
                   <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 text-center">
-                    <div className="text-2xl sm:text-3xl font-extrabold text-amber-400 font-outfit">4.5</div>
+                    <div className="text-2xl sm:text-3xl font-extrabold text-orange-400 font-outfit">4.5</div>
                     <div className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Acres</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 text-center">
-                    <div className="text-2xl sm:text-3xl font-extrabold text-amber-400 font-outfit">3</div>
+                    <div className="text-2xl sm:text-3xl font-extrabold text-orange-400 font-outfit">3</div>
                     <div className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Towers</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 text-center">
-                    <div className="text-2xl sm:text-3xl font-extrabold text-amber-400 font-outfit">4</div>
+                    <div className="text-2xl sm:text-3xl font-extrabold text-orange-400 font-outfit">4</div>
                     <div className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Apts / Core</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 text-center">
-                    <div className="text-xl sm:text-2xl font-extrabold text-amber-400 font-outfit">~1,850</div>
+                    <div className="text-xl sm:text-2xl font-extrabold text-orange-400 font-outfit">~1,850</div>
                     <div className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Sq. Ft.</div>
                   </div>
                 </div>
@@ -222,7 +222,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">
               <div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest mb-3">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-widest mb-3">
                   <span>Visual Showcase</span>
                 </div>
                 <h2 className="text-3xl sm:text-4xl font-extrabold font-outfit text-white tracking-tight">
@@ -254,7 +254,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
                   <div>
                     <h3 className="text-lg font-bold text-white font-outfit">{NINEZERO_GALLERY[0].title}</h3>
@@ -280,7 +280,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
                   <div>
                     <h3 className="text-base font-bold text-white font-outfit">{NINEZERO_GALLERY[1].title}</h3>
@@ -306,7 +306,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
                   <div>
                     <h3 className="text-base font-bold text-white font-outfit">{NINEZERO_GALLERY[2].title}</h3>
@@ -332,7 +332,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
                   <div>
                     <h3 className="text-base font-bold text-white font-outfit">{NINEZERO_GALLERY[3].title}</h3>
@@ -350,7 +350,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
         {/* ─── 3. HERO / PRE-LAUNCH PRICING & BOOKING SECTION ─── */}
         <section className="relative py-16 sm:py-20 bg-[#060D1F] border-y border-white/[0.06] overflow-hidden">
           {/* Subtle ambient lighting */}
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[140px] pointer-events-none" />
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-[140px] pointer-events-none" />
           <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -362,7 +362,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                   <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-red-500/15 border border-red-500/40 text-red-400 text-xs font-extrabold uppercase tracking-widest">
                     <Flame className="w-3.5 h-3.5 text-red-400" /> The Biggest Launch of the Year
                   </span>
-                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider">
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-wider">
                     <Sparkles className="w-3.5 h-3.5" /> Pre-Launch EOI Open
                   </span>
                 </div>
@@ -374,12 +374,12 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                     <span className="champagne-gradient-text">LIV 90</span>
                   </h1>
                   <p className="mt-2 text-base sm:text-lg text-slate-400 font-medium flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-amber-400" /> Sector 90, Gurugram
+                    <MapPin className="w-4 h-4 text-orange-400" /> Sector 90, Gurugram
                   </p>
                 </div>
 
                 {/* Primary Headline & Subline */}
-                <div className="space-y-2 border-l-2 border-amber-500/60 pl-4 py-1">
+                <div className="space-y-2 border-l-2 border-orange-500/60 pl-4 py-1">
                   <p className="text-2xl sm:text-3xl font-extrabold text-slate-100 font-outfit">
                     Premium Living. Ahead of the Launch.
                   </p>
@@ -391,22 +391,22 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                 {/* Compact Key Fact Badges */}
                 <div className="flex flex-wrap gap-2.5 pt-2">
                   <div className="px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs font-semibold text-slate-200 flex items-center gap-2">
-                    <Building2 className="w-3.5 h-3.5 text-amber-400" />
+                    <Building2 className="w-3.5 h-3.5 text-orange-400" />
                     <span>3BHK + 3T</span>
                   </div>
                   <div className="px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs font-semibold text-slate-200 flex items-center gap-2">
-                    <AreaChart className="w-3.5 h-3.5 text-amber-400" />
+                    <AreaChart className="w-3.5 h-3.5 text-orange-400" />
                     <span>~1,850 Sq. Ft.</span>
                   </div>
                   <div className="px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs font-semibold text-slate-200 flex items-center gap-2">
-                    <Layers className="w-3.5 h-3.5 text-amber-400" />
+                    <Layers className="w-3.5 h-3.5 text-orange-400" />
                     <span>4.5 Acre Development</span>
                   </div>
                 </div>
 
                 {/* Limited Inventory Indicator */}
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-300 text-xs font-medium">
-                  <Clock className="w-3.5 h-3.5 text-amber-400" />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-orange-500/10 border border-orange-500/25 text-orange-300 text-xs font-medium">
+                  <Clock className="w-3.5 h-3.5 text-orange-400" />
                   <span>
                     <strong>Limited Pre-Launch Inventory:</strong> Only 2 Towers Available in Current Phase.
                   </span>
@@ -415,12 +415,12 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
 
               {/* Right: Featured Hero Card & Pricing */}
               <div className="lg:col-span-5">
-                <div className="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-amber-500/30 shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden">
+                <div className="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-orange-500/30 shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden">
                   {/* Glow */}
-                  <div className="absolute -top-12 -right-12 w-48 h-48 bg-amber-500/20 rounded-full blur-3xl pointer-events-none" />
+                  <div className="absolute -top-12 -right-12 w-48 h-48 bg-orange-500/20 rounded-full blur-3xl pointer-events-none" />
 
                   <div className="relative z-10 text-center pb-5 border-b border-white/10">
-                    <span className="inline-block px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[11px] font-bold uppercase tracking-wider text-amber-300 mb-2">
+                    <span className="inline-block px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-[11px] font-bold uppercase tracking-wider text-orange-300 mb-2">
                       Exclusive Commercial Terms
                     </span>
                     <h2 className="text-xl sm:text-2xl font-extrabold text-white font-outfit">
@@ -430,8 +430,8 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
 
                   <div className="py-6 space-y-4">
                     {/* Special Pre-Launch Price Box */}
-                    <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-center relative overflow-hidden">
-                      <div className="text-[11px] font-extrabold text-amber-400 uppercase tracking-widest mb-1">
+                    <div className="p-5 rounded-2xl bg-orange-500/10 border border-orange-500/30 text-center relative overflow-hidden">
+                      <div className="text-[11px] font-extrabold text-orange-400 uppercase tracking-widest mb-1">
                         Special Pre-Launch Price
                       </div>
                       <div className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
@@ -488,7 +488,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
         {/* ─── 3. PROJECT HIGHLIGHTS ─── */}
         <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest mb-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-widest mb-3">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Key Parameters</span>
             </div>
@@ -502,9 +502,9 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Card 1 */}
-            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-amber-500/20 hover:border-amber-500/50 transition-all group">
-              <Building2 className="w-8 h-8 text-amber-400 mb-4 stroke-[1.5]" />
-              <div className="text-xs font-bold text-amber-400/80 uppercase tracking-wider mb-1">Configuration</div>
+            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-orange-500/20 hover:border-orange-500/50 transition-all group">
+              <Building2 className="w-8 h-8 text-orange-400 mb-4 stroke-[1.5]" />
+              <div className="text-xs font-bold text-orange-400/80 uppercase tracking-wider mb-1">Configuration</div>
               <h3 className="text-xl font-extrabold text-white font-outfit">Premium 3BHK + 3T Residences</h3>
               <p className="mt-2 text-xs text-slate-400 leading-relaxed">
                 Thoughtfully planned 3 bedroom layouts with 3 dedicated washrooms.
@@ -512,9 +512,9 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
             </div>
 
             {/* Card 2 */}
-            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-amber-500/20 hover:border-amber-500/50 transition-all group">
-              <AreaChart className="w-8 h-8 text-amber-400 mb-4 stroke-[1.5]" />
-              <div className="text-xs font-bold text-amber-400/80 uppercase tracking-wider mb-1">Unit Area</div>
+            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-orange-500/20 hover:border-orange-500/50 transition-all group">
+              <AreaChart className="w-8 h-8 text-orange-400 mb-4 stroke-[1.5]" />
+              <div className="text-xs font-bold text-orange-400/80 uppercase tracking-wider mb-1">Unit Area</div>
               <h3 className="text-xl font-extrabold text-white font-outfit">Approx. 1,850 Sq. Ft.</h3>
               <p className="mt-2 text-xs text-slate-400 leading-relaxed">
                 Spacious residential layout designed for generous room proportions.
@@ -522,9 +522,9 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
             </div>
 
             {/* Card 3 */}
-            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-amber-500/20 hover:border-amber-500/50 transition-all group">
-              <Layers className="w-8 h-8 text-amber-400 mb-4 stroke-[1.5]" />
-              <div className="text-xs font-bold text-amber-400/80 uppercase tracking-wider mb-1">Site Extent</div>
+            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-orange-500/20 hover:border-orange-500/50 transition-all group">
+              <Layers className="w-8 h-8 text-orange-400 mb-4 stroke-[1.5]" />
+              <div className="text-xs font-bold text-orange-400/80 uppercase tracking-wider mb-1">Site Extent</div>
               <h3 className="text-xl font-extrabold text-white font-outfit">4.5 Acre Development</h3>
               <p className="mt-2 text-xs text-slate-400 leading-relaxed">
                 Masterplanned community in the heart of Sector 90 corporate growth corridor.
@@ -532,9 +532,9 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
             </div>
 
             {/* Card 4 */}
-            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-amber-500/20 hover:border-amber-500/50 transition-all group">
-              <Compass className="w-8 h-8 text-amber-400 mb-4 stroke-[1.5]" />
-              <div className="text-xs font-bold text-amber-400/80 uppercase tracking-wider mb-1">Density & Privacy</div>
+            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-orange-500/20 hover:border-orange-500/50 transition-all group">
+              <Compass className="w-8 h-8 text-orange-400 mb-4 stroke-[1.5]" />
+              <div className="text-xs font-bold text-orange-400/80 uppercase tracking-wider mb-1">Density & Privacy</div>
               <h3 className="text-xl font-extrabold text-white font-outfit">Only 3 Towers</h3>
               <p className="mt-2 text-xs text-slate-400 leading-relaxed">
                 Low-density community layout ensuring ample open spaces and exclusivity.
@@ -542,9 +542,9 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
             </div>
 
             {/* Card 5 */}
-            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-amber-500/20 hover:border-amber-500/50 transition-all group">
-              <Shield className="w-8 h-8 text-amber-400 mb-4 stroke-[1.5]" />
-              <div className="text-xs font-bold text-amber-400/80 uppercase tracking-wider mb-1">Core Architecture</div>
+            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-orange-500/20 hover:border-orange-500/50 transition-all group">
+              <Shield className="w-8 h-8 text-orange-400 mb-4 stroke-[1.5]" />
+              <div className="text-xs font-bold text-orange-400/80 uppercase tracking-wider mb-1">Core Architecture</div>
               <h3 className="text-xl font-extrabold text-white font-outfit">4 Apartments Per Core</h3>
               <p className="mt-2 text-xs text-slate-400 leading-relaxed">
                 Dedicated core planning with minimal shared walls for enhanced comfort.
@@ -552,9 +552,9 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
             </div>
 
             {/* Card 6 */}
-            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-amber-500/20 hover:border-amber-500/50 transition-all group">
-              <Tag className="w-8 h-8 text-amber-400 mb-4 stroke-[1.5]" />
-              <div className="text-xs font-bold text-amber-400/80 uppercase tracking-wider mb-1">Current Opportunity</div>
+            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-orange-500/20 hover:border-orange-500/50 transition-all group">
+              <Tag className="w-8 h-8 text-orange-400 mb-4 stroke-[1.5]" />
+              <div className="text-xs font-bold text-orange-400/80 uppercase tracking-wider mb-1">Current Opportunity</div>
               <h3 className="text-xl font-extrabold text-white font-outfit">Pre-Launch EOI Open</h3>
               <p className="mt-2 text-xs text-slate-400 leading-relaxed">
                 Special commercial opportunity with ₹5 Lakh EOI priority booking.
@@ -566,7 +566,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
         {/* ─── 4. LOCATION ADVANTAGE & MAP BLOCK ─── */}
         <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest mb-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-widest mb-3">
               <MapPin className="w-3.5 h-3.5" />
               <span>Location Advantage</span>
             </div>
@@ -580,8 +580,8 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             {/* Loc Card 1 */}
-            <div className="p-8 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-amber-500/20 hover:border-amber-500/40 transition-all">
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-6">
+            <div className="p-8 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-orange-500/20 hover:border-orange-500/40 transition-all">
+              <div className="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 mb-6">
                 <Compass className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-white font-outfit">CPR & 84 Metre Road</h3>
@@ -592,8 +592,8 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
             </div>
 
             {/* Loc Card 2 */}
-            <div className="p-8 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-amber-500/20 hover:border-amber-500/40 transition-all">
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-6">
+            <div className="p-8 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-orange-500/20 hover:border-orange-500/40 transition-all">
+              <div className="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 mb-6">
                 <Layers className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-white font-outfit">Dwarka Expressway</h3>
@@ -604,8 +604,8 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
             </div>
 
             {/* Loc Card 3 */}
-            <div className="p-8 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-amber-500/20 hover:border-amber-500/40 transition-all">
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-6">
+            <div className="p-8 rounded-3xl bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-orange-500/20 hover:border-orange-500/40 transition-all">
+              <div className="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 mb-6">
                 <MapPin className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-white font-outfit">NH-48 Corridor</h3>
@@ -622,16 +622,16 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
           <div className="rounded-3xl p-6 sm:p-8 bg-[#060D1F] border border-white/10 shadow-2xl">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-amber-400">Sector 90 Vicinity</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-orange-400">Sector 90 Vicinity</span>
                 <h4 className="text-xl font-bold text-white font-outfit">NINEZERO Project Location Map</h4>
               </div>
               <a
                 href="https://maps.google.com/?q=Sector+90+Gurugram"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-white/5 border border-white/15 text-xs font-semibold text-slate-200 hover:text-amber-400 transition-colors inline-flex items-center gap-2"
+                className="px-4 py-2 rounded-xl bg-white/5 border border-white/15 text-xs font-semibold text-slate-200 hover:text-orange-400 transition-colors inline-flex items-center gap-2"
               >
-                <MapPin className="w-4 h-4 text-amber-400" />
+                <MapPin className="w-4 h-4 text-orange-400" />
                 <span>Open in Google Maps</span>
               </a>
             </div>
@@ -653,19 +653,19 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
               <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center">
-                <div className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Transit 01</div>
+                <div className="text-xs font-bold text-orange-400 uppercase tracking-widest mb-1">Transit 01</div>
                 <div className="text-sm sm:text-base font-extrabold text-white">CPR & 84 Metre Road</div>
               </div>
               <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center">
-                <div className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Transit 02</div>
+                <div className="text-xs font-bold text-orange-400 uppercase tracking-widest mb-1">Transit 02</div>
                 <div className="text-sm sm:text-base font-extrabold text-white">Dwarka Expressway</div>
               </div>
               <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center">
-                <div className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Transit 03</div>
+                <div className="text-xs font-bold text-orange-400 uppercase tracking-widest mb-1">Transit 03</div>
                 <div className="text-sm sm:text-base font-extrabold text-white">NH-48 Connectivity</div>
               </div>
               <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center">
-                <div className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Location</div>
+                <div className="text-xs font-bold text-orange-400 uppercase tracking-widest mb-1">Location</div>
                 <div className="text-sm sm:text-base font-extrabold text-white">Sector 90, Gurugram</div>
               </div>
             </div>
@@ -674,14 +674,14 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
 
         {/* ─── 8. PRE-LAUNCH OPPORTUNITY SECTION ─── */}
         <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl p-8 sm:p-14 bg-gradient-to-br from-[#0B1629] via-[#081124] to-[#030810] border-2 border-amber-500/40 shadow-[0_25px_80px_rgba(0,0,0,0.8)] relative overflow-hidden">
+          <div className="rounded-3xl p-8 sm:p-14 bg-gradient-to-br from-[#0B1629] via-[#081124] to-[#0D1117] border-2 border-orange-500/40 shadow-[0_25px_80px_rgba(0,0,0,0.8)] relative overflow-hidden">
             {/* Background lighting */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/15 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500/15 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               <div className="lg:col-span-7 space-y-6">
-                <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold uppercase tracking-widest">
-                  <Flame className="w-3.5 h-3.5 text-amber-400" />
+                <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-500/20 border border-orange-500/40 text-orange-300 text-xs font-bold uppercase tracking-widest">
+                  <Flame className="w-3.5 h-3.5 text-orange-400" />
                   <span>Early Advantage Window</span>
                 </span>
 
@@ -694,8 +694,8 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                 </p>
 
                 {/* Phasing alert box */}
-                <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-3">
-                  <Info className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                <div className="p-4 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-start gap-3">
+                  <Info className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" />
                   <p className="text-xs text-amber-200/90 leading-relaxed">
                     <strong>Pre-Launch Inventory Notice:</strong> Allotments are strictly on a first-come, first-served basis with priority queue established upon EOI submission.
                   </p>
@@ -703,8 +703,8 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
               </div>
 
               <div className="lg:col-span-5 space-y-4">
-                <div className="p-6 rounded-2xl bg-slate-950/80 border border-amber-500/30 text-center">
-                  <div className="text-xs font-bold text-amber-400 uppercase tracking-widest">
+                <div className="p-6 rounded-2xl bg-[#111827]/80 border border-orange-500/30 text-center">
+                  <div className="text-xs font-bold text-orange-400 uppercase tracking-widest">
                     Special Pre-Launch Price
                   </div>
                   <div className="text-3xl sm:text-4xl font-extrabold text-white mt-1">₹2.5 Cr* Onwards</div>
@@ -726,7 +726,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                   href={`https://wa.me/${siteConfig.contact.whatsappNumber}?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2.5 w-full py-4 rounded-xl font-extrabold text-sm uppercase tracking-wider text-slate-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-[0_0_30px_rgba(245,158,11,0.3)] text-center"
+                  className="flex items-center justify-center gap-2.5 w-full py-4 rounded-xl font-extrabold text-sm uppercase tracking-wider text-slate-950 bg-orange-400 hover:bg-amber-300 transition-all shadow-[0_0_30px_rgba(245,158,11,0.3)] text-center"
                 >
                   <PhoneCall className="w-4 h-4 fill-slate-950" />
                   <span>Get Priority Allotment</span>
@@ -768,7 +768,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                     key={idx}
                     onClick={() => setActiveGalleryIndex(idx)}
                     className={`w-14 h-10 rounded-lg overflow-hidden border-2 transition-all ${
-                      activeGalleryIndex === idx ? "border-amber-400 scale-105" : "border-white/20 opacity-50"
+                      activeGalleryIndex === idx ? "border-orange-400 scale-105" : "border-white/20 opacity-50"
                     }`}
                   >
                     <img src={item.url} alt={item.title} className="w-full h-full object-cover" />
@@ -782,8 +782,8 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
         {/* ─── 10. PROJECT VIDEO SECTION ─── */}
         <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest mb-3">
-              <Play className="w-3.5 h-3.5 fill-amber-400" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-widest mb-3">
+              <Play className="w-3.5 h-3.5 fill-orange-400" />
               <span>Project Video</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold font-outfit text-white tracking-tight">
@@ -795,7 +795,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
           </div>
 
           <div className="max-w-5xl mx-auto">
-            <div className="relative rounded-3xl overflow-hidden border border-amber-500/30 shadow-[0_20px_60px_rgba(0,0,0,0.6)] aspect-video bg-slate-900 group">
+            <div className="relative rounded-3xl overflow-hidden border border-orange-500/30 shadow-[0_20px_60px_rgba(0,0,0,0.6)] aspect-video bg-slate-900 group">
               <video
                 src="/videos/hero3.mp4"
                 poster="/images/prelaunch/ninezero_exterior_1786780397467.jpg"
@@ -807,7 +807,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
               />
               {!isVideoPlaying && (
                 <div className="absolute inset-0 bg-black/40 pointer-events-none flex items-center justify-center transition-opacity group-hover:bg-black/30">
-                  <div className="w-20 h-20 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center shadow-[0_0_40px_rgba(245,158,11,0.5)] transform group-hover:scale-110 transition-transform">
+                  <div className="w-20 h-20 rounded-full bg-orange-500 text-slate-950 flex items-center justify-center shadow-[0_0_40px_rgba(245,158,11,0.5)] transform group-hover:scale-110 transition-transform">
                     <Play className="w-8 h-8 fill-slate-950 translate-x-0.5" />
                   </div>
                 </div>
@@ -830,8 +830,8 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Pillar 1 */}
-              <div className="p-6 rounded-3xl bg-[#030810] border border-white/10 space-y-3">
-                <div className="text-2xl font-black text-amber-400 font-outfit">01</div>
+              <div className="p-6 rounded-3xl bg-[#0D1117] border border-white/10 space-y-3">
+                <div className="text-2xl font-black text-orange-400 font-outfit">01</div>
                 <h3 className="text-lg font-bold text-white font-outfit">Sector 90, Gurugram</h3>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   Prime positioning in Gurugram's rapidly expanding residential and corporate micro-market.
@@ -839,8 +839,8 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
               </div>
 
               {/* Pillar 2 */}
-              <div className="p-6 rounded-3xl bg-[#030810] border border-white/10 space-y-3">
-                <div className="text-2xl font-black text-amber-400 font-outfit">02</div>
+              <div className="p-6 rounded-3xl bg-[#0D1117] border border-white/10 space-y-3">
+                <div className="text-2xl font-black text-orange-400 font-outfit">02</div>
                 <h3 className="text-lg font-bold text-white font-outfit">Premium 3BHK + 3T Residences</h3>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   Expansive ~1,850 Sq. Ft. homes designed with low density (4 apartments per core).
@@ -848,8 +848,8 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
               </div>
 
               {/* Pillar 3 */}
-              <div className="p-6 rounded-3xl bg-[#030810] border border-white/10 space-y-3">
-                <div className="text-2xl font-black text-amber-400 font-outfit">03</div>
+              <div className="p-6 rounded-3xl bg-[#0D1117] border border-white/10 space-y-3">
+                <div className="text-2xl font-black text-orange-400 font-outfit">03</div>
                 <h3 className="text-lg font-bold text-white font-outfit">4.5 Acre Development</h3>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   A grand masterplanned land parcel containing only 3 exclusive residential towers.
@@ -857,8 +857,8 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
               </div>
 
               {/* Pillar 4 */}
-              <div className="p-6 rounded-3xl bg-[#030810] border border-white/10 space-y-3">
-                <div className="text-2xl font-black text-amber-400 font-outfit">04</div>
+              <div className="p-6 rounded-3xl bg-[#0D1117] border border-white/10 space-y-3">
+                <div className="text-2xl font-black text-orange-400 font-outfit">04</div>
                 <h3 className="text-lg font-bold text-white font-outfit">Strategic Connectivity</h3>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   Bang on CPR & 84 Metre Road, adjacent to Dwarka Expressway with seamless NH-48 access.
@@ -872,7 +872,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
         <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto rounded-3xl p-8 sm:p-12 bg-gradient-to-b from-[#0B1629] to-[#060D1F] border border-white/15 shadow-2xl">
             <div className="text-center mb-10">
-              <span className="text-xs font-bold uppercase tracking-widest text-amber-400">
+              <span className="text-xs font-bold uppercase tracking-widest text-orange-400">
                 Phase Allotment Status
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold font-outfit text-white mt-1">
@@ -881,8 +881,8 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-              <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30">
-                <div className="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Current Phase</div>
+              <div className="p-5 rounded-2xl bg-orange-500/10 border border-orange-500/30">
+                <div className="text-[11px] font-bold text-orange-400 uppercase tracking-wider">Current Phase</div>
                 <div className="text-lg font-extrabold text-white mt-1">2 Towers Available</div>
                 <p className="text-xs text-slate-300 mt-1">
                   Active pre-launch window with priority allotment queue.
@@ -904,7 +904,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
               </div>
 
               <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10">
-                <div className="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Pre-Launch Price</div>
+                <div className="text-[11px] font-bold text-orange-400 uppercase tracking-wider">Pre-Launch Price</div>
                 <div className="text-lg font-extrabold text-white mt-1">₹2.5 Cr Onwards</div>
                 <p className="text-xs text-slate-400 mt-1">All Inclusive; PLC & GST Extra.</p>
               </div>
@@ -920,7 +920,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
         <section className="py-20 bg-[#060D1F] border-t border-white/[0.06]">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <span className="text-xs font-bold uppercase tracking-widest text-amber-400">
+              <span className="text-xs font-bold uppercase tracking-widest text-orange-400">
                 Frequently Asked Questions
               </span>
               <h2 className="text-3xl font-extrabold font-outfit text-white mt-1">
@@ -934,15 +934,15 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                 return (
                   <div
                     key={index}
-                    className="rounded-2xl bg-[#030810] border border-white/10 overflow-hidden transition-colors"
+                    className="rounded-2xl bg-[#0D1117] border border-white/10 overflow-hidden transition-colors"
                   >
                     <button
                       onClick={() => setOpenFaq(isOpen ? -1 : index)}
-                      className="w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-white text-sm sm:text-base hover:text-amber-300 transition-colors"
+                      className="w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-white text-sm sm:text-base hover:text-orange-300 transition-colors"
                     >
                       <span>{faq.q}</span>
                       <ChevronDown
-                        className={`w-4 h-4 text-amber-400 transition-transform duration-300 flex-shrink-0 ${
+                        className={`w-4 h-4 text-orange-400 transition-transform duration-300 flex-shrink-0 ${
                           isOpen ? "rotate-180" : ""
                         }`}
                       />
@@ -961,12 +961,12 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
 
         {/* ─── 14. FINAL CTA SECTION ─── */}
         <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="rounded-3xl p-10 sm:p-16 bg-gradient-to-b from-[#0B1629] via-[#081124] to-[#030810] border border-amber-500/30 shadow-[0_20px_80px_rgba(0,0,0,0.8)] relative overflow-hidden">
-            <div className="absolute -top-20 -left-20 w-80 h-80 bg-amber-500/20 rounded-full blur-[100px] pointer-events-none" />
+          <div className="rounded-3xl p-10 sm:p-16 bg-gradient-to-b from-[#0B1629] via-[#081124] to-[#0D1117] border border-orange-500/30 shadow-[0_20px_80px_rgba(0,0,0,0.8)] relative overflow-hidden">
+            <div className="absolute -top-20 -left-20 w-80 h-80 bg-orange-500/20 rounded-full blur-[100px] pointer-events-none" />
             <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-blue-600/20 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="relative z-10 max-w-2xl mx-auto space-y-6">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-widest">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Priority Assistance</span>
               </span>
@@ -984,7 +984,7 @@ export default function PrelaunchClient({ siteConfig: propSiteConfig }) {
                   href={`https://wa.me/${siteConfig.contact.whatsappNumber}?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-sm uppercase tracking-wider text-slate-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-[0_0_30px_rgba(245,158,11,0.3)]"
+                  className="flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-sm uppercase tracking-wider text-slate-950 bg-orange-400 hover:bg-amber-300 transition-all shadow-[0_0_30px_rgba(245,158,11,0.3)]"
                 >
                   <PhoneCall className="w-4 h-4 fill-slate-950" />
                   <span>WhatsApp Now</span>

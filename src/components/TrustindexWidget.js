@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -78,7 +78,7 @@ export default function TrustindexWidget({ className = "" }) {
       {/* Loading Skeleton / Spinner while Trustindex script fetches reviews */}
       {isLoading && (
         <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-          <div className="w-10 h-10 border-2 border-amber-400/30 border-t-amber-400 rounded-full animate-spin mb-3" />
+          <div className="w-10 h-10 border-2 border-orange-400/30 border-t-amber-400 rounded-full animate-spin mb-3" />
           <p className="text-sm font-semibold text-slate-300">
             Loading Google Reviews...
           </p>

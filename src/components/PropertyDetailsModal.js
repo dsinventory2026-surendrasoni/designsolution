@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { X, MapPin, Maximize2, CheckCircle2, MessageSquare, PhoneCall, Calendar, ShieldCheck, ChevronRight } from "lucide-react";
@@ -16,12 +16,12 @@ export default function PropertyDetailsModal({ property, onClose, onOpenContactM
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fade-up">
       <div
         className="relative w-full max-w-5xl rounded-3xl overflow-hidden shadow-2xl text-white my-auto flex flex-col max-h-[92vh] grain-overlay"
-        style={{ background: "var(--navy-deep)", border: "1px solid rgba(201,169,110,0.25)" }}
+        style={{ background: "var(--navy-deep)", border: "1px solid rgba(255,121,0,0.25)" }}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-slate-800 bg-slate-950/60">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-slate-800 bg-[#111827]/60">
           <div>
-            <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest block">
+            <span className="text-[10px] font-bold text-orange-400 uppercase tracking-widest block">
               {property.category} • {property.type}
             </span>
             <h2 className="text-lg sm:text-2xl font-bold font-outfit text-white leading-tight">
@@ -48,7 +48,7 @@ export default function PropertyDetailsModal({ property, onClose, onOpenContactM
                 alt={property.title}
                 className="w-full h-full object-cover transition-all duration-300"
               />
-              <div className="absolute top-3 left-3 px-3 py-1 rounded-md bg-black/75 backdrop-blur-md text-[11px] font-bold text-amber-400 border border-amber-500/30">
+              <div className="absolute top-3 left-3 px-3 py-1 rounded-md bg-black/75 backdrop-blur-md text-[11px] font-bold text-orange-400 border border-orange-500/30">
                 {property.status}
               </div>
             </div>
@@ -61,7 +61,7 @@ export default function PropertyDetailsModal({ property, onClose, onOpenContactM
                     key={idx}
                     onClick={() => setActiveImageIndex(idx)}
                     className={`relative w-20 h-14 rounded-xl overflow-hidden shrink-0 border-2 transition-all ${
-                      activeImageIndex === idx ? "border-amber-400 scale-105" : "border-slate-800 opacity-60 hover:opacity-100"
+                      activeImageIndex === idx ? "border-orange-400 scale-105" : "border-slate-800 opacity-60 hover:opacity-100"
                     }`}
                   >
                     <img
@@ -79,7 +79,7 @@ export default function PropertyDetailsModal({ property, onClose, onOpenContactM
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 sm:p-5 rounded-2xl bg-slate-900/80 border border-slate-800">
             <div>
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Price</span>
-              <span className="text-xl font-extrabold text-amber-400 font-outfit">{property.price}</span>
+              <span className="text-xl font-extrabold text-orange-400 font-outfit">{property.price}</span>
             </div>
             <div>
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Size / Area</span>
@@ -142,7 +142,7 @@ export default function PropertyDetailsModal({ property, onClose, onOpenContactM
         </div>
 
         {/* Modal Fixed Footer CTAs */}
-        <div className="p-4 sm:p-6 border-t border-slate-800 bg-slate-950/80 flex flex-col sm:flex-row gap-3">
+        <div className="p-4 sm:p-6 border-t border-slate-800 bg-[#111827]/80 flex flex-col sm:flex-row gap-3">
           <a
             href={whatsappPropertyUrl}
             target="_blank"

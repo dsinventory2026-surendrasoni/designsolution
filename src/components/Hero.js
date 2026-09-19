@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, Fragment } from "react";
 import { siteConfig as staticSiteConfig } from "@/data/siteConfig";
@@ -47,7 +47,7 @@ export default function Hero({ onFilterSearch, onOpenContactModal, heroData, sit
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center mt-28 md:mt-40">
 
         {/* Eyebrow Badge */}
-        <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full border border-[rgba(201,169,110,0.35)] bg-[rgba(6,13,31,0.65)] text-xs font-semibold uppercase tracking-[0.25em] text-[var(--champagne)] mb-5 shadow-2xl backdrop-blur-md">
+        <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full border border-[rgba(255,121,0,0.35)] bg-[rgba(17,24,39,0.65)] text-xs font-semibold uppercase tracking-[0.25em] text-[var(--champagne)] mb-5 shadow-2xl backdrop-blur-md">
           <Sparkles className="w-3.5 h-3.5 text-[var(--champagne)] animate-pulse" />
           <span>{heroData?.eyebrowBadge || "DS GROUP OF COMPANIES"}</span>
         </div>
