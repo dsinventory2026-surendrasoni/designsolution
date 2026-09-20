@@ -8,7 +8,7 @@ import {
   X, ChevronDown, ChevronUp, CheckCircle2, AlertCircle,
   RefreshCw, Eye, Building, MapPin, PhoneCall, Mail, MessageSquare,
   Image as ImageIcon, ArrowLeft, ArrowRight, Menu, Sparkles, Copy, ExternalLink, BookOpen,
-  Upload, ZoomIn, ZoomOut, Tag, ShieldCheck, UserCheck, Award
+  Upload, ZoomIn, ZoomOut, Tag, ShieldCheck, UserCheck, Award, Globe
 } from "lucide-react";
 
 // ─── Reusable UI Atoms ─────────────────────────────────────────────────────
@@ -1837,6 +1837,203 @@ function AboutPanel({ showToast }) {
                   </div>
                 )}
               </div>
+            </div>
+          </SectionCard>
+
+          {/* ═══════════════════════════════════════════════════════════
+              FOUNDER / LEADERSHIP MESSAGE (Section 3 on /about/company)
+              ── Synced with Owner tab — edits here update Owner tab too
+          ═══════════════════════════════════════════════════════════ */}
+          <SectionCard title="👤 Founder / Leadership Message (About Company Page)" icon={UserCheck}>
+            <div className="space-y-4">
+              <p className="text-xs text-slate-300">
+                This is the <strong>&quot;Message From the Founder&quot;</strong> section on the About Company page. Changes here sync with the Owner tab automatically.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Founder Photo Preview & Upload Controls */}
+                <div className="space-y-3">
+                  <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Founder Photo</label>
+                  <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-orange-400/40 bg-[#111827] shadow-xl mx-auto">
+                    <img
+                      src={owner.photo || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop"}
+                      alt="Founder Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 transition-colors shadow-md cursor-pointer">
+                      {directUploading === "owner" ? (
+                        <><RefreshCw className="w-3.5 h-3.5 animate-spin" /><span>Uploading...</span></>
+                      ) : (
+                        <><Upload className="w-3.5 h-3.5" /><span>Upload Photo</span>
+                          <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleDirectUpload(f, "owner"); }} />
+                        </>
+                      )}
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => { setCropTarget({ type: "owner" }); setCropModalOpen(true); }}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/20 transition-colors cursor-pointer"
+                    >
+                      <span>✂️ Select &amp; Crop Photo</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Founder Details Fields */}
+                <div className="md:col-span-2 space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <InputField
+                      label="Founder Name"
+                      value={owner.name || ""}
+                      onChange={(v) => setData({ ...data, about: { ...data.about, ownerDetails: { ...data.about.ownerDetails, name: v } } })}
+                      placeholder="Surendra Soni"
+                    />
+                    <InputField
+                      label="Designation / Title"
+                      value={owner.designation || ""}
+                      onChange={(v) => setData({ ...data, about: { ...data.about, ownerDetails: { ...data.about.ownerDetails, designation: v } } })}
+                      placeholder="Founder & Managing Director"
+                    />
+                  </div>
+                  <InputField
+                    label="Founder Photo URL (Direct Link)"
+                    value={owner.photo || ""}
+                    onChange={(v) => setData({ ...data, about: { ...data.about, ownerDetails: { ...data.about.ownerDetails, photo: v } } })}
+                    placeholder="https://your-image-url.com/photo.jpg"
+                  />
+                  <InputField
+                    label="Founder Quote (Displayed in Leadership Section)"
+                    rows={3}
+                    value={owner.quote || ""}
+                    onChange={(v) => setData({ ...data, about: { ...data.about, ownerDetails: { ...data.about.ownerDetails, quote: v } } })}
+                    placeholder="Our vision has always been to create developments that combine architectural excellence..."
+                  />
+                  <InputField
+                    label="Founder Bio (Short paragraph below the quote)"
+                    rows={3}
+                    value={owner.bio || ""}
+                    onChange={(v) => setData({ ...data, about: { ...data.about, ownerDetails: { ...data.about.ownerDetails, bio: v } } })}
+                    placeholder="With over 18+ years of visionary leadership in real estate development..."
+                  />
+                  <InputField
+                    label="Experience Years Display"
+                    value={owner.experienceYears || ""}
+                    onChange={(v) => setData({ ...data, about: { ...data.about, ownerDetails: { ...data.about.ownerDetails, experienceYears: v } } })}
+                    placeholder="18+ Years"
+                  />
+                </div>
+              </div>
+            </div>
+          </SectionCard>
+
+          {/* ═══════════════════════════════════════════════════════════
+              CORPORATE STRENGTHS — 6 Metric Cards (Section 6 on /about/company)
+          ═══════════════════════════════════════════════════════════ */}
+          <SectionCard title="💪 Corporate Strengths (6 Metric Cards on /about/company)" icon={Award}>
+            <div className="space-y-3">
+              <p className="text-xs text-slate-400">
+                These 6 strength cards are displayed in the &quot;Corporate Strengths&quot; section. Each card shows a bold value, label, and sub-text.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {(company.strengthCards || [
+                  { label: "Years in Business", value: "16+", sub: "Since 2008" },
+                  { label: "Projects Delivered", value: "25+", sub: "Across NCR" },
+                  { label: "Construction Expertise", value: "EPC", sub: "End-to-End" },
+                  { label: "Strategic Locations", value: "8+", sub: "Prime Sectors" },
+                  { label: "Customer Satisfaction", value: "98%", sub: "Verified Feedback" },
+                  { label: "Regulatory Certs", value: "100%", sub: "Compliance" },
+                ]).map((card, idx) => {
+                  const allCards = company.strengthCards || [
+                    { label: "Years in Business", value: "16+", sub: "Since 2008" },
+                    { label: "Projects Delivered", value: "25+", sub: "Across NCR" },
+                    { label: "Construction Expertise", value: "EPC", sub: "End-to-End" },
+                    { label: "Strategic Locations", value: "8+", sub: "Prime Sectors" },
+                    { label: "Customer Satisfaction", value: "98%", sub: "Verified Feedback" },
+                    { label: "Regulatory Certs", value: "100%", sub: "Compliance" },
+                  ];
+                  return (
+                    <div key={idx} className="p-3.5 rounded-xl bg-[#111827] border border-slate-800 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-bold text-orange-400 uppercase tracking-wider">Card #{idx + 1}</span>
+                        {allCards.length > 1 && (
+                          <button type="button" onClick={() => {
+                            const updated = allCards.filter((_, i) => i !== idx);
+                            setData({ ...data, about: { ...data.about, companyDetails: { ...company, strengthCards: updated } } });
+                          }} className="p-1 rounded bg-red-500/10 text-red-400 hover:bg-red-500/20"><Trash2 className="w-3 h-3" /></button>
+                        )}
+                      </div>
+                      <InputField label="Display Value" value={card.value || ""} onChange={(v) => {
+                        const updated = [...allCards]; updated[idx] = { ...updated[idx], value: v };
+                        setData({ ...data, about: { ...data.about, companyDetails: { ...company, strengthCards: updated } } });
+                      }} placeholder="e.g. 16+ or EPC" />
+                      <InputField label="Label" value={card.label || ""} onChange={(v) => {
+                        const updated = [...allCards]; updated[idx] = { ...updated[idx], label: v };
+                        setData({ ...data, about: { ...data.about, companyDetails: { ...company, strengthCards: updated } } });
+                      }} placeholder="Years in Business" />
+                      <InputField label="Sub Text" value={card.sub || ""} onChange={(v) => {
+                        const updated = [...allCards]; updated[idx] = { ...updated[idx], sub: v };
+                        setData({ ...data, about: { ...data.about, companyDetails: { ...company, strengthCards: updated } } });
+                      }} placeholder="Since 2008" />
+                    </div>
+                  );
+                })}
+              </div>
+              <button type="button" onClick={() => {
+                const current = company.strengthCards || [
+                  { label: "Years in Business", value: "16+", sub: "Since 2008" },
+                  { label: "Projects Delivered", value: "25+", sub: "Across NCR" },
+                  { label: "Construction Expertise", value: "EPC", sub: "End-to-End" },
+                  { label: "Strategic Locations", value: "8+", sub: "Prime Sectors" },
+                  { label: "Customer Satisfaction", value: "98%", sub: "Verified Feedback" },
+                  { label: "Regulatory Certs", value: "100%", sub: "Compliance" },
+                ];
+                setData({ ...data, about: { ...data.about, companyDetails: { ...company, strengthCards: [...current, { label: "New Metric", value: "0+", sub: "Description" }] } } });
+              }} className="flex items-center gap-2 text-xs text-orange-400 font-semibold py-2">
+                <Plus className="w-4 h-4" /> Add Strength Card
+              </button>
+            </div>
+          </SectionCard>
+
+          {/* ═══════════════════════════════════════════════════════════
+              TRUST BANNER POINTS (Section 10 on /about/company)
+          ═══════════════════════════════════════════════════════════ */}
+          <SectionCard title="🏆 Trust Banner Points (Dark Banner Section)" icon={Globe}>
+            <div className="space-y-3">
+              <p className="text-xs text-slate-400">
+                These trust points appear in the dark &quot;Trusted Real Estate Development Partner&quot; banner near the bottom of the About Company page.
+              </p>
+              <div className="space-y-2">
+                {(company.trustPoints || ["Compliance Driven", "Customer Focused", "Prime Locations", "End-to-End Solutions", "Transparent Operations"]).map((point, idx) => {
+                  const allPoints = company.trustPoints || ["Compliance Driven", "Customer Focused", "Prime Locations", "End-to-End Solutions", "Transparent Operations"];
+                  return (
+                    <div key={idx} className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={point}
+                        onChange={(e) => {
+                          const updated = [...allPoints]; updated[idx] = e.target.value;
+                          setData({ ...data, about: { ...data.about, companyDetails: { ...company, trustPoints: updated } } });
+                        }}
+                        placeholder="Trust point text..."
+                        className="flex-1 px-4 py-2 rounded-xl text-sm text-white outline-none"
+                        style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}
+                      />
+                      <button type="button" onClick={() => {
+                        const updated = allPoints.filter((_, i) => i !== idx);
+                        setData({ ...data, about: { ...data.about, companyDetails: { ...company, trustPoints: updated } } });
+                      }} className="p-2 rounded-lg bg-red-500/10 text-red-400 shrink-0"><Trash2 className="w-4 h-4" /></button>
+                    </div>
+                  );
+                })}
+              </div>
+              <button type="button" onClick={() => {
+                const current = company.trustPoints || ["Compliance Driven", "Customer Focused", "Prime Locations", "End-to-End Solutions", "Transparent Operations"];
+                setData({ ...data, about: { ...data.about, companyDetails: { ...company, trustPoints: [...current, "New Trust Point"] } } });
+              }} className="flex items-center gap-2 text-xs text-orange-400 font-semibold py-2">
+                <Plus className="w-4 h-4" /> Add Trust Point
+              </button>
             </div>
           </SectionCard>
 

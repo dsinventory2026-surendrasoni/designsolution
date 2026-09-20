@@ -166,6 +166,18 @@ const defaultAbout = {
     ],
     metaTitle: "About DS Group of Companies | Real Estate Developer Sector 85 Gurgaon",
     metaDescription: "Discover DS Group of Companies — Premier real estate developer, construction firm & property consultants in Sector 85 Gurugram. Founded by Surendra Soni. Explore company profile, leadership, and team directory.",
+    strengthCards: [
+      { label: "Years in Business", value: "16+", sub: "Since 2008" },
+      { label: "Projects Delivered", value: "25+", sub: "Across NCR" },
+      { label: "Construction Expertise", value: "EPC", sub: "End-to-End" },
+      { label: "Strategic Locations", value: "8+", sub: "Prime Sectors" },
+      { label: "Customer Satisfaction", value: "98%", sub: "Verified Feedback" },
+      { label: "Regulatory Certs", value: "100%", sub: "Compliance" },
+    ],
+    trustPoints: [
+      "Compliance Driven", "Customer Focused", "Prime Locations",
+      "End-to-End Solutions", "Transparent Operations"
+    ],
   },
   ownerDetails: {
     heroHeading: "Architect of Legacies, Pioneer of Trust",

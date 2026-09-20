@@ -160,14 +160,23 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
       }))
     : defaultWhyCards;
 
-  const strengthCards = [
-    { icon: Calendar, label: "Years in Business", value: "16+", sub: "Since 2008" },
-    { icon: Building2, label: "Projects Delivered", value: "25+", sub: "Across NCR" },
-    { icon: Landmark, label: "Construction Expertise", value: "EPC", sub: "End-to-End" },
-    { icon: MapPin, label: "Strategic Locations", value: "8+", sub: "Prime Sectors" },
-    { icon: Star, label: "Customer Satisfaction", value: "98%", sub: "Verified Feedback" },
-    { icon: ShieldCheck, label: "Regulatory Certs", value: "100%", sub: "Compliance" },
-  ];
+  const defaultStrengthIcons = [Calendar, Building2, Landmark, MapPin, Star, ShieldCheck];
+
+  const strengthCards = (company.strengthCards && company.strengthCards.length > 0)
+    ? company.strengthCards.map((card, i) => ({
+        icon: defaultStrengthIcons[i % defaultStrengthIcons.length],
+        label: card.label,
+        value: card.value,
+        sub: card.sub,
+      }))
+    : [
+        { icon: Calendar, label: "Years in Business", value: "16+", sub: "Since 2008" },
+        { icon: Building2, label: "Projects Delivered", value: "25+", sub: "Across NCR" },
+        { icon: Landmark, label: "Construction Expertise", value: "EPC", sub: "End-to-End" },
+        { icon: MapPin, label: "Strategic Locations", value: "8+", sub: "Prime Sectors" },
+        { icon: Star, label: "Customer Satisfaction", value: "98%", sub: "Verified Feedback" },
+        { icon: ShieldCheck, label: "Regulatory Certs", value: "100%", sub: "Compliance" },
+      ];
 
   const defaultCoreValues = [
     { icon: ShieldCheck, title: "Integrity", desc: "Every transaction backed by full documentation and zero hidden clauses." },
@@ -194,10 +203,12 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
         { label: "Regulatory Compliance", value: "100%" },
       ];
 
-  const trustPoints = [
-    "Compliance Driven", "Customer Focused", "Prime Locations",
-    "End-to-End Solutions", "Transparent Operations"
-  ];
+  const trustPoints = (company.trustPoints && company.trustPoints.length > 0)
+    ? company.trustPoints
+    : [
+        "Compliance Driven", "Customer Focused", "Prime Locations",
+        "End-to-End Solutions", "Transparent Operations"
+      ];
 
   return (
     <main className="bg-white text-[#111827] min-h-screen pt-24">
