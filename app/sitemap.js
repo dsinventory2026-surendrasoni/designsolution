@@ -225,6 +225,9 @@ export default async function sitemap() {
   const coreFallbackRoutes = [
     { url: SITE_URL, changeFrequency: "daily", priority: 1.0 },
     { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE_URL}/about/company`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/about/owner`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/about/team`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/enquire`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/blog`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/valuable-properties`, changeFrequency: "weekly", priority: 0.9 },

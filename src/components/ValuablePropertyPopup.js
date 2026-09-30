@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
@@ -100,7 +100,7 @@ export default function ValuablePropertyPopup() {
               <div className="relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border border-orange-400/30 shadow-lg">
                 <img
                   src={thumbnail}
-                  alt={property.projectName}
+                  alt={`${property.projectName}${property.location ? ` in ${property.location}` : ''} | Valuable Property | DS Group of Companies Gurgaon`}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />

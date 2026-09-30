@@ -126,7 +126,7 @@ export default function AboutSection({ siteConfig: propSiteConfig }) {
               <div className="flex items-center gap-4 relative z-10">
                 <img
                   src={owner.photo}
-                  alt={owner.name}
+                  alt={`${owner.name} – ${owner.designation || 'Founder & Managing Director'}, DS Group of Companies Gurgaon`}
                   className="w-20 h-20 rounded-2xl object-cover border-2 border-orange-400/80 shadow-lg"
                 />
                 <div>

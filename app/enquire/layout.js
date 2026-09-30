@@ -8,10 +8,13 @@
  * all the necessary SEO metadata for the enquire route.
  *
  * Google will use:
- * - title: "Enquire About Properties in Gurugram | DS Group of Companies"
+ * - title: "Property Enquiry & Consultation in Gurgaon | DS Group of Companies"
  * - description: unique to this page
  * - canonical: /enquire
  */
+import JsonLd from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema } from "@/lib/seo";
+
 export const metadata = {
   title: "Property Enquiry & Consultation in Gurgaon | DS Group of Companies",
   description:
@@ -66,6 +69,16 @@ export const metadata = {
   },
 };
 
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: "Home", href: "/" },
+  { name: "Property Enquiry", href: "/enquire" },
+]);
+
 export default function EnquireLayout({ children }) {
-  return children;
+  return (
+    <>
+      {breadcrumbSchema && <JsonLd schema={[breadcrumbSchema]} />}
+      {children}
+    </>
+  );
 }

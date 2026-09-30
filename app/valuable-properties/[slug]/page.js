@@ -6,6 +6,7 @@ import { getBreadcrumbSchema, getPropertyPageSchema } from "@/lib/seo";
 
 import connectDB from "@/lib/mongodb";
 import ValuableProperty from "@/lib/models/ValuableProperty";
+import { propertiesData as fallbackProperties } from "@/data/propertiesData";
 
 const SITE_URL = "https://www.dsgroupofcompanies.in";
 
@@ -63,7 +64,76 @@ async function fetchPropertyData(slug) {
     console.error("API fallback error in property SSR:", error);
   }
 
+  // 3. Fallback attempt: static propertiesData
+  const staticMatch = fallbackProperties.find(
+    (p) => p.id === slug || p.id.toLowerCase() === slug.toLowerCase()
+  );
+  if (staticMatch) {
+    const formatted = {
+      _id: staticMatch.id,
+      id: staticMatch.id,
+      slug: staticMatch.id,
+      projectName: staticMatch.title,
+      propertyType: staticMatch.category || "Residential",
+      location: staticMatch.location || "Sector 85, Gurgaon",
+      price: staticMatch.price || "Price on Request",
+      offerPrice: "",
+      area: staticMatch.size || "",
+      bedrooms: staticMatch.type || "3 BHK",
+      bathrooms: "3",
+      parking: "2 Covered",
+      status: staticMatch.status || "Available",
+      shortDescription: staticMatch.shortDescription || "",
+      fullDescription: staticMatch.description || staticMatch.shortDescription || "",
+      thumbnail: staticMatch.images?.[0] || "",
+      heroBanner: staticMatch.images?.[0] || "",
+      gallery: staticMatch.images || [],
+      amenities: staticMatch.amenities || [],
+      specifications: staticMatch.specifications || [],
+      builderName: "DS Group",
+      reraNumber: "HRERA Approved",
+      possessionDate: staticMatch.possessionDate || "Ready to Move",
+      contactNumber: "7743000070",
+      whatsappNumber: "7743000070",
+    };
+    const related = fallbackProperties
+      .filter((p) => p.id !== staticMatch.id)
+      .slice(0, 3)
+      .map((p) => ({
+        _id: p.id,
+        slug: p.id,
+        projectName: p.title,
+        location: p.location,
+        price: p.price,
+        thumbnail: p.images?.[0] || "",
+        heroBanner: p.images?.[0] || "",
+        propertyType: p.category,
+      }));
+    return { property: formatted, related };
+  }
+
   return { property: null, related: [] };
+}
+
+export async function generateStaticParams() {
+  const params = [];
+  try {
+    await connectDB();
+    const dbProps = await ValuableProperty.find({ publishStatus: "Published" }, "slug").lean();
+    if (dbProps && dbProps.length > 0) {
+      for (const p of dbProps) {
+        if (p.slug && p.slug.length >= 3) params.push({ slug: p.slug });
+      }
+    }
+  } catch {
+    // non-fatal
+  }
+  for (const p of fallbackProperties) {
+    if (p.id && !params.some((x) => x.slug === p.id)) {
+      params.push({ slug: p.id });
+    }
+  }
+  return params;
 }
 
 // ─── Dynamic SEO Metadata Generation ──────────────────────────────────────────

@@ -37,8 +37,8 @@ export const siteConfig = {
     whatsappLink: "https://wa.me/917743000070?text=Hello%20DS%20Group%20of%20Companies,%20I%20would%20like%20to%20inquire%20about%20your%20properties%20and%20services.",
     phonePrimary: "+91 77430 00070",
     phoneSecondary: "+91 98123 45678",
-    emailPrimary: "info@dsgroupofcompanies.com",
-    emailSales: "sales@dsgroupofcompanies.com",
+    emailPrimary: "info@dsgroupofcompanies.in",
+    emailSales: "sales@dsgroupofcompanies.in",
     address: {
       plot: "Plot Sector 85",
       tower: "Tower 7",

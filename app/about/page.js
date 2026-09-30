@@ -134,7 +134,7 @@ export default async function AboutPage() {
       addressCountry: "IN",
     },
     telephone: contact.phonePrimary || "+91-77430-00070",
-    email: contact.emailPrimary || "info@dsgroupofcompanies.com",
+    email: contact.emailPrimary || "info@dsgroupofcompanies.in",
     sameAs: [
       config?.socialLinks?.instagram || "https://instagram.com/dsgroup_official",
       config?.socialLinks?.facebook || "https://facebook.com/dsgroupofcompanies",

@@ -227,12 +227,12 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
               <Sparkles className="w-3 h-3" /> Our Story
             </div>
 
-            <h2
+            <h1
               className="text-3xl sm:text-4xl font-extrabold text-[#111827] leading-tight mb-6"
               style={{ fontFamily: "var(--font-outfit)" }}
             >
               {company.heroHeading || "Building Trust. Creating Landmarks. Delivering Value Since 2008."}
-            </h2>
+            </h1>
 
             <p className="text-slate-600 text-base leading-relaxed mb-8">
               {company.story}
@@ -415,7 +415,7 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
                 >
                   <img
                     src={founderPhoto}
-                    alt={`${founderName} - Founder DS Group`}
+                    alt={`${founderName} — Founder & Managing Director, DS Group of Companies Gurgaon`}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -676,7 +676,7 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
         <div className="rounded-3xl overflow-hidden mb-8 relative aspect-[21/6] shadow-xl">
           <img
             src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1600&q=80"
-            alt="DS Group Corporate Office - Sector 85 Gurugram"
+            alt="DS Group of Companies Corporate Headquarters — Sector 85 Gurgaon Real Estate"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
@@ -702,7 +702,7 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
               { icon: MapPin, label: "Office Location", value: company.headquarters || fullAddress, color: "#FF7900" },
               { icon: Clock, label: "Business Hours", value: company.workingHours || contact?.workingHours || "Mon - Sat: 9:00 AM - 7:30 PM", color: "#059669" },
               { icon: PhoneCall, label: "Direct Office Call", value: company.phone || contact?.phonePrimary || "+91 77430 00070", color: "#FF7900", href: `tel:${(company.phone || contact?.phonePrimary || "+91 77430 00070").replace(/\s+/g, "")}` },
-              { icon: Mail, label: "Official Email", value: company.email || contact?.emailPrimary || "info@dsgroupofcompanies.com", color: "#7C3AED", href: `mailto:${company.email || contact?.emailPrimary || "info@dsgroupofcompanies.com"}` },
+              { icon: Mail, label: "Official Email", value: company.email || contact?.emailPrimary || "info@dsgroupofcompanies.in", color: "#7C3AED", href: `mailto:${company.email || contact?.emailPrimary || "info@dsgroupofcompanies.in"}` },
               { icon: Calendar, label: "Consultation Availability", value: "By Appointment · Private Sessions Available", color: "#0284C7" },
             ].map((item) => (
               <div key={item.label} className="flex items-start gap-4 py-3 border-b border-slate-100 last:border-0">
@@ -805,7 +805,7 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
               >
                 <img
                   src={imgUrl}
-                  alt={`DS Group Corporate Space ${idx + 1}`}
+                  alt={`DS Group of Companies Corporate Office & Advisory Space ${idx + 1} Sector 85 Gurgaon`}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -831,7 +831,7 @@ export default function AboutCompanyView({ siteConfig: propSiteConfig }) {
           <div className="relative max-w-4xl max-h-[85vh] w-full">
             <img
               src={lightboxImg}
-              alt="DS Group Office"
+              alt="DS Group of Companies Executive Office — Sector 85 Gurugram"
               className="w-full h-full object-contain rounded-2xl shadow-2xl"
             />
             <button

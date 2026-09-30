@@ -23,7 +23,7 @@ export default function PropertyCard({ property, onViewDetails }) {
       <div className="relative overflow-hidden bg-slate-100" style={{ aspectRatio: "4/3" }}>
         <img
           src={property.images[0]}
-          alt={property.title}
+          alt={`${property.title}${property.location ? ` in ${property.location}` : ''} | DS Group of Companies Gurgaon`}
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           loading="lazy"
         />

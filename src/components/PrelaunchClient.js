@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -32,22 +32,22 @@ import {
 const NINEZERO_GALLERY = [
   {
     url: "/images/prelaunch/ninezero_exterior_1786780397467.jpg",
-    title: "Architectural Elevation",
+    title: "NINEZERO LIV 90 – Architectural Elevation | Sector 90 Gurgaon",
     caption: "3 Ultra-Luxury Towers on 4.5 Acre Masterplan in Sector 90",
   },
   {
     url: "/images/prelaunch/ninezero_living_room_1786780472271.jpg",
-    title: "Spacious Living Interiors",
+    title: "NINEZERO LIV 90 – Spacious Living Interiors | Sector 90 Gurgaon",
     caption: "Expansive 3BHK + 3T Residences (~1,850 Sq. Ft.)",
   },
   {
     url: "/images/prelaunch/ninezero_balcony_1786780680375.jpg",
-    title: "Private Panoramic Balcony",
+    title: "NINEZERO LIV 90 – Private Panoramic Balcony | Sector 90 Gurgaon",
     caption: "Thoughtfully Designed Outdoor Living Deck",
   },
   {
     url: "/images/prelaunch/ninezero_lobby_1786780769185.jpg",
-    title: "Grand Entrance Experience",
+    title: "NINEZERO LIV 90 – Grand Entrance Lobby | Sector 90 Gurgaon",
     caption: "Majestic Double-Height Reception & Core Planning",
   },
 ];

@@ -2,6 +2,8 @@
 import AboutOwnerView from "@/components/AboutOwnerView";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema } from "@/lib/seo";
 import connectDB from "@/lib/mongodb";
 import { getOrCreateConfig } from "@/lib/getOrCreateConfig";
 import { siteConfig as fallbackConfig } from "@/data/siteConfig";
@@ -83,8 +85,14 @@ export async function generateMetadata() {
 
 export default async function AboutOwnerPage() {
   const config = await getConfig();
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Surendra Soni – Founder & MD", href: "/about/owner" },
+  ]);
   return (
     <>
+      {breadcrumbSchema && <JsonLd schema={[breadcrumbSchema]} />}
       <Navbar siteConfig={config} />
       <AboutOwnerView siteConfig={config} />
       <Footer siteConfig={config} />

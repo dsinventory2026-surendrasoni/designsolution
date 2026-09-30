@@ -74,7 +74,7 @@ export default function AboutUsClient({ siteConfig: propSiteConfig, initialActiv
     quote: cfg?.owner?.quote || "True luxury is not defined by ornate facades, but by uncompromised structural integrity, absolute legal transparency, and the peace of mind that comes from knowing your investment is built to endure for generations.",
     experienceYears: "18+ Years",
     phone: contact?.phonePrimary || "+91 77430 00070",
-    email: contact?.emailPrimary || "surendra@dsgroupofcompanies.com",
+    email: contact?.emailPrimary || "surendra@dsgroupofcompanies.in",
     whatsapp: contact?.whatsappNumber || "7743000070",
     linkedin: "https://linkedin.com/in/surendra-soni",
     achievements: [
@@ -450,7 +450,7 @@ export default function AboutUsClient({ siteConfig: propSiteConfig, initialActiv
                   <div className="w-48 h-60 sm:w-56 sm:h-72 rounded-2xl overflow-hidden border-2 border-orange-400/40 shadow-2xl relative">
                     <img
                       src={ownerDetails.photo || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"}
-                      alt={`${ownerDetails.name} - Founder & Managing Director DS Group of Companies`}
+                      alt={`${ownerDetails.name} – Founder & Managing Director, DS Group of Companies Gurgaon`}
                       className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/80 via-transparent to-transparent pointer-events-none" />
@@ -655,7 +655,7 @@ export default function AboutUsClient({ siteConfig: propSiteConfig, initialActiv
                           <div className="w-14 h-14 rounded-xl overflow-hidden bg-slate-800 border border-white/10 shrink-0 relative">
                             <img
                               src={emp.photo || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"}
-                              alt={emp.name}
+                              alt={`${emp.name}${emp.designation ? ` – ${emp.designation}` : ''} | DS Group of Companies Gurgaon`}
                               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                             />
                           </div>

@@ -2,6 +2,8 @@
 import AboutTeamView from "@/components/AboutTeamView";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema } from "@/lib/seo";
 import connectDB from "@/lib/mongodb";
 import { getOrCreateConfig } from "@/lib/getOrCreateConfig";
 import { siteConfig as fallbackConfig } from "@/data/siteConfig";
@@ -80,8 +82,14 @@ export async function generateMetadata() {
 
 export default async function AboutTeamPage() {
   const config = await getConfig();
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Our Team & Leadership", href: "/about/team" },
+  ]);
   return (
     <>
+      {breadcrumbSchema && <JsonLd schema={[breadcrumbSchema]} />}
       <Navbar siteConfig={config} />
       <AboutTeamView siteConfig={config} />
       <Footer siteConfig={config} />

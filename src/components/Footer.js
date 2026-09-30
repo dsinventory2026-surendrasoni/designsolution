@@ -83,9 +83,9 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">Top Projects & Guides</h4>
             <ul className="space-y-2 text-xs font-medium">
               <li>
-                <a href="/blog/godrej-air-sector-85-gurgaon-review-2026" className="hover:text-orange-400 transition-colors flex items-center gap-1.5">
+                <a href="/blog/top-residential-commercial-investment-locations-in-new-gurgaon-sector-80-104" className="hover:text-orange-400 transition-colors flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
-                  <span>Godrej Air Sector 85 Review</span>
+                  <span>New Gurgaon Investment Guide</span>
                 </a>
               </li>
               <li>

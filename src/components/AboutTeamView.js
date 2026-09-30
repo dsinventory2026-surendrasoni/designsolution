@@ -75,7 +75,7 @@ function LuxuryTeamCard({ emp, isExpanded, onToggle }) {
         {/* Full Bleed Image */}
         <img
           src={emp.photo || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=85"}
-          alt={emp.name}
+          alt={`${emp.name}${emp.designation ? ` – ${emp.designation}` : ''} | DS Group of Companies Gurgaon`}
           className={`w-full h-full object-cover transition-transform duration-700 ease-out ${
             isExpanded ? "scale-105" : "group-hover:scale-108"
           }`}

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { X, MapPin, Maximize2, CheckCircle2, MessageSquare, PhoneCall, Calendar, ShieldCheck, ChevronRight } from "lucide-react";
@@ -45,7 +45,7 @@ export default function PropertyDetailsModal({ property, onClose, onOpenContactM
             <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-slate-900 border border-slate-800">
               <img
                 src={property.images[activeImageIndex]}
-                alt={property.title}
+                alt={`${property.title}${property.location ? ` in ${property.location}` : ''} | Property for Sale | DS Group of Companies Gurgaon`}
                 className="w-full h-full object-cover transition-all duration-300"
               />
               <div className="absolute top-3 left-3 px-3 py-1 rounded-md bg-black/75 backdrop-blur-md text-[11px] font-bold text-orange-400 border border-orange-500/30">

@@ -27,7 +27,7 @@ export default function AboutOwnerView({ siteConfig: propSiteConfig }) {
     quote: cfg?.owner?.quote || "True luxury is not defined by ornate facades, but by uncompromised structural integrity, absolute legal transparency, and the peace of mind that comes from knowing your investment is built to endure for generations.",
     experienceYears: "18+ Years",
     phone: contact?.phonePrimary || "+91 77430 00070",
-    email: contact?.emailPrimary || "surendra@dsgroupofcompanies.com",
+    email: contact?.emailPrimary || "surendra@dsgroupofcompanies.in",
     whatsapp: contact?.whatsappNumber || "7743000070",
     linkedin: "https://linkedin.com/in/surendra-soni",
     achievements: [
@@ -185,7 +185,7 @@ export default function AboutOwnerView({ siteConfig: propSiteConfig }) {
             >
               <img
                 src={owner.photo || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"}
-                alt={`${owner.name} - Founder & Managing Director DS Group of Companies`}
+                alt={`${owner.name} — Founder & Managing Director, DS Group of Companies Gurgaon`}
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
