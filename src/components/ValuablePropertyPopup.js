@@ -25,8 +25,12 @@ export default function ValuablePropertyPopup() {
     async function fetchPopupProperty() {
       try {
         const res = await fetch("/api/valuable-properties/popup");
+        if (!res.ok) return;
+        const contentType = res.headers?.get("content-type") || "";
+        if (!contentType.includes("application/json")) return;
+
         const data = await res.json();
-        if (data.success && data.data) {
+        if (data?.success && data?.data) {
           setProperty(data.data);
           setIsVisible(true);
         }

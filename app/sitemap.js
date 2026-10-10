@@ -277,16 +277,19 @@ export default async function sitemap() {
         next: { revalidate: 60 },
       });
       if (res.ok) {
-        const data = await res.json();
-        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
-          dynamicProperties = data.data
-            .filter((p) => p.slug && p.slug.length >= 3)
-            .map((p) => ({
-              url: `${SITE_URL}/valuable-properties/${p.slug}`,
-              lastModified: safeDate(p.updatedAt || p.createdAt),
-              changeFrequency: "weekly",
-              priority: 0.85,
-            }));
+        const contentType = res.headers?.get("content-type") || "";
+        if (contentType.includes("application/json")) {
+          const data = await res.json();
+          if (data?.success && Array.isArray(data.data) && data.data.length > 0) {
+            dynamicProperties = data.data
+              .filter((p) => p.slug && p.slug.length >= 3)
+              .map((p) => ({
+                url: `${SITE_URL}/valuable-properties/${p.slug}`,
+                lastModified: safeDate(p.updatedAt || p.createdAt),
+                changeFrequency: "weekly",
+                priority: 0.85,
+              }));
+          }
         }
       }
     } catch {

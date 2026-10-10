@@ -45,19 +45,29 @@ async function fetchPropertyData(slug) {
 
   // 2. Fallback attempt: internal API route
   try {
-    const headersList = await headers();
-    const host = headersList.get("host") || "localhost:3000";
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-    const baseUrl = `${protocol}://${host}`;
+    let baseUrl = SITE_URL;
+    try {
+      const headersList = await headers();
+      const host = headersList?.get("host");
+      if (host) {
+        const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+        baseUrl = `${protocol}://${host}`;
+      }
+    } catch {
+      // Fallback for static generation phase where headers() is unavailable
+    }
 
     const res = await fetch(`${baseUrl}/api/valuable-properties/${slug}`, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
 
     if (res.ok) {
-      const data = await res.json();
-      if (data.success && data.data) {
-        return { property: data.data, related: [] };
+      const contentType = res.headers?.get("content-type") || "";
+      if (contentType.includes("application/json")) {
+        const data = await res.json();
+        if (data?.success && data?.data) {
+          return { property: data.data, related: [] };
+        }
       }
     }
   } catch (error) {

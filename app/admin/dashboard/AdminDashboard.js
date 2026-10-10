@@ -11,6 +11,18 @@ import {
   Upload, ZoomIn, ZoomOut, Tag, ShieldCheck, UserCheck, Award, Globe
 } from "lucide-react";
 
+// ─── Safe JSON Parsing Helper ──────────────────────────────────────────────
+const safeJson = async (res) => {
+  if (!res || !res.ok) return { success: false, message: `Server error (${res?.status || 500})` };
+  const contentType = res.headers?.get("content-type") || "";
+  if (!contentType.includes("application/json")) return { success: false, message: "Invalid response format" };
+  try {
+    return await res.json();
+  } catch {
+    return { success: false, message: "Failed to parse response JSON" };
+  }
+};
+
 // ─── Reusable UI Atoms ─────────────────────────────────────────────────────
 
 function Toast({ msg, type, onClose }) {
@@ -131,7 +143,7 @@ function HeroPanel({ showToast }) {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetch("/api/admin/hero").then((r) => r.json()).then((d) => {
+    fetch("/api/admin/hero").then(safeJson).then((d) => {
       if (d.success) setData(d.data);
       setLoading(false);
     });
@@ -144,7 +156,7 @@ function HeroPanel({ showToast }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-    const d = await res.json();
+    const d = await safeJson(res);
     setSaving(false);
     showToast(d.success ? "Hero section saved!" : d.message, d.success ? "success" : "error");
   };
@@ -231,7 +243,7 @@ function PropertiesPanel({ showToast }) {
   const fetchProperties = useCallback(async () => {
     setLoading(true);
     const res = await fetch("/api/admin/properties");
-    const d = await res.json();
+    const d = await safeJson(res);
     if (d.success) setProperties(d.data);
     setLoading(false);
   }, []);
@@ -259,7 +271,7 @@ function PropertiesPanel({ showToast }) {
     };
 
     const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    const d = await res.json();
+    const d = await safeJson(res);
     setSaving(false);
 
     if (d.success) {
@@ -275,7 +287,7 @@ function PropertiesPanel({ showToast }) {
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this property?")) return;
     const res = await fetch(`/api/admin/properties?id=${id}`, { method: "DELETE" });
-    const d = await res.json();
+    const d = await safeJson(res);
     showToast(d.success ? "Property deleted!" : d.message, d.success ? "success" : "error");
     if (d.success) fetchProperties();
   };
@@ -883,7 +895,7 @@ function AboutPanel({ showToast }) {
 
   useEffect(() => {
     fetch("/api/admin/about")
-      .then((r) => r.json())
+      .then(safeJson)
       .then((d) => {
         if (d.success && d.data) {
           const loaded = d.data;
@@ -913,7 +925,7 @@ function AboutPanel({ showToast }) {
           brand: data.brand,
         }),
       });
-      const d = await res.json();
+      const d = await safeJson(res);
       setSaving(false);
       showToast(d.success ? "About section, team & SEO keywords saved to MongoDB!" : d.message, d.success ? "success" : "error");
     } catch (err) {
@@ -2698,7 +2710,7 @@ function SocialPanel({ showToast }) {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetch("/api/admin/social").then((r) => r.json()).then((d) => {
+    fetch("/api/admin/social").then(safeJson).then((d) => {
       if (d.success) setData(d.data);
       setLoading(false);
     });
@@ -2707,7 +2719,7 @@ function SocialPanel({ showToast }) {
   const save = async () => {
     setSaving(true);
     const res = await fetch("/api/admin/social", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-    const d = await res.json();
+    const d = await safeJson(res);
     setSaving(false);
     showToast(d.success ? "Social links saved!" : d.message, d.success ? "success" : "error");
   };
@@ -2748,7 +2760,7 @@ function FooterPanel({ showToast }) {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetch("/api/admin/footer").then((r) => r.json()).then((d) => {
+    fetch("/api/admin/footer").then(safeJson).then((d) => {
       if (d.success) setData(d.data);
       setLoading(false);
     });
@@ -2757,7 +2769,7 @@ function FooterPanel({ showToast }) {
   const save = async () => {
     setSaving(true);
     const res = await fetch("/api/admin/footer", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-    const d = await res.json();
+    const d = await safeJson(res);
     setSaving(false);
     showToast(d.success ? "Footer settings saved!" : d.message, d.success ? "success" : "error");
   };
@@ -3180,13 +3192,13 @@ function OverviewPanel({ showToast, adminEmail }) {
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
-    fetch("/api/admin/seed").then((r) => r.json()).then((d) => { if (d.success) setStatus(d); });
+    fetch("/api/admin/seed").then(safeJson).then((d) => { if (d.success) setStatus(d); });
   }, []);
 
   const handleSeed = async () => {
     setSeeding(true);
     const res = await fetch("/api/admin/seed", { method: "POST" });
-    const d = await res.json();
+    const d = await safeJson(res);
     setSeeding(false);
     showToast(d.success ? "Data seeded successfully!" : d.message, d.success ? "success" : "error");
     if (d.success) setStatus({ siteConfigSeeded: true, propertiesSeeded: true });

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 // NOTE: metadata for this route is exported from app/admin/layout.js
 // (Next.js App Router does not allow metadata exports from "use client" pages)
@@ -28,12 +28,17 @@ function AdminLoginForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+      const contentType = res.headers?.get("content-type") || "";
+      if (!res.ok || !contentType.includes("application/json")) {
+        setError("Server error or invalid response. Please try again.");
+        return;
+      }
       const data = await res.json();
 
-      if (data.success) {
+      if (data?.success) {
         router.push("/admin/dashboard");
       } else {
-        setError(data.message || "Invalid credentials");
+        setError(data?.message || "Invalid credentials");
       }
     } catch {
       setError("Server error. Please try again.");

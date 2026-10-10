@@ -61,8 +61,12 @@ async function fetchSiteConfig() {
     const res = await fetch(`${baseUrl}/api/admin/siteconfig`, {
       cache: "no-store",
     });
+    if (!res.ok) return staticConfig;
+    const contentType = res.headers?.get("content-type") || "";
+    if (!contentType.includes("application/json")) return staticConfig;
+
     const data = await res.json();
-    if (data.success) return data.data;
+    if (data?.success && data?.data) return data.data;
     return staticConfig;
   } catch {
     return staticConfig;
@@ -79,8 +83,12 @@ async function fetchProperties() {
     const res = await fetch(`${baseUrl}/api/admin/properties`, {
       cache: "no-store",
     });
+    if (!res.ok) return staticProps;
+    const contentType = res.headers?.get("content-type") || "";
+    if (!contentType.includes("application/json")) return staticProps;
+
     const data = await res.json();
-    if (data.success) return data.data;
+    if (data?.success && data?.data) return data.data;
     return staticProps;
   } catch {
     return staticProps;
