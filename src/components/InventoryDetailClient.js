@@ -211,7 +211,7 @@ export default function InventoryDetailClient({ inventory, related = [] }) {
                   { label: "Property Type", value: inventory.propertyType, icon: Home },
                   { label: "Bedrooms", value: inventory.bedrooms, icon: BedDouble },
                   { label: "Bathrooms", value: inventory.bathrooms, icon: Bath },
-                  { label: "Super / Carpet Area", value: inventory.area, icon: Maximize2 },
+                  { label: inventory.areaType ? `${inventory.areaType}` : "Super / Carpet Area", value: inventory.area, icon: Maximize2 },
                   { label: "Facing", value: inventory.facing, icon: Compass },
                   { label: "Floor / Total", value: [inventory.floor, inventory.totalFloors ? `of ${inventory.totalFloors}` : ""].filter(Boolean).join(" "), icon: Layers },
                   { label: "Furnishing", value: inventory.furnishing, icon: Home },

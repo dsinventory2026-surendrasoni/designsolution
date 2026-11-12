@@ -18,6 +18,7 @@ import fs from "fs";
 import path from "path";
 import { propertiesData as fallbackProperties } from "@/data/propertiesData";
 import { blogPosts as fallbackBlogs } from "@/data/blogData";
+import { inventoriesData as fallbackInventories } from "@/data/inventoriesData";
 import connectDB from "@/lib/mongodb";
 import Blog from "@/lib/models/Blog";
 import ValuableProperty from "@/lib/models/ValuableProperty";
@@ -379,6 +380,20 @@ export default async function sitemap() {
     }
   } catch (error) {
     console.error("Error querying inventories from DB for sitemap:", error);
+  }
+
+  // Union with fallback static inventories to guarantee zero omissions
+  if (Array.isArray(fallbackInventories)) {
+    for (const inv of fallbackInventories) {
+      if (inv && inv.slug) {
+        addEntry({
+          url: `${SITE_URL}/inventories/${inv.slug}`,
+          lastModified: safeDate(inv.updatedAt || inv.createdAt),
+          changeFrequency: "weekly",
+          priority: 0.85,
+        });
+      }
+    }
   }
 
   return Array.from(urlMap.values());

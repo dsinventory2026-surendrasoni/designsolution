@@ -31,11 +31,13 @@ const InventorySchema = new mongoose.Schema(
 
     // ─── Pricing ─────────────────────────────────────────────────
     price: { type: String, default: "" },           // "₹45 Lakh"
+    numericPrice: { type: Number, default: 0 },
     pricePerSqft: { type: String, default: "" },    // "₹5,500/sqft"
     negotiable: { type: Boolean, default: false },
 
     // ─── Property Details ─────────────────────────────────────────
     area: { type: String, default: "" },            // "1200 sqft"
+    areaType: { type: String, default: "" },        // "Carpet Area", "Plot Area", "Super Built-up Area"
     bedrooms: { type: String, default: "" },        // "3 BHK"
     bathrooms: { type: String, default: "" },
     facing: { type: String, default: "" },          // "East"

@@ -4,13 +4,24 @@ import Inventory from "@/lib/models/Inventory";
 import InventoryDetailClient from "@/components/InventoryDetailClient";
 import JsonLd from "@/components/seo/JsonLd";
 import { getBreadcrumbSchema, getInventoryPageSchema } from "@/lib/seo";
+import { inventoriesData as fallbackInventories } from "@/data/inventoriesData";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  await connectDB();
-  const item = await Inventory.findOne({ slug, publishStatus: "Published" }).lean();
+  let item = null;
+
+  try {
+    await connectDB();
+    item = await Inventory.findOne({ slug, publishStatus: "Published" }).lean();
+  } catch (error) {
+    console.error("Error fetching inventory for metadata:", error);
+  }
+
+  if (!item) {
+    item = fallbackInventories.find((inv) => inv.slug === slug);
+  }
 
   if (!item) {
     return {
@@ -32,6 +43,7 @@ export async function generateMetadata({ params }) {
       `${item.category || "Property"} in Gurgaon`,
       item.propertyType || "Property",
       item.sector || "Sector 85 Gurgaon",
+      `For ${item.saleType || "Sale"} in Gurgaon`,
       "property dealer in Gurgaon",
       "flats in Gurgaon",
       "DS Group of Companies",
@@ -69,30 +81,47 @@ export async function generateMetadata({ params }) {
 
 export default async function InventorySlugPage({ params }) {
   const { slug } = await params;
-  await connectDB();
+  let rawItem = null;
+  let rawRelated = [];
 
-  const rawItem = await Inventory.findOne({ slug, publishStatus: "Published" }).lean();
+  try {
+    await connectDB();
+    rawItem = await Inventory.findOne({ slug, publishStatus: "Published" }).lean();
+
+    if (rawItem) {
+      rawRelated = await Inventory.find({
+        category: rawItem.category,
+        slug: { $ne: rawItem.slug },
+        publishStatus: "Published",
+      })
+        .limit(3)
+        .lean();
+    }
+  } catch (error) {
+    console.error("Error querying inventory slug page:", error);
+  }
+
+  // Fallback to static inventory data if DB item not found
+  if (!rawItem) {
+    rawItem = fallbackInventories.find((inv) => inv.slug === slug);
+    if (rawItem) {
+      rawRelated = fallbackInventories
+        .filter((inv) => (inv.category === rawItem.category || inv.saleType === rawItem.saleType) && inv.slug !== rawItem.slug)
+        .slice(0, 3);
+    }
+  }
 
   if (!rawItem) {
     notFound();
   }
 
   const inventory = JSON.parse(JSON.stringify(rawItem));
-
-  // Fetch related inventories from same category
-  const rawRelated = await Inventory.find({
-    category: inventory.category,
-    slug: { $ne: inventory.slug },
-    publishStatus: "Published",
-  })
-    .limit(3)
-    .lean();
-
   const related = JSON.parse(JSON.stringify(rawRelated));
 
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: "Home", href: "/" },
     { name: "Inventories", href: "/inventories" },
+    ...(inventory.saleType ? [{ name: `For ${inventory.saleType}`, href: `/inventories?saleType=${encodeURIComponent(inventory.saleType)}` }] : []),
     ...(inventory.category ? [{ name: inventory.category, href: `/inventories?category=${encodeURIComponent(inventory.category)}` }] : []),
     { name: inventory.title, href: `/inventories/${inventory.slug}` },
   ]);
