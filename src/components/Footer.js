@@ -73,7 +73,7 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
               <li><a href="/blog" className="hover:text-orange-400 transition-colors">Research &amp; Blog</a></li>
               <li><a href="/reviews" className="hover:text-orange-400 transition-colors">Client Reviews</a></li>
               <li><a href="/about" className="hover:text-orange-400 transition-colors">About DS Group</a></li>
-              <li><a href="/about#team" className="hover:text-orange-400 transition-colors">Our Team</a></li>
+              <li><a href="/about/team" className="hover:text-orange-400 transition-colors">Our Team</a></li>
               <li><a href="/enquire" className="hover:text-orange-400 transition-colors">Enquire Now</a></li>
             </ul>
           </div>
@@ -200,9 +200,9 @@ export default function Footer({ onSelectCategory, onOpenContactModal, siteConfi
           <p>© {new Date().getFullYear()} {siteConfig.brand.name}. All Rights Reserved.</p>
 
           <div className="flex items-center gap-6">
-            <a href="/#hero" className="hover:text-slate-300 transition-colors">Privacy Policy</a>
-            <a href="/#hero" className="hover:text-slate-300 transition-colors">Terms of Service</a>
-            <a href="/#hero" className="hover:text-slate-300 transition-colors">HRERA Disclosures</a>
+            <a href="/privacy-policy" className="hover:text-slate-300 transition-colors">Privacy Policy</a>
+            <a href="/terms-of-service" className="hover:text-slate-300 transition-colors">Terms of Service</a>
+            <a href="/hrera-disclosures" className="hover:text-slate-300 transition-colors">HRERA Disclosures</a>
           </div>
 
           {/* Back to Top */}

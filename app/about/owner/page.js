@@ -90,9 +90,43 @@ export default async function AboutOwnerPage() {
     { name: "About", href: "/about" },
     { name: "Surendra Soni – Founder & MD", href: "/about/owner" },
   ]);
+
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://www.dsgroupofcompanies.in/about/owner#person",
+    name: "Surendra Soni",
+    jobTitle: "Founder & Managing Director",
+    worksFor: {
+      "@type": "Organization",
+      name: "DS Group of Companies",
+      url: "https://www.dsgroupofcompanies.in",
+      "@id": "https://www.dsgroupofcompanies.in/#organization",
+    },
+    url: "https://www.dsgroupofcompanies.in/about/owner",
+    image: "https://www.dsgroupofcompanies.in/uploads/surendra-1789897616340.png",
+    description:
+      "Surendra Soni is the Founder and Managing Director of DS Group of Companies, leading real estate consultancy, investment advisory, and property development in Gurugram, Haryana with over 18 years of industry expertise.",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Plot Sector 85, Tower 7, 3rd Floor, Corporate Business District",
+      addressLocality: "Sector 85, Gurugram",
+      addressRegion: "Haryana",
+      postalCode: "122004",
+      addressCountry: "IN",
+    },
+    knowsAbout: [
+      "Gurugram Real Estate",
+      "Property Valuation & Investment",
+      "HRERA Regulatory Compliance",
+      "New Gurgaon Residential & Commercial Corridors",
+      "Dwarka Expressway Infrastructure",
+    ],
+  };
+
   return (
     <>
-      {breadcrumbSchema && <JsonLd schema={[breadcrumbSchema]} />}
+      <JsonLd schema={[breadcrumbSchema, personSchema].filter(Boolean)} />
       <Navbar siteConfig={config} />
       <AboutOwnerView siteConfig={config} />
       <Footer siteConfig={config} />

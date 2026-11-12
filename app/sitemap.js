@@ -37,6 +37,9 @@ const STATIC_ROUTE_DATES = {
   "/blog": new Date("2026-09-14T11:36:18.000Z"),
   "/enquire": new Date("2026-07-29T07:00:15.000Z"),
   "/valuable-properties": new Date("2026-09-07T11:54:40.000Z"),
+  "/privacy-policy": new Date("2026-11-12T00:00:00.000Z"),
+  "/terms-of-service": new Date("2026-11-12T00:00:00.000Z"),
+  "/hrera-disclosures": new Date("2026-11-12T00:00:00.000Z"),
 };
 
 // Force dynamic execution on every request so newly created blogs appear immediately in sitemap.xml
@@ -236,6 +239,9 @@ export default async function sitemap() {
     { url: `${SITE_URL}/reviews`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/prelaunch`, changeFrequency: "weekly", priority: 0.85 },
     { url: `${SITE_URL}/prelaunch/ninezero`, changeFrequency: "weekly", priority: 0.85 },
+    { url: `${SITE_URL}/privacy-policy`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/terms-of-service`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/hrera-disclosures`, changeFrequency: "monthly", priority: 0.6 },
   ];
 
   for (const item of coreFallbackRoutes) {

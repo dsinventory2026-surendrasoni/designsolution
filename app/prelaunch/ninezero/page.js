@@ -18,7 +18,7 @@ export const metadata = {
     "flats in Sector 90 Gurgaon",
   ],
   alternates: {
-    canonical: "https://www.dsgroupofcompanies.in/prelaunch/ninezero",
+    canonical: "https://www.dsgroupofcompanies.in/prelaunch",
   },
   openGraph: {
     title: "NINEZERO LIV 90 Pre-Launch Sector 90 Gurgaon | DS Group of Companies",
