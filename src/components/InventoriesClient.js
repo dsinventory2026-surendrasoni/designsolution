@@ -351,14 +351,23 @@ export default function InventoriesClient({
                     className="group bg-white rounded-3xl border border-slate-100 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col overflow-hidden"
                   >
                     {/* Card Media Header */}
-                    <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                    <div className="relative aspect-[16/10] overflow-hidden bg-slate-950 flex items-center justify-center">
+                      {/* Ambient Blurred Backdrop for non-16:10 or small images */}
+                      <img
+                        src={thumbnail}
+                        alt=""
+                        aria-hidden="true"
+                        className="absolute inset-0 w-full h-full object-cover filter blur-lg scale-110 opacity-35 pointer-events-none"
+                        loading="lazy"
+                      />
+                      {/* Crisp Foreground Property Image */}
                       <img
                         src={thumbnail}
                         alt={`${item.title} — ${[item.sector, item.location, "Gurugram"].filter(Boolean).join(", ")} | DS Group of Companies`}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="relative z-1 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/30 pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-black/35 pointer-events-none z-2" />
 
                       {/* Top Badges */}
                       <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 z-10">

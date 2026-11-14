@@ -4338,13 +4338,14 @@ function InventoriesPanel({ showToast }) {
                 className="p-5 rounded-2xl bg-[#091426] border border-slate-800 hover:border-orange-500/30 transition-all flex flex-col md:flex-row items-start md:items-center gap-5 shadow-lg"
               >
                 {/* Thumbnail */}
-                <div className="relative w-full md:w-36 h-28 rounded-xl overflow-hidden bg-slate-900 border border-slate-700/60 shrink-0">
-                  <img src={thumb} alt={item.title} className="w-full h-full object-cover" />
-                  <div className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-black/70 text-orange-300">
+                <div className="relative w-full md:w-36 h-28 rounded-xl overflow-hidden bg-slate-950 border border-slate-700/60 shrink-0 flex items-center justify-center">
+                  <img src={thumb} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover blur-xs opacity-25 pointer-events-none" />
+                  <img src={thumb} alt={item.title} className="relative z-1 max-w-full max-h-full object-contain" />
+                  <div className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-black/80 text-orange-300 z-10">
                     {item.category}
                   </div>
                   {item.images?.length > 1 && (
-                    <div className="absolute bottom-1.5 right-1.5 px-1.5 py-0.5 rounded text-[9px] font-bold bg-black/70 text-white">
+                    <div className="absolute bottom-1.5 right-1.5 px-1.5 py-0.5 rounded text-[9px] font-bold bg-black/80 text-white z-10">
                       📷 {item.images.length}
                     </div>
                   )}
@@ -4708,22 +4709,23 @@ function InventoriesPanel({ showToast }) {
                         {(editingItem.images || []).map((imgUrl, idx) => {
                           const isThumb = editingItem.thumbnail === imgUrl;
                           return (
-                            <div key={idx} className="relative rounded-xl overflow-hidden border border-slate-800 bg-[#111827] aspect-[4/3] group">
-                              <img src={imgUrl} alt={`Photo ${idx + 1}`} className="w-full h-full object-cover" />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                            <div key={idx} className="relative rounded-xl overflow-hidden border border-slate-800 bg-slate-950 aspect-[4/3] flex items-center justify-center group p-1">
+                              <img src={imgUrl} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover blur-sm opacity-25 pointer-events-none" />
+                              <img src={imgUrl} alt={`Photo ${idx + 1}`} className="relative z-1 max-w-full max-h-full object-contain" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none z-2" />
 
                               {isThumb && (
-                                <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#FF7900] text-slate-950 text-[9px] font-extrabold uppercase">
+                                <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#FF7900] text-slate-950 text-[9px] font-extrabold uppercase z-10 shadow-sm">
                                   Primary Thumbnail
                                 </span>
                               )}
 
-                              <div className="absolute top-2 right-2 flex items-center gap-1">
+                              <div className="absolute top-2 right-2 flex items-center gap-1 z-10">
                                 {!isThumb && (
                                   <button
                                     type="button"
                                     onClick={() => setEditingItem({ ...editingItem, thumbnail: imgUrl })}
-                                    className="p-1 rounded bg-black/70 text-slate-300 hover:text-orange-400 text-[10px] font-bold"
+                                    className="p-1 rounded bg-black/80 text-slate-300 hover:text-orange-400 text-[10px] font-bold transition-colors cursor-pointer"
                                     title="Set as Primary Thumbnail"
                                   >
                                     ★ Set Main
@@ -4732,14 +4734,14 @@ function InventoriesPanel({ showToast }) {
                                 <button
                                   type="button"
                                   onClick={() => removeImage(idx)}
-                                  className="p-1 rounded bg-red-600/90 text-white hover:bg-red-500"
+                                  className="p-1 rounded bg-red-600/90 text-white hover:bg-red-500 transition-colors cursor-pointer"
                                   title="Delete Photo"
                                 >
                                   <Trash2 className="w-3.5 h-3.5" />
                                 </button>
                               </div>
 
-                              <div className="absolute bottom-1.5 left-2 right-2 truncate text-[10px] text-slate-400 font-mono">
+                              <div className="absolute bottom-1.5 left-2 right-2 truncate text-[10px] text-slate-300 font-mono z-10">
                                 #{idx + 1} · {imgUrl}
                               </div>
                             </div>

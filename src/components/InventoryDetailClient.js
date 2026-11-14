@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
-  Home, Building2, MapPin, BedDouble, Bath, Car, Maximize2,
+  Home, Building2, MapPin, BedDouble, Bath, Car, Maximize2, Minimize2,
   PhoneCall, MessageSquare, Sparkles, ShieldCheck, ArrowLeft,
   Share2, CheckCircle2, Calendar, Compass, Layers, Check,
-  Send, ChevronRight, Eye, Tag, Heart
+  Send, ChevronRight, ChevronLeft, Eye, Tag, Heart, ZoomIn, X
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -14,6 +14,7 @@ import Breadcrumbs from "@/components/seo/Breadcrumbs";
 
 export default function InventoryDetailClient({ inventory, related = [] }) {
   const [activeImage, setActiveImage] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [enquiryForm, setEnquiryForm] = useState({ name: "", phone: "", email: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -25,6 +26,36 @@ export default function InventoryDetailClient({ inventory, related = [] }) {
   ].filter((img, idx, arr) => img && arr.indexOf(img) === idx);
 
   const mainImage = images[activeImage] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop";
+
+  // Lock body scroll and handle keyboard & browser back button for Lightbox
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    // Push dummy history entry so phone/browser back button closes zoom instead of leaving page
+    window.history.pushState({ lightbox: true }, "");
+
+    const handlePopState = () => {
+      setIsLightboxOpen(false);
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setIsLightboxOpen(false);
+      if (e.key === "ArrowLeft") setActiveImage((prev) => (prev > 0 ? prev - 1 : images.length - 1));
+      if (e.key === "ArrowRight") setActiveImage((prev) => (prev < images.length - 1 ? prev + 1 : 0));
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isLightboxOpen, images.length]);
 
   const whatsappNum = inventory.whatsappNumber
     ? inventory.whatsappNumber.replace(/[^0-9]/g, "")
@@ -157,32 +188,89 @@ export default function InventoryDetailClient({ inventory, related = [] }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* LEFT 2 COLUMNS: Visuals + Specs + Description + Amenities */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Main Image Display */}
-            <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-100 bg-black aspect-[16/10] relative group">
+            {/* Main Image Display Frame — adjusts cleanly according to frame */}
+            <div className="rounded-3xl overflow-hidden shadow-2xl border border-slate-100 bg-slate-900 aspect-[16/10] relative group select-none">
               <img
                 src={mainImage}
                 alt={`${inventory.title} — ${[inventory.sector, inventory.location, "Gurgaon"].filter(Boolean).join(", ")} | DS Group of Companies`}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 cursor-pointer"
+                onClick={() => setIsLightboxOpen(true)}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-              {inventory.reraNumber && (
-                <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[11px] font-bold border border-white/20">
-                  RERA: {inventory.reraNumber}
-                </div>
+
+              {/* Gradient overlays */}
+              <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/60 to-transparent pointer-events-none z-10" />
+              <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/60 to-transparent pointer-events-none z-10" />
+
+              {/* Top Left Badges: RERA + Photo Counter */}
+              <div className="absolute top-4 left-4 flex items-center gap-2 z-20 pointer-events-none">
+                {inventory.reraNumber && (
+                  <div className="px-3 py-1 rounded-full bg-black/70 backdrop-blur-md text-white text-[11px] font-bold border border-white/20 shadow-sm">
+                    RERA: {inventory.reraNumber}
+                  </div>
+                )}
+                {images.length > 1 && (
+                  <div className="px-3 py-1 rounded-full bg-black/70 backdrop-blur-md text-white text-[11px] font-bold border border-white/20 flex items-center gap-1.5 shadow-sm">
+                    <Eye className="w-3.5 h-3.5 text-[#FF7900]" />
+                    <span>{activeImage + 1} / {images.length}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Top Right Click to Zoom Pill */}
+              <div className="absolute top-4 right-4 z-20">
+                <button
+                  type="button"
+                  onClick={() => setIsLightboxOpen(true)}
+                  className="px-3.5 py-1.5 rounded-full bg-black/70 hover:bg-[#FF7900] backdrop-blur-md text-white text-xs font-bold border border-white/20 transition-all flex items-center gap-1.5 shadow-md cursor-pointer hover:border-[#FF7900]"
+                  title="Click to Zoom Fullscreen"
+                >
+                  <ZoomIn className="w-3.5 h-3.5 text-orange-400 group-hover:text-white" />
+                  <span>Click to Zoom</span>
+                </button>
+              </div>
+
+              {/* Previous / Next Arrow Controls */}
+              {images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImage((prev) => (prev > 0 ? prev - 1 : images.length - 1));
+                    }}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/60 hover:bg-[#FF7900] text-white backdrop-blur-md border border-white/20 transition-all opacity-85 hover:opacity-100 hover:scale-110 shadow-lg cursor-pointer"
+                    aria-label="Previous Image"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImage((prev) => (prev < images.length - 1 ? prev + 1 : 0));
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/60 hover:bg-[#FF7900] text-white backdrop-blur-md border border-white/20 transition-all opacity-85 hover:opacity-100 hover:scale-110 shadow-lg cursor-pointer"
+                    aria-label="Next Image"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </>
               )}
             </div>
 
             {/* Thumbnail Row */}
             {images.length > 1 && (
-              <div className="flex gap-3 overflow-x-auto pb-2">
+              <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
                 {images.map((img, idx) => (
                   <button
                     key={idx}
+                    type="button"
                     onClick={() => setActiveImage(idx)}
-                    className={`relative w-24 h-16 sm:w-28 sm:h-20 rounded-2xl overflow-hidden shrink-0 transition-all ${
+                    className={`relative w-24 h-16 sm:w-28 sm:h-20 rounded-2xl overflow-hidden shrink-0 transition-all border-2 cursor-pointer bg-slate-900 ${
                       activeImage === idx
-                        ? "ring-3 ring-[#FF7900] scale-95 shadow-md"
-                        : "opacity-70 hover:opacity-100 border border-slate-200"
+                        ? "border-[#FF7900] scale-95 shadow-md"
+                        : "border-slate-200 opacity-70 hover:opacity-100"
                     }`}
                   >
                     <img
@@ -437,13 +525,19 @@ export default function InventoryDetailClient({ inventory, related = [] }) {
                   href={`/inventories/${rel.slug}`}
                   className="group bg-white rounded-3xl border border-slate-100 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col"
                 >
-                  <div className="aspect-[16/10] overflow-hidden bg-slate-100 relative">
+                  <div className="aspect-[16/10] overflow-hidden bg-slate-950 relative flex items-center justify-center">
+                    <img
+                      src={rel.thumbnail || (rel.images && rel.images[0]) || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop"}
+                      alt=""
+                      aria-hidden="true"
+                      className="absolute inset-0 w-full h-full object-cover filter blur-md scale-110 opacity-30 pointer-events-none"
+                    />
                     <img
                       src={rel.thumbnail || (rel.images && rel.images[0]) || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop"}
                       alt={`${rel.title} — ${[rel.sector, rel.location, "Gurgaon"].filter(Boolean).join(", ")} | DS Group`}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="relative z-1 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/95 text-slate-800 shadow-xs">
+                    <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/95 text-slate-800 shadow-xs z-10">
                       {rel.category}
                     </div>
                   </div>
@@ -493,6 +587,103 @@ export default function InventoryDetailClient({ inventory, related = [] }) {
             </div>
           </div>
         </div>
+        {/* Fullscreen High-Resolution Lightbox Modal with prominent CUT / CLOSE Button */}
+        {isLightboxOpen && (
+          <div
+            className="fixed inset-0 z-[999999] bg-black/95 backdrop-blur-xl flex flex-col justify-between p-4 sm:p-6 select-none"
+            onClick={() => setIsLightboxOpen(false)}
+          >
+            {/* Top Bar with Big Cut / Close Button */}
+            <div
+              className="flex items-center justify-between text-white z-10 gap-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="space-y-0.5 min-w-0 flex-1 pr-2">
+                <h3 className="text-sm sm:text-lg font-bold text-white truncate">{inventory.title}</h3>
+                <p className="text-xs text-slate-300">
+                  Photo {activeImage + 1} of {images.length} · {[inventory.sector, inventory.city].filter(Boolean).join(", ")}
+                </p>
+              </div>
+
+              {/* VERY PROMINENT CUT / CLOSE BUTTON */}
+              <button
+                type="button"
+                onClick={() => setIsLightboxOpen(false)}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#FF7900] hover:bg-[#E06A00] text-white font-extrabold text-sm sm:text-base shadow-[0_10px_30px_rgba(255,121,0,0.6)] border-2 border-white transition-all active:scale-95 cursor-pointer shrink-0"
+                title="Cut / Close (Wapas Project Details Par Aayein)"
+              >
+                <X className="w-5 h-5 stroke-[3]" />
+                <span>✕ Cut / Close</span>
+              </button>
+            </div>
+
+            {/* Lightbox Image Stage (Clicking image stays; clicking background closes) */}
+            <div
+              className="relative flex-1 flex items-center justify-center p-2 sm:p-4 min-h-0 my-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={mainImage}
+                alt={`${inventory.title} photo ${activeImage + 1}`}
+                className="max-w-full max-h-[75vh] object-contain drop-shadow-2xl rounded-2xl select-none"
+              />
+
+              {images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setActiveImage((prev) => (prev > 0 ? prev - 1 : images.length - 1))}
+                    className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-3 sm:p-4 rounded-full bg-black/70 hover:bg-[#FF7900] text-white border border-white/20 transition-all shadow-2xl cursor-pointer"
+                    aria-label="Previous Photo"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveImage((prev) => (prev < images.length - 1 ? prev + 1 : 0))}
+                    className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-3 sm:p-4 rounded-full bg-black/70 hover:bg-[#FF7900] text-white border border-white/20 transition-all shadow-2xl cursor-pointer"
+                    aria-label="Next Photo"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Bottom Controls: Thumbnails + Bottom Close Pill */}
+            <div
+              className="flex flex-col sm:flex-row items-center justify-between gap-3 z-10 pt-2"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {images.length > 1 ? (
+                <div className="flex items-center gap-2 overflow-x-auto py-1 max-w-full scrollbar-thin">
+                  {images.map((img, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setActiveImage(idx)}
+                      className={`w-14 h-11 sm:w-16 sm:h-12 rounded-lg overflow-hidden border-2 transition-all shrink-0 bg-slate-900 cursor-pointer ${
+                        activeImage === idx ? "border-[#FF7900] scale-105" : "border-white/20 opacity-60 hover:opacity-100"
+                      }`}
+                    >
+                      <img src={img} alt="" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              ) : <div />}
+
+              {/* Secondary Close Button for easy access on mobile */}
+              <button
+                type="button"
+                onClick={() => setIsLightboxOpen(false)}
+                className="px-5 py-2 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs sm:text-sm font-bold border border-white/30 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Wapas Details Par Aayein</span>
+              </button>
+            </div>
+          </div>
+        )}
       </main>
 
       <Footer />
